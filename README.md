@@ -41,6 +41,7 @@ We will accomplish this by *explaining the model*. Some models are explainable b
 Normally if you are doing time series forecast you need to get your data from a form lik this:
 
 Country | 01.03.2020 | 02.03.2020 | ... | 27.03.2020
+--- | --- | --- | --- | ---
 Italy | 20 | 35 | ... | 1247
 France | 15 | 28 | ... | 968
 ... | ... | ... | ... 
@@ -48,6 +49,7 @@ France | 15 | 28 | ... | 968
 into a form like this:
 
 Country | sum cases last 14 days | sum cases last 7 days | sum cases next 7 days
+--- | --- | --- | ---
 Italy | 340 | 538 | ?
 France | 290 | 421 | ?
 ... | ... | ... | ?
