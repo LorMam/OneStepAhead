@@ -21,12 +21,17 @@ sourcePaths = [
     'resources/Population, urban (%).csv',
     'resources/Unemployment, total (% of labour force).csv']
 
-compactDataPath = 'compactData.csv'
+compactDataPath = 'humanDevelopmentDataCompact.csv'
 
 #potentially from other python script?
 growthRatesSource = 'GrowthRateMadeUp.csv'
 
+#must be added later
+InterventionDataPath = 'InterventionsMadeUp.csv'
+
 #paths to all data Files
 joinToFinalTable = [
-    compactDataPath
+    compactDataPath,
+    growthRatesSource,
+    InterventionDataPath
 ]

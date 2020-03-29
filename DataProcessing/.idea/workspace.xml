@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c7a6120d-ea93-4df8-8d8c-0bb48dddebdb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compactData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/compactData.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compactData.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/dataManagement.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataManagement.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dataProcessing.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataProcessing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/googleTrends/Australia.csv" beforeDir="false" afterPath="$PROJECT_DIR$/googleTrends/Australia.csv" afterDir="false" />
@@ -18,7 +17,6 @@
       <change beforePath="$PROJECT_DIR$/googleTrends/South Africa.csv" beforeDir="false" afterPath="$PROJECT_DIR$/googleTrends/South Africa.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/googleTrends/United Kingdom.csv" beforeDir="false" afterPath="$PROJECT_DIR$/googleTrends/United Kingdom.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/googleTrends/United States.csv" beforeDir="false" afterPath="$PROJECT_DIR$/googleTrends/United States.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/predictionModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/predictionModel.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,12 +149,24 @@
       <workItem from="1585434753010" duration="15254000" />
       <workItem from="1585472331997" duration="8388000" />
       <workItem from="1585486337531" duration="5511000" />
-      <workItem from="1585502380093" duration="516000" />
+      <workItem from="1585502380093" duration="2393000" />
     </task>
+    <task id="LOCAL-00001" summary="test with pycharm">
+      <created>1585502985866</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1585502985866</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="test with pycharm" />
+    <option name="LAST_COMMIT_MESSAGE" value="test with pycharm" />
   </component>
   <component name="WindowStateProjectService">
     <state x="828" y="172" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585435001840">
@@ -167,22 +177,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1585445153317" />
-    <state width="1260" height="282" key="GridCell.Tab.0.bottom" timestamp="1585502066758">
+    <state x="549" y="114" key="CommitChangelistDialog2" timestamp="1585502983928">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1260" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1585502066758" />
-    <state width="1260" height="282" key="GridCell.Tab.0.center" timestamp="1585502066758">
+    <state x="549" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1585502983928" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1585504782214">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1260" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1585502066758" />
-    <state width="1260" height="282" key="GridCell.Tab.0.left" timestamp="1585502066758">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1585504782214" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1585504782214">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1260" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1585502066758" />
-    <state width="1260" height="282" key="GridCell.Tab.0.right" timestamp="1585502066758">
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1585504782214" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1585504782214">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1260" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1585502066758" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1585504782214" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1585504782214">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1585504782214" />
     <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1585452668430">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -207,10 +221,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="656" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1585502383799" />
-    <state x="469" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585502919096">
+    <state x="469" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585504802868">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="469" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1585502919096" />
+    <state x="469" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1585504802868" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1585438378188">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -218,7 +232,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/DataProcessing$Envdatarocessing.coverage" NAME="Envdatarocessing Coverage Results" MODIFIED="1585435424677" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/DataProcessing$dataProcessing.coverage" NAME="dataProcessing Coverage Results" MODIFIED="1585493893229" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DataProcessing$dataProcessing.coverage" NAME="dataProcessing Coverage Results" MODIFIED="1585504782201" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DataProcessing$googleAPI.coverage" NAME="googleAPI Coverage Results" MODIFIED="1585493581207" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

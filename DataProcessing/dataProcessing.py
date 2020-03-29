@@ -1,15 +1,17 @@
 import numpy as np
 import pandas as pd
+from datetime import date
 
 from dataManagement import includedCountries
 from dataManagement import sourcePaths
 from dataManagement import compactDataPath
 
 def main():
-    getDataFromJohnshopkinsGithub()
+    #getDataFromJohnshopkinsGithub()
     #data = exctractRelevantData(includedCountries, sourcePaths)
     #outToCsv(compactDataPath, data)
-    #do correlation analysis?
+    joinData()
+
 
 
 
@@ -48,14 +50,20 @@ def exctractRelevantData(countries, sourcePaths): #may have been easier with usi
 
     cleanData = cleanData.reshape([len(sourcePaths) + 1, len(countries) + 1])
     cleanData = np.transpose(cleanData)
+    return cleanData
 
+def joinData():
+    from dataManagement import joinToFinalTable
+    data = pd.DataFrame({"Country" : includedCountries})
+    print(data)
+    for path in joinToFinalTable:
+        data.set_index("Country").join(path)
+        print(data)
 
 def getDataFromJohnshopkinsGithub():
     url='https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv'
     data = pd.read_csv(url, error_bad_lines=False)
-
-
-    print(data)
+    data.to_csv("JohnsHopkins"+date.today().isoformat()+"NotUsed.csv")
 
 def outToCsv(path, data):
     import csv
