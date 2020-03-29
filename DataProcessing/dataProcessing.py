@@ -6,8 +6,9 @@ from dataManagement import sourcePaths
 from dataManagement import compactDataPath
 
 def main():
-    data = exctractRelevantData(includedCountries, sourcePaths)
-    outToCsv(compactDataPath, data)
+    getDataFromJohnshopkinsGithub()
+    #data = exctractRelevantData(includedCountries, sourcePaths)
+    #outToCsv(compactDataPath, data)
     #do correlation analysis?
 
 
@@ -49,6 +50,12 @@ def exctractRelevantData(countries, sourcePaths): #may have been easier with usi
     cleanData = np.transpose(cleanData)
 
 
+def getDataFromJohnshopkinsGithub():
+    url='https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv'
+    data = pd.read_csv(url, error_bad_lines=False)
+
+
+    print(data)
 
 def outToCsv(path, data):
     import csv

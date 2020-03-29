@@ -24,4 +24,9 @@ sourcePaths = [
 compactDataPath = 'compactData.csv'
 
 #potentially from other python script?
-growthRatesSource = 'resources/GrowthRateMadeUp.csv'
+growthRatesSource = 'GrowthRateMadeUp.csv'
+
+#paths to all data Files
+joinToFinalTable = [
+    compactDataPath
+]
