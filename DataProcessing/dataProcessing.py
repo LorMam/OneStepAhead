@@ -7,11 +7,12 @@ from datetime import date
 from dataManagement import includedCountries
 from dataManagement import sourcePaths
 from dataManagement import compactDataPath
+from dataManagement import HopkinsData
 
 def main():
-    #getDataFromJohnshopkinsGithub()
-    data = exctractRelevantData(includedCountries, sourcePaths)
-    outToCsv(compactDataPath, data)
+    getDataFromJohnshopkinsGithub()
+    #data = exctractRelevantData(includedCountries, sourcePaths)
+    #outToCsv(compactDataPath, data)
     #joinData()
 
 
@@ -73,28 +74,29 @@ def getDataFromJohnshopkinsGithub():
     data = pd.read_csv(url, error_bad_lines=False)
 
     #data.to_csv("JohnsHopkins"+date.today().isoformat()+"NotUsed.csv")
-
+    #"Iran", "US", "Korea, South" added extra cause name in hopkins dataset is not the official
+    Countries = ["China", "Japan", "United Kingdom", "Italy", "Germany", "Algeria", "Egypt", "Burkina Faso",
+     "South Africa", "Brazil", "Chile", "Australia", "US", "Iran", "Korea, South"]
     data = data.groupby('Country/Region').sum() #note: also lang and lat are summed, extract before this!
     data = data.drop(columns=['Lat', 'Long'])
     size = data.shape[1]
-    outData = pd.DataFrame({'Days since 100': range(size)})
-    for country in includedCountries:
-        #get right line
-
-        line = pd.DataFrame(data.loc[country, : ])
-        print("fine")
-        #temp = [country]
-
-        for i in range(len(line)):
+    outData = pd.DataFrame({'Days since 100': range(size+1)})
+    for country in Countries:
+        line = data.loc[country]
+        temp = []
+        first = True
+        for i in range(size): #or len(line)
 
             if (line[i]>100):
-                temp.append(line.index[i])
+                if (first):
+                    temp.append(line.index[i])
+                    first = False
+                temp.append(line[i])
 
         #parse through line until case>=100
-        print(temp)
-        #store start date
-        outData[country] = temp
-
+        temp = pd.DataFrame({country : temp})
+        outData = outData.join(temp)
+    outData.to_csv(HopkinsData, index=False)
 
 def outToCsv(path, data):
     import csv
