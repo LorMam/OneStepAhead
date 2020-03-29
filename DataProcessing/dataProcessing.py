@@ -1,14 +1,17 @@
 import numpy as np
 import pandas as pd
+from datetime import date
 
 from dataManagement import includedCountries
 from dataManagement import sourcePaths
 from dataManagement import compactDataPath
 
 def main():
-    data = exctractRelevantData(includedCountries, sourcePaths)
-    outToCsv(compactDataPath, data)
-    #do correlation analysis?
+    #getDataFromJohnshopkinsGithub()
+    #data = exctractRelevantData(includedCountries, sourcePaths)
+    #outToCsv(compactDataPath, data)
+    joinData()
+
 
 
 
@@ -47,8 +50,24 @@ def exctractRelevantData(countries, sourcePaths): #may have been easier with usi
 
     cleanData = cleanData.reshape([len(sourcePaths) + 1, len(countries) + 1])
     cleanData = np.transpose(cleanData)
+    return cleanData
 
+def joinData():
+    from dataManagement import joinToFinalTable
+    data = pd.DataFrame({"Country" : includedCountries})
+    data = data.set_index("Country")
+    #errors might originate from not having ',' as separator and '.' as decimal point
+    for p in joinToFinalTable:
+    #p = joinToFinalTable[2]
+        toJoin = pd.read_csv(p)
+        data = data.join(toJoin.set_index('Country'))
+        from dataManagement import finalFilePath
+    data.to_csv(finalFilePath)
 
+def getDataFromJohnshopkinsGithub():
+    url='https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv'
+    data = pd.read_csv(url, error_bad_lines=False)
+    data.to_csv("JohnsHopkins"+date.today().isoformat()+"NotUsed.csv")
 
 def outToCsv(path, data):
     import csv

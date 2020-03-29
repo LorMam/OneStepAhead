@@ -21,7 +21,21 @@ sourcePaths = [
     'resources/Population, urban (%).csv',
     'resources/Unemployment, total (% of labour force).csv']
 
-compactDataPath = 'compactData.csv'
+compactDataPath = 'humanDevelopmentDataCompact.csv'
 
 #potentially from other python script?
-growthRatesSource = 'resources/GrowthRateMadeUp.csv'
+growthRatesSource = 'GrowthRatesMadeUp.csv'
+
+#must be added later
+InterventionDataPath = 'InterventionsMadeUp.csv'
+
+#paths to all data Files
+#gives the order of joining
+joinToFinalTable = [
+    growthRatesSource,
+    compactDataPath,
+    InterventionDataPath
+]
+
+#Final Merged clean File
+finalFilePath = 'finalCleanData.csv'
