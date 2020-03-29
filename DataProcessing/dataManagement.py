@@ -14,7 +14,7 @@ sourcePaths = [
     'resources/Education Index.csv',
     'resources/Human development index (HDI).csv',
     'resources/Life expectancy at birth.csv',
-    'resources/Population, ages 15–64 (millions).csv',
+    'resources/Population, ages 15to64 (millions).csv',
     'resources/Population, ages 65 and older (millions).csv',
     'resources/Population, total (millions).csv',
     'resources/Population, under age 5 (millions).csv',
