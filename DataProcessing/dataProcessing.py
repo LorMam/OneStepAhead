@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import pandas as pd
 from datetime import date
@@ -8,9 +10,9 @@ from dataManagement import compactDataPath
 
 def main():
     #getDataFromJohnshopkinsGithub()
-    #data = exctractRelevantData(includedCountries, sourcePaths)
-    #outToCsv(compactDataPath, data)
-    joinData()
+    data = exctractRelevantData(includedCountries, sourcePaths)
+    outToCsv(compactDataPath, data)
+    #joinData()
 
 
 
@@ -65,9 +67,34 @@ def joinData():
     data.to_csv(finalFilePath)
 
 def getDataFromJohnshopkinsGithub():
+    Threshold = 100 #from which date on should be counted
+    fileName = "JohnsHopkins"+date.today().isoformat()+"NotUsed.csv"
     url='https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv'
     data = pd.read_csv(url, error_bad_lines=False)
-    data.to_csv("JohnsHopkins"+date.today().isoformat()+"NotUsed.csv")
+
+    #data.to_csv("JohnsHopkins"+date.today().isoformat()+"NotUsed.csv")
+
+    data = data.groupby('Country/Region').sum() #note: also lang and lat are summed, extract before this!
+    data = data.drop(columns=['Lat', 'Long'])
+    size = data.shape[1]
+    outData = pd.DataFrame({'Days since 100': range(size)})
+    for country in includedCountries:
+        #get right line
+
+        line = pd.DataFrame(data.loc[country, : ])
+        print("fine")
+        #temp = [country]
+
+        for i in range(len(line)):
+
+            if (line[i]>100):
+                temp.append(line.index[i])
+
+        #parse through line until case>=100
+        print(temp)
+        #store start date
+        outData[country] = temp
+
 
 def outToCsv(path, data):
     import csv
