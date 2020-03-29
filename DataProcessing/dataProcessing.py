@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 import pandas as pd
 from datetime import date
@@ -5,12 +7,13 @@ from datetime import date
 from dataManagement import includedCountries
 from dataManagement import sourcePaths
 from dataManagement import compactDataPath
+from dataManagement import HopkinsData
 
 def main():
-    #getDataFromJohnshopkinsGithub()
+    getDataFromJohnshopkinsGithub()
     #data = exctractRelevantData(includedCountries, sourcePaths)
     #outToCsv(compactDataPath, data)
-    joinData()
+    #joinData()
 
 
 
@@ -65,9 +68,35 @@ def joinData():
     data.to_csv(finalFilePath)
 
 def getDataFromJohnshopkinsGithub():
+    Threshold = 100 #from which date on should be counted
+    fileName = "JohnsHopkins"+date.today().isoformat()+"NotUsed.csv"
     url='https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv'
     data = pd.read_csv(url, error_bad_lines=False)
-    data.to_csv("JohnsHopkins"+date.today().isoformat()+"NotUsed.csv")
+
+    #data.to_csv("JohnsHopkins"+date.today().isoformat()+"NotUsed.csv")
+    #"Iran", "US", "Korea, South" added extra cause name in hopkins dataset is not the official
+    Countries = ["China", "Japan", "United Kingdom", "Italy", "Germany", "Algeria", "Egypt", "Burkina Faso",
+     "South Africa", "Brazil", "Chile", "Australia", "US", "Iran", "Korea, South"]
+    data = data.groupby('Country/Region').sum() #note: also lang and lat are summed, extract before this!
+    data = data.drop(columns=['Lat', 'Long'])
+    size = data.shape[1]
+    outData = pd.DataFrame({'Days since 100': range(size+1)})
+    for country in Countries:
+        line = data.loc[country]
+        temp = []
+        first = True
+        for i in range(size): #or len(line)
+
+            if (line[i]>100):
+                if (first):
+                    temp.append(line.index[i])
+                    first = False
+                temp.append(line[i])
+
+        #parse through line until case>=100
+        temp = pd.DataFrame({country : temp})
+        outData = outData.join(temp)
+    outData.to_csv(HopkinsData, index=False)
 
 def outToCsv(path, data):
     import csv
