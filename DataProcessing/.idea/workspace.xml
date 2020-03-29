@@ -3,20 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="c7a6120d-ea93-4df8-8d8c-0bb48dddebdb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compactData.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GrowthRatesMadeUp.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/GrowthRatesMadeUp.CSV" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InterventionsMadeUp.CSV" beforeDir="false" afterPath="$PROJECT_DIR$/InterventionsMadeUp.CSV" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dataManagement.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataManagement.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dataProcessing.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataProcessing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/googleTrends/Australia.csv" beforeDir="false" afterPath="$PROJECT_DIR$/googleTrends/Australia.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/googleTrends/Brazil.csv" beforeDir="false" afterPath="$PROJECT_DIR$/googleTrends/Brazil.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/googleTrends/Burkina Faso.csv" beforeDir="false" afterPath="$PROJECT_DIR$/googleTrends/Burkina Faso.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/googleTrends/Chile.csv" beforeDir="false" afterPath="$PROJECT_DIR$/googleTrends/Chile.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/googleTrends/China.csv" beforeDir="false" afterPath="$PROJECT_DIR$/googleTrends/China.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/googleTrends/Egypt.csv" beforeDir="false" afterPath="$PROJECT_DIR$/googleTrends/Egypt.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/googleTrends/Italy.csv" beforeDir="false" afterPath="$PROJECT_DIR$/googleTrends/Italy.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/googleTrends/Japan.csv" beforeDir="false" afterPath="$PROJECT_DIR$/googleTrends/Japan.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/googleTrends/South Africa.csv" beforeDir="false" afterPath="$PROJECT_DIR$/googleTrends/South Africa.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/googleTrends/United Kingdom.csv" beforeDir="false" afterPath="$PROJECT_DIR$/googleTrends/United Kingdom.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/googleTrends/United States.csv" beforeDir="false" afterPath="$PROJECT_DIR$/googleTrends/United States.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,7 +139,7 @@
       <workItem from="1585434753010" duration="15254000" />
       <workItem from="1585472331997" duration="8388000" />
       <workItem from="1585486337531" duration="5511000" />
-      <workItem from="1585502380093" duration="2393000" />
+      <workItem from="1585502380093" duration="5453000" />
     </task>
     <task id="LOCAL-00001" summary="test with pycharm">
       <created>1585502985866</created>
@@ -158,7 +148,21 @@
       <option name="project" value="LOCAL" />
       <updated>1585502985866</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="implemented getDataFromJohnshopkinsGithub&#10;fixed dataProcessing.py&#10;renamed compactData.csv">
+      <created>1585504859083</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1585504859083</updated>
+    </task>
+    <task id="LOCAL-00003" summary="files missing on last commit">
+      <created>1585504973038</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1585504973038</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,7 +170,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="test with pycharm" />
-    <option name="LAST_COMMIT_MESSAGE" value="test with pycharm" />
+    <MESSAGE value="implemented getDataFromJohnshopkinsGithub&#10;fixed dataProcessing.py&#10;renamed compactData.csv" />
+    <MESSAGE value="files missing on last commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="files missing on last commit" />
   </component>
   <component name="WindowStateProjectService">
     <state x="828" y="172" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585435001840">
@@ -177,26 +183,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1585445153317" />
-    <state x="549" y="114" key="CommitChangelistDialog2" timestamp="1585502983928">
+    <state x="549" y="114" key="CommitChangelistDialog2" timestamp="1585510166587">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="549" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1585502983928" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1585504782214">
+    <state x="549" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1585510166587" />
+    <state width="1877" height="523" key="GridCell.Tab.0.bottom" timestamp="1585510003263">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1585504782214" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1585504782214">
+    <state width="1877" height="523" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1585510003263" />
+    <state width="1877" height="523" key="GridCell.Tab.0.center" timestamp="1585510003263">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1585504782214" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1585504782214">
+    <state width="1877" height="523" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1585510003263" />
+    <state width="1877" height="523" key="GridCell.Tab.0.left" timestamp="1585510003263">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1585504782214" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1585504782214">
+    <state width="1877" height="523" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1585510003263" />
+    <state width="1877" height="523" key="GridCell.Tab.0.right" timestamp="1585510003263">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1585504782214" />
+    <state width="1877" height="523" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1585510003263" />
     <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1585452668430">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -221,10 +227,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="656" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1585502383799" />
-    <state x="469" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585504802868">
+    <state x="469" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585510130281">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="469" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1585504802868" />
+    <state x="469" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1585510130281" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1585438378188">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -232,7 +238,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/DataProcessing$Envdatarocessing.coverage" NAME="Envdatarocessing Coverage Results" MODIFIED="1585435424677" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/DataProcessing$dataProcessing.coverage" NAME="dataProcessing Coverage Results" MODIFIED="1585504782201" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DataProcessing$dataProcessing.coverage" NAME="dataProcessing Coverage Results" MODIFIED="1585510003254" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DataProcessing$googleAPI.coverage" NAME="googleAPI Coverage Results" MODIFIED="1585493581207" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -55,10 +55,14 @@ def exctractRelevantData(countries, sourcePaths): #may have been easier with usi
 def joinData():
     from dataManagement import joinToFinalTable
     data = pd.DataFrame({"Country" : includedCountries})
-    print(data)
-    for path in joinToFinalTable:
-        data.set_index("Country").join(path)
-        print(data)
+    data = data.set_index("Country")
+    #errors might originate from not having ',' as separator and '.' as decimal point
+    for p in joinToFinalTable:
+    #p = joinToFinalTable[2]
+        toJoin = pd.read_csv(p)
+        data = data.join(toJoin.set_index('Country'))
+        from dataManagement import finalFilePath
+    data.to_csv(finalFilePath)
 
 def getDataFromJohnshopkinsGithub():
     url='https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv'
