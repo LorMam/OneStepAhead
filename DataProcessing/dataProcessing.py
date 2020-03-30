@@ -4,6 +4,7 @@ import os
 import numpy as np
 import pandas as pd
 from datetime import date
+import dateutil.parser
 
 from scipy.optimize import curve_fit
 
@@ -14,7 +15,7 @@ from dataManagement import compactDataPath
 from dataManagement import HopkinsData
 
 def main():
-    #getDataFromJohnshopkinsGithub()
+    getDataFromJohnshopkinsGithub()
     #CalculateGrowthRates()
     #exctractRelevantData()
     #outToCsv(compactDataPath, data)
@@ -93,7 +94,8 @@ def getDataFromJohnshopkinsGithub():
             # parse through line until case>=100
             if (row[i] > Threshold):
                 if (first):
-                    temp.append(row.index[i])
+                    datetemp = dateutil.parser.parse(row.index[i]).date()
+                    temp.append(datetemp)
                     first = False
                 temp.append(row[i])
         temp = pd.DataFrame({index: temp})
