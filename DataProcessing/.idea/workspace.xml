@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c7a6120d-ea93-4df8-8d8c-0bb48dddebdb" name="Default Changelist" comment="">
+    <list default="true" id="c7a6120d-ea93-4df8-8d8c-0bb48dddebdb" name="Default Changelist" comment="finished getDataFromJohnshopkinsGithub">
+      <change afterPath="$PROJECT_DIR$/python notebooks/ObtainGrowthRate.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/python notebooks/RegressionModelling.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CountryCasesFromHopkins.csv" beforeDir="false" afterPath="$PROJECT_DIR$/CountryCasesFromHopkins.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GrowthRates.csv" beforeDir="false" afterPath="$PROJECT_DIR$/GrowthRates.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GrowthRatesMadeUp.CSV" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ObtainGrowthRate.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RegressionModelling.ipynb" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/dataManagement.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataManagement.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dataProcessing.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataProcessing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/predictionModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/predictionModel.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +48,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator.OEKOTOP-PC018\OneStepAhead\DataProcessing\python notebooks" />
       <recent name="C:\Users\Administrator.OEKOTOP-PC018\OneStepAhead\DataProcessing\CaseData" />
       <recent name="D:\Daten Lorenz\DataProcessing" />
     </key>
@@ -46,7 +56,7 @@
       <recent name="D:\Daten Lorenz\DataProcessing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.dataProcessing">
+  <component name="RunManager" selected="Python.predictionModel">
     <configuration name="Envdatarocessing" type="PythonConfigurationType" factoryName="Python">
       <module name="DataProcessing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -113,13 +123,37 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="predictionModel" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="DataProcessing" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/predictionModel.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.Envdatarocessing" />
       <item itemvalue="Python.dataProcessing" />
       <item itemvalue="Python.googleAPI" />
+      <item itemvalue="Python.predictionModel" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.predictionModel" />
         <item itemvalue="Python.dataProcessing" />
         <item itemvalue="Python.googleAPI" />
       </list>
@@ -138,7 +172,8 @@
       <workItem from="1585434753010" duration="15254000" />
       <workItem from="1585472331997" duration="8388000" />
       <workItem from="1585486337531" duration="5511000" />
-      <workItem from="1585502380093" duration="12411000" />
+      <workItem from="1585502380093" duration="27117000" />
+      <workItem from="1585538937798" duration="125000" />
     </task>
     <task id="LOCAL-00001" summary="test with pycharm">
       <created>1585502985866</created>
@@ -175,7 +210,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585515379333</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="finished getDataFromJohnshopkinsGithub">
+      <created>1585517148012</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1585517148012</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -187,7 +229,8 @@
     <MESSAGE value="files missing on last commit" />
     <MESSAGE value="finished joining Data&#10;final joined Data file&#10;moved all Case Data to folder to prevent mess" />
     <MESSAGE value="complete human development Data" />
-    <option name="LAST_COMMIT_MESSAGE" value="complete human development Data" />
+    <MESSAGE value="finished getDataFromJohnshopkinsGithub" />
+    <option name="LAST_COMMIT_MESSAGE" value="finished getDataFromJohnshopkinsGithub" />
   </component>
   <component name="WindowStateProjectService">
     <state x="828" y="172" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585435001840">
@@ -198,54 +241,58 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1585445153317" />
-    <state x="549" y="114" key="CommitChangelistDialog2" timestamp="1585515377460">
+    <state x="549" y="114" key="CommitChangelistDialog2" timestamp="1585519586334">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="549" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1585515377460" />
-    <state width="1877" height="218" key="GridCell.Tab.0.bottom" timestamp="1585517094548">
+    <state x="549" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1585519586334" />
+    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog" timestamp="1585528383134">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="218" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1585517094548" />
-    <state width="1877" height="218" key="GridCell.Tab.0.center" timestamp="1585517094548">
+    <state x="92" y="92" width="1736" height="856" key="DiffContextDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1585528383134" />
+    <state width="1877" height="322" key="GridCell.Tab.0.bottom" timestamp="1585532533987">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="218" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1585517094548" />
-    <state width="1877" height="218" key="GridCell.Tab.0.left" timestamp="1585517094548">
+    <state width="1877" height="322" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1585532533987" />
+    <state width="1877" height="322" key="GridCell.Tab.0.center" timestamp="1585532533987">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="218" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1585517094548" />
-    <state width="1877" height="218" key="GridCell.Tab.0.right" timestamp="1585517094548">
+    <state width="1877" height="322" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1585532533987" />
+    <state width="1877" height="322" key="GridCell.Tab.0.left" timestamp="1585532533987">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="218" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1585517094548" />
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1585515322508">
+    <state width="1877" height="322" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1585532533987" />
+    <state width="1877" height="322" key="GridCell.Tab.0.right" timestamp="1585532533987">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1585515322508" />
-    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1585515322507">
+    <state width="1877" height="322" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1585532533987" />
+    <state width="914" height="347" key="GridCell.Tab.1.bottom" timestamp="1585531186667">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1585515322507" />
-    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1585515322507">
+    <state width="914" height="347" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1585531186667" />
+    <state width="914" height="347" key="GridCell.Tab.1.center" timestamp="1585531186667">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1585515322507" />
-    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1585515322508">
+    <state width="914" height="347" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1585531186667" />
+    <state width="914" height="347" key="GridCell.Tab.1.left" timestamp="1585531186667">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1585515322508" />
+    <state width="914" height="347" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1585531186667" />
+    <state width="914" height="347" key="GridCell.Tab.1.right" timestamp="1585531186667">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="914" height="347" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1585531186667" />
     <state x="461" y="162" key="SettingsEditor" timestamp="1585435401799">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="162" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1585435401799" />
-    <state x="656" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1585502383799">
+    <state x="656" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1585538941468">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="656" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1585502383799" />
-    <state x="469" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585517119452">
+    <state x="656" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1585538941468" />
+    <state x="469" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585539121243">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="469" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1585517119452" />
+    <state x="469" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1585539121243" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1585438378188">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -253,7 +300,8 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/DataProcessing$Envdatarocessing.coverage" NAME="Envdatarocessing Coverage Results" MODIFIED="1585435424677" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/DataProcessing$dataProcessing.coverage" NAME="dataProcessing Coverage Results" MODIFIED="1585517094541" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DataProcessing$dataProcessing.coverage" NAME="dataProcessing Coverage Results" MODIFIED="1585527899248" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DataProcessing$googleAPI.coverage" NAME="googleAPI Coverage Results" MODIFIED="1585493581207" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/DataProcessing$predictionModel.coverage" NAME="predictionModel Coverage Results" MODIFIED="1585532533980" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -22,7 +22,18 @@ sourcePaths = [
     'resources/Population, total (millions).csv',
     'resources/Population, under age 5 (millions).csv',
     'resources/Population, urban (%).csv',
-    'resources/Unemployment, total (% of labour force).csv']
+    'resources/Unemployment, total (% of labour force).csv',
+    'resources/Gross domestic product (GDP) per capita (2011 PPP $).csv',
+    'resources/Internet users, total (% of population) 2017.csv',
+    'resources/Mobile phone subscriptions (per 100 people) 2018.csv',
+    'resources/Population using at least basic drinking-water services (%) 2017.csv',
+    'resources/Rural population with access to electricity (%) 2017.csv']
+toBeNormalized = [
+    'resources/Population, ages 15to64 (millions).csv',
+    'resources/Population, ages 65 and older (millions).csv',
+    'resources/Population, under age 5 (millions).csv'
+]
+NormalizeBy = 'Population, total (millions).csv'
 
 compactDataPath = 'humanDevelopmentDataCompact.csv'
 

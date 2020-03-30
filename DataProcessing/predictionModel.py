@@ -1,21 +1,32 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
 
 
-#just normal correlation analysis for all parameters vs. initial growth rate
-#
-# -> see if any really good correlations
+def main():
+    #just normal correlation analysis for all parameters vs. initial growth rate
+    #
+    # -> see if any really good correlations
+    data = pd.read_csv('finalCleanDataextendedTry.csv')
+    print(data)
 
-#MANOVA
-from statsmodels.multivariate.manova import MANOVA
+    x = data.iloc[ : , range(1,12)]
+    print(x)
+    y = data["GrowthRate1"]
 
+    # multivariate nonlinear regression
+    model = LinearRegression()
+    model.fit(x,y)
 
-# multivariate nonlinear regression
+    print('Linear Regression')
+    r_sq = model.score(x, y)
+    print('coefficient of determination:', r_sq)
+    print('intercept:', model.intercept_)
+    print('slope:', model.coef_)
 
-
-
-'''
+    '''
 Machine and Deep Learning models - I think not good, because we have only twice as much data points, as we have countries (for the two growth rates)
 
 #https://medium.com/datadriveninvestor/a-simple-guide-to-creating-predictive-models-in-python-part-2a-aa86ece98f86
@@ -59,3 +70,6 @@ print(cm_random_forest_classifier,end="\n\n")
 #Tensor Flow guide
 #https://medium.com/datadriveninvestor/a-simple-guide-to-creating-predictive-models-in-python-part-2b-7be3afb5c557
 '''
+
+if __name__ == '__main__':
+    main()
