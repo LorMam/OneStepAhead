@@ -14,20 +14,21 @@ dayOfHundredCases = ['2020-03-06', '2020-02-25', '2020-02-01', '2020-01-03', '20
 
 sourcePaths = [
     #all datasets from http://hdr.undp.org/en/data#
+    'resources/Population, total (millions).csv',
     'resources/Education Index.csv',
     'resources/Human development index (HDI).csv',
     'resources/Life expectancy at birth.csv',
     'resources/Population, ages 15to64 (millions).csv',
     'resources/Population, ages 65 and older (millions).csv',
-    'resources/Population, total (millions).csv',
     'resources/Population, under age 5 (millions).csv',
     'resources/Population, urban (%).csv',
     'resources/Unemployment, total (% of labour force).csv',
     'resources/Gross domestic product (GDP) per capita (2011 PPP $).csv',
-    'resources/Internet users, total (% of population) 2017.csv',
-    'resources/Mobile phone subscriptions (per 100 people) 2018.csv',
-    'resources/Population using at least basic drinking-water services (%) 2017.csv',
-    'resources/Rural population with access to electricity (%) 2017.csv']
+    #'resources/Internet users, total (% of population) 2017.csv',
+    #'resources/Mobile phone subscriptions (per 100 people) 2018.csv',
+    #'resources/Population using at least basic drinking-water services (%) 2017.csv',
+    #'resources/Rural population with access to electricity (%) 2017.csv'
+    ]
 toBeNormalized = [
     'resources/Population, ages 15to64 (millions).csv',
     'resources/Population, ages 65 and older (millions).csv',
