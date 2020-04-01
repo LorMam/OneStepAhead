@@ -39,7 +39,7 @@ NormalizeBy = 'Population, total (millions).csv'
 compactDataPath = 'humanDevelopmentDataCompact.csv'
 
 #potentially from other python script?
-growthRatesSource = 'GrowthRates.csv'
+growthRatesSource = 'GrowthRatesAll.csv'
 
 #must be added later
 InterventionDataPath = 'InterventionsMadeUp.csv'
@@ -51,7 +51,7 @@ joinToFinalTable = [
     compactDataPath,
     InterventionDataPath
 ]
-
+ProsperityDataPath = "cleanDataProsperityIndex.CSV"
 HopkinsData = 'CountryCasesFromHopkins.csv'
 
 #Final Merged clean File
