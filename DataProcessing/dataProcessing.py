@@ -6,46 +6,44 @@ import pandas as pd
 from datetime import date
 import dateutil.parser
 
-from scipy.optimize import curve_fit
-
 from dataManagement import includedCountries
 from dataManagement import sourcePaths
 from dataManagement import compactDataPath
 from dataManagement import ProsperityDataPath
 from dataManagement import HopkinsData
 from dataManagement import toBeNormalized
+from dataManagement import joinToFinalTable
+from dataManagement import finalFilePath
 
 
 def main():
-    getDatafromProsperityDataset()
-    # getDataFromJohnshopkinsGithub()
-    # CalculateGrowthRates()
-    #data = exctractRelevantData()
-    #outToCsv(compactDataPath, data)
-    # joinData()
+    # "none" in toPath returns DataFrame
+    # getDatafromProsperityDataset(ProsperityDataPath, "none")
+    # getDataFromJohnshopkinsGithub("none")
+    # CalculateGrowthRates() TODO get this from jupyter Notebook (@Alison)
+    # exctractRelevantData(includedCountries, sourcePaths, compactDataPath)
 
+    #joinData(joinToFinalTable, includedCountries, finalFilePath)
+    a = 'dummy'
 
 # list of countries, list of Paths -> 2DArray of Countries and their data
-def exctractRelevantData():  # may have been easier with using pandas
+
+def exctractRelevantData(countries, fromFiles, toPath):  # may have been easier with using pandas
     latestYear = '2018'
-    cleanData = np.append('Country', includedCountries)
-    normalizer = 0
+    cleanData = np.append('Country', countries)
+    normalizer = 0  #TODO normalize given datasets by population
     # go through dataSources
-    for i in range(len(sourcePaths)):
+    for path in fromFiles:
         import csv
-        with open(sourcePaths[i], 'r') as file:
+        with open(path, 'r') as file:
             reader = csv.reader(file)
-            count = 0
             dataTemp = []
-            for row in reader:
+            for count, row in enumerate(reader):
                 # get Dataset Name in first line
-                if (count == 0):
+                if (count == 0): # get Name of Dataset from all cells in first line
                     Name = "".join(row)
-                    count += 1
-                elif (count < 196):
-                    # cut off first and last lines with metadata
+                elif (count < 196): #TODO remove magic number, (cut off before 'world,...')
                     dataTemp.append(row)
-                count += 1
         # get index of column with selected year
         dataCol = dataTemp[0].index(latestYear)
         # only keep country and 2018 data column
@@ -55,32 +53,36 @@ def exctractRelevantData():  # may have been easier with using pandas
 
         # look up all countries in data and collect their data
         temp = [Name]
-        for country in includedCountries:
+        for country in countries:
             temp.append(column(dataNew, dataNew[0].index(country))[1])
         cleanData = np.append(cleanData, temp)
 
-    cleanData = cleanData.reshape([len(sourcePaths) + 1, len(includedCountries) + 1])
+    cleanData = cleanData.reshape([len(fromFiles) + 1, len(countries) + 1])
     cleanData = np.transpose(cleanData)
-    return cleanData
+    if (toPath == "none"):
+        return cleanData
+    else:
+        outToCsv(toPath, data)
+    #outToCsv(compactDataPath, data)
 
+#join Data of difference files by column "Country"
+def joinData(fromFiles, fromCountries, toPath):
 
-def joinData():
-    from dataManagement import joinToFinalTable
-    data = pd.DataFrame({"Country": includedCountries})
+    data = pd.DataFrame({"Country": fromCountries})
     data = data.set_index("Country")
     # errors might originate from not having ',' as separator and '.' as decimal point
-    for p in joinToFinalTable:
+    for p in fromFiles:
         # p = joinToFinalTable[2]
         toJoin = pd.read_csv(p)
         data = data.join(toJoin.set_index('Country'))
-        from dataManagement import finalFilePath
-    data.to_csv(finalFilePath)
+
+    data.to_csv(toPath)
 
 
 # convert Data from all countries
 # getting newest Data from github csv
 # outfile has countries, start Date and case numbers relative from start date
-def getDataFromJohnshopkinsGithub():
+def getDataFromJohnshopkinsGithub(toPath):
     Threshold = 100  # from which date on should be counted
     path = 'JohnsHopkins2020-03-29NotUsed.csv'  # if offline use this
     try:
@@ -107,26 +109,32 @@ def getDataFromJohnshopkinsGithub():
                 temp.append(row[i])
         temp = pd.DataFrame({index: temp})
         outData = outData.join(temp)
-    outData.to_csv(HopkinsData, index=False)
+
+    if (toPath == "none"):
+        return outData
+    else:
+        outData.to_csv(HopkinsData, index=False)
 
 
 # [area name, indicator name, score] in lines -> table
-def getDatafromProsperityDataset():
-    data = pd.read_csv(ProsperityDataPath)
-    #data.drop(data.index[0])
-    print(data)
-    areas = data["area_name"].nunique()
-    indicators = data["indicator_name"].nunique()
+def getDatafromProsperityDataset(fromPath, toPath):
+    data = pd.read_csv(fromPath)
+    #areas = data["area_name"].nunique()
+    #indicators = data["indicator_name"].nunique()
 
     out = []
     outData = pd.DataFrame({"area_name" : data["area_name"].unique()})
     outData = outData.set_index("area_name")
-    for indic in data["indicator_name"].unique():
+    for indic in data["indicator_name"].unique(): # for every indicator
         mask = data["indicator_name"] == indic
         out = pd.DataFrame({indic: data[mask]["score_2019"], "area_name" : data[mask]["area_name"]})
-        print(out)
-        print(outData)
+        #print(out)
+        #print(outData)
         outData = outData.join(out.set_index("area_name"))
+    if (toPath == "none"):
+        return outData
+    else:
+        outData.to_csv("ProspData.csv")
 
 
 

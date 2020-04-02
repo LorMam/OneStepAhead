@@ -18,27 +18,28 @@ class predictionModel():
         outToCsv(path, out)
 
     def fromCsv(self, path):
-        index = 0
-        for line in open(path):
-            if (index == 0):
+        for index, line in enumerate(open(path)):
+            if index == 0:
                 self.countries = line
-            elif (index == 1):
+            elif index == 1:
                 self.parameters = line
-            elif (index == 2):
+            elif index == 2:
                 self.coef = line
-            elif (index == 3):
+            elif index == 3:
                 self.score = line
-            index += 1
         #set countries, parameters coefs and score
 
-    #dataset is a table: columns are [country, all parameters in the right order]
+    #dataset is a dataframe with columns ["Indices", "Values"]
     def runModelGR1(self, dataset):
         #check if parameters of dataset are the same order as model
         #calculate growth Rate 1
+        out = 0
+        for p, d in zip(self.parameters, dataset["Values"]):
+            out += p*d
+        return out
 
-        #return table with [country, GR1]
-        return 'dummy'
-
+    #must be different from GR1 if something must be done with Date of Intervention?
+    #but how does this come in to effect?
     def runModelGR2(self, dataset):
         #
         #return table with [country, GR2]
@@ -46,13 +47,19 @@ class predictionModel():
 def main():
     c = ["China", "Japan",  "United Kingdom", "United States", "Italy", "Germany", "Algeria", "Egypt", "Burkina Faso", "South Africa", "Brazil", "Chile", "Australia"]
     p = ["Prosperity Index Health Score", "Population using at least basic drinking-water services (%)", "Human development index (HDI)", "Population. total (millions)"
-             "Population. under age 5 (%)", "Population. ages 65 and older (%)", "Population. ages 65 and older (%)"]
+             "Population. under age 5 (%)", "Population. ages 65 and older (%)", "yearly anual Temperature"]
     coef = [-2.36494606e-03,  2.15270501e-03,  2.80678716e-01,  3.49335911e-05, -1.39790582e+00, -5.83476662e-01,  1.63075352e-03]
     score = [0.8777857786441605]
+
+    PredictionDataset = pd.DataFrame({ "Indices": ["Prosperity Index Health Score", "Population using at least basic drinking-water services (%)", "Human development index (HDI)", "Population. total (millions)"
+             "Population. under age 5 (%)", "Population. ages 65 and older (%)",  "yearly anual Temperature"],
+                                       "Value": [3, 0.3, 6, 6, 0.1, 0.2, 20]})
 
     x = predictionModel(c, p, coef, score)
     x.toCsv("bestModel.csv")
     x.fromCsv("bestModel.csv")
+
+    x.runModelGR1(PredictionDataset)
 
 #https://medium.com/datadriveninvestor/a-simple-guide-to-creating-predictive-models-in-python-part-2a-aa86ece98f86
 #Tensor Flow guide

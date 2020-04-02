@@ -9,13 +9,13 @@ from dataProcessing import outToCsv
 from dataProcessing import column
 pytrend = TrendReq()
 
-from dataManagement import includedCountries
+from dataManagement import closerLookat
 from dataManagement import dayOfHundredCases
 
 wordsToSearch = ['covid 19', 'corona', 'coronavirus']
 
 #set with countries and start date
-InfoIn =   pd.DataFrame({'Country': includedCountries,
+InfoIn = pd.DataFrame({'Country': closerLookat,
             'Start': dayOfHundredCases}) #Data just Made up, import from source file later
 
 
@@ -24,14 +24,16 @@ InfoIn =   pd.DataFrame({'Country': includedCountries,
 def main():
     # get international standard code for countries
     InfoIn['Countrycode'] = getCountrycodes(InfoIn['Country'])
-    for i in range(len(InfoIn["Country"])):
-        time = InfoIn['Start'][i] + ' ' + date.today().isoformat()
-        code = InfoIn["Countrycode"][i]
+    print(InfoIn)
+    for i, row in InfoIn.iterrows():
+        print(row)
+        time = row['Start'] + ' ' + date.today().isoformat()
+        code = row["Countrycode"]
         if (code != 'Unknown code'):
             data = pd.DataFrame(googleSearchTrends(wordsToSearch, code, time))
-            data.to_csv('googleTrends/' + InfoIn["Country"][i] + ".csv")
+            data.to_csv('googleTrends/' + row["Country"] + ".csv")
         else:
-            print(InfoIn["Country"][i] + " country code not found")
+            print(row["Country"] + " country code not found")
 
 def getCountrycodes(listOfCountries):
     countries = {}
