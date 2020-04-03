@@ -9,9 +9,9 @@ from dataProcessing import outToCsv
 from dataProcessing import column
 pytrend = TrendReq()
 
-from dataManagement import closerLookat
-from dataManagement import dayOfHundredCases
-from dataManagement import googleDataFolder
+from Main import closerLookat
+from Main import dayOfHundredCases
+from Main import googleDataFolder
 
 wordsToSearch = ['covid 19', 'corona', 'coronavirus']
 

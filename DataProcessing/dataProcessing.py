@@ -6,29 +6,7 @@ import pandas as pd
 from datetime import date
 import dateutil.parser
 
-from dataManagement import includedCountries
-from dataManagement import sourcePaths
-from dataManagement import compactDataPath
-from dataManagement import ProsperityDataPath
-from dataManagement import HopkinsData
-from dataManagement import joinToFinalTable
-from dataManagement import finalFilePath
-
-
-def main():
-    #register all paths to use in datamanagement.py!!!
-
-    # "none" in toPath returns DataFrame
-    # getDatafromProsperityDataset(ProsperityDataPath, "none")
-    # getDataFromJohnshopkinsGithub("none")
-    # CalculateGrowthRates() TODO get this from jupyter Notebook (@Alison)
-    # exctractRelevantData(includedCountries, sourcePaths, compactDataPath)
-
-    #joinData(joinToFinalTable, includedCountries, finalFilePath)
-    a = 'dummy'
-
 # list of countries, list of Paths -> 2DArray of Countries and their data
-
 def exctractRelevantData(countries, fromFiles, toPath):  # may have been easier with using pandas
     latestYear = '2018'
     cleanData = np.append('Country', countries)
@@ -60,11 +38,11 @@ def exctractRelevantData(countries, fromFiles, toPath):  # may have been easier 
 
     cleanData = cleanData.reshape([len(fromFiles) + 1, len(countries) + 1])
     cleanData = np.transpose(cleanData)
+
     if (toPath == "none"):
         return cleanData
     else:
-        outToCsv(toPath, data)
-    #outToCsv(compactDataPath, data)
+        outToCsv(toPath, cleanData)
 
 #join Data of difference files by column "Country"
 def joinData(fromFiles, fromCountries, toPath):
@@ -77,7 +55,10 @@ def joinData(fromFiles, fromCountries, toPath):
         toJoin = pd.read_csv(p)
         data = data.join(toJoin.set_index('Country'))
 
-    data.to_csv(toPath)
+    if (toPath == "none"):
+        return data
+    else:
+        data.to_csv(toPath)
 
 
 # convert Data from all countries
@@ -114,14 +95,19 @@ def getDataFromJohnshopkinsGithub(toPath):
     if (toPath == "none"):
         return outData
     else:
-        outData.to_csv(HopkinsData, index=False)
+        outData.to_csv(toPath, index=False)
 
+def inData(PathOrDF):
+    if (isinstance(PathOrDF, str)):
+        data = pd.read_csv(PathOrDF)
+    else:
+        data = PathOrDF
+    return data
 
-# [area name, indicator name, score] in lines -> table
-def getDatafromProsperityDataset(fromPath, toPath):
-    data = pd.read_csv(fromPath)
-    #areas = data["area_name"].nunique()
-    #indicators = data["indicator_name"].nunique()
+# reformats ProsperityIndexData: [area name, indicator name, score] in lines -> table
+#takes [path or Dataframe] and [path or "none"], returns data or writes to File
+def getDatafromProsperityDataset(FromData, toPath):
+    data = inData(FromData)
 
     out = []
     outData = pd.DataFrame({"area_name" : data["area_name"].unique()})
@@ -132,11 +118,26 @@ def getDatafromProsperityDataset(fromPath, toPath):
         #print(out)
         #print(outData)
         outData = outData.join(out.set_index("area_name"))
+
     if (toPath == "none"):
         return outData
     else:
         outData.to_csv(toPath)
 
+#takes [path or Dataframe] and [path or "none"], returns data or writes to File
+def WriteGrowthRates(FromData, toPath):
+    data = inData(FromData)
+
+
+
+    #TODO @ Alison put your function here
+
+
+
+    if (toPath == "none"):
+        return data
+    else:
+        data.to_csv(toPath)
 
 
 def outToCsv(path, data):
@@ -148,7 +149,3 @@ def outToCsv(path, data):
 
 def column(matrix, i):
     return [row[i] for row in matrix]
-
-
-if __name__ == '__main__':
-    main()
