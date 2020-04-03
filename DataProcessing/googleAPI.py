@@ -11,6 +11,7 @@ pytrend = TrendReq()
 
 from dataManagement import closerLookat
 from dataManagement import dayOfHundredCases
+from dataManagement import googleDataFolder
 
 wordsToSearch = ['covid 19', 'corona', 'coronavirus']
 
@@ -31,7 +32,7 @@ def main():
         code = row["Countrycode"]
         if (code != 'Unknown code'):
             data = pd.DataFrame(googleSearchTrends(wordsToSearch, code, time))
-            data.to_csv('googleTrends/' + row["Country"] + ".csv")
+            data.to_csv(googleDataFolder + row["Country"] + ".csv")
         else:
             print(row["Country"] + " country code not found")
 

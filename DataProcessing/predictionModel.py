@@ -24,7 +24,8 @@ class predictionModel():
             elif index == 1:
                 self.parameters = line
             elif index == 2:
-                self.coef = line
+                self.coef = line.split(',')
+                self.coef = list(map(float, self.coef)) # list is obsolete if only use is in iterators
             elif index == 3:
                 self.score = line
         #set countries, parameters coefs and score
@@ -34,8 +35,8 @@ class predictionModel():
         #check if parameters of dataset are the same order as model
         #calculate growth Rate 1
         out = 0
-        for p, d in zip(self.parameters, dataset["Values"]):
-            out += p*d
+        for c, d in zip(self.coef, dataset["Values"]):
+            out += c*d
         return out
 
     #must be different from GR1 if something must be done with Date of Intervention?
@@ -51,13 +52,13 @@ def main():
     coef = [-2.36494606e-03,  2.15270501e-03,  2.80678716e-01,  3.49335911e-05, -1.39790582e+00, -5.83476662e-01,  1.63075352e-03]
     score = [0.8777857786441605]
 
-    PredictionDataset = pd.DataFrame({ "Indices": ["Prosperity Index Health Score", "Population using at least basic drinking-water services (%)", "Human development index (HDI)", "Population. total (millions)"
+    PredictionDataset = pd.DataFrame({ "Indices": ["Prosperity Index Health Score", "Population using at least basic drinking-water services (%)", "Human development index (HDI)", "Population. total (millions)",
              "Population. under age 5 (%)", "Population. ages 65 and older (%)",  "yearly anual Temperature"],
-                                       "Value": [3, 0.3, 6, 6, 0.1, 0.2, 20]})
+                                       "Values": [3, 0.3, 6, 6, 0.1, 0.2, 20]})
 
     x = predictionModel(c, p, coef, score)
-    x.toCsv("bestModel.csv")
-    x.fromCsv("bestModel.csv")
+    x.toCsv("savedModels/bestModel.csv")
+    x.fromCsv("savedModels/bestModel.csv")
 
     x.runModelGR1(PredictionDataset)
 

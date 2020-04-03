@@ -1,0 +1,178 @@
+Country,GrowthRate1,GrowthRate2,DayOfChange
+Afghanistan,0,0,0
+Albania,0.057205,0,0
+Algeria,0.069145,0,0
+Andorra,0.073112,0,0
+Angola,0,0,0
+Antigua and Barbuda,0,0,0
+Argentina,0.088362,0,0
+Armenia,0.056658,0,0
+Australia,0.091014,0,18.046
+Austria,0.10446,0,18.648
+Azerbaijan,0,0,0
+Bahamas,0,0,0
+Bahrain,0.029053,0,39.75
+Bangladesh,0,0,0
+Barbados,0,0,0
+Belarus,0,0,0
+Belgium,0.085611,0,0
+Belize,0,0,0
+Benin,0,0,0
+Bhutan,0,0,0
+Bolivia,0,0,0
+Bosnia and Herzegovina,0.052753,0,0
+Brazil,0.12114,0,12.734
+Brunei,0.014757,0,0
+Bulgaria,0.046805,0,0
+Burkina Faso,0.060905,0,0
+Burma,0,0,0
+Cabo Verde,0,0,0
+Cambodia,0,0,0
+Cameroon,0,0,0
+Canada,0.10462,0,18.378
+Central African Republic,0,0,0
+Chad,0,0,0
+Chile,0.092632,0,0
+China,0.11314,0.0037958,18.785
+Colombia,0.087291,0,0
+Congo (Brazzaville),0,0,0
+Congo (Kinshasa),0,0,0
+Costa Rica,0.05745,0,0
+Cote d'Ivoire,0,0,0
+Croatia,0.087887,0,0
+Cuba,0,0,0
+Cyprus,0.038115,0,0
+Czechia,0.0826,0,18.287
+Denmark,0.043162,0,17.833
+Diamond Princess,0.064198,0.0026152,6.4913
+Djibouti,0,0,0
+Dominica,0,0,0
+Dominican Republic,0.10647,0,0
+Ecuador,0.11189,0,0
+Egypt,0.051975,0,0
+El Salvador,0,0,0
+Equatorial Guinea,0,0,0
+Eritrea,0,0,0
+Estonia,0.043863,0,0
+Eswatini,0,0,0
+Ethiopia,0,0,0
+Fiji,0,0,0
+Finland,0.055646,0,16.612
+France,0.090587,0,29.146
+Gabon,0,0,0
+Gambia,0,0,0
+Georgia,0,0,0
+Germany,0.10261,0,27.309
+Ghana,0,0,0
+Greece,0.046002,0,18.87
+Grenada,0,0,0
+Guatemala,0,0,0
+Guinea,0,0,0
+Guinea-Bissau,0,0,0
+Guyana,0,0,0
+Haiti,0,0,0
+Holy See,0,0,0
+Honduras,0,0,0
+Hungary,0.072863,0,0
+Iceland,0.06848,0,13.544
+India,0.076783,0,0
+Indonesia,0.07766,0,0
+Iran,0.07482,0,27.324
+Iraq,0.046699,0,0
+Ireland,0.098047,0,0
+Israel,0.10116,0,15.726
+Italy,0.088785,0.032216,29.607
+Jamaica,0,0,0
+Japan,0.031204,0,40.664
+Jordan,0.060661,0,0
+Kazakhstan,0,0,0
+Kenya,0,0,0
+"Korea, South",0.13725,0.0081686,12.358
+Kosovo,0,0,0
+Kuwait,0.024331,0,0
+Kyrgyzstan,0,0,0
+Laos,0,0,0
+Latvia,0.056583,0,0
+Lebanon,0.050511,0,0
+Liberia,0,0,0
+Libya,0,0,0
+Liechtenstein,0,0,0
+Lithuania,0.074217,0,0
+Luxembourg,0.096885,0,0
+MS Zaandam,0,0,0
+Madagascar,0,0,0
+Malaysia,0.091699,0.038477,14.78
+Maldives,0,0,0
+Mali,0,0,0
+Malta,0.029726,0,0
+Mauritania,0,0,0
+Mauritius,0,0,0
+Mexico,0.081535,0,0
+Moldova,0.066044,0,0
+Monaco,0,0,0
+Mongolia,0,0,0
+Montenegro,0,0,0
+Morocco,0.093016,0,0
+Mozambique,0,0,0
+Namibia,0,0,0
+Nepal,0,0,0
+Netherlands,0.083392,0,24.88
+New Zealand,0.11831,0,0
+Nicaragua,0,0,0
+Niger,0,0,0
+Nigeria,0,0,0
+North Macedonia,0.053954,0,0
+Norway,0.076391,0,19.665
+Oman,0,0,0
+Pakistan,0.078289,0,0
+Panama,0.092401,0,0
+Papua New Guinea,0,0,0
+Paraguay,0,0,0
+Peru,0.065814,0,0
+Philippines,0.068752,0,0
+Poland,0.08598,0,0
+Portugal,0.10877,0,17.399
+Qatar,0,0.017209,1.991
+Romania,0.080517,0,0
+Russia,0.091897,0,0
+Rwanda,0,0,0
+Saint Kitts and Nevis,0,0,0
+Saint Lucia,0,0,0
+Saint Vincent and the Grenadines,0,0,0
+San Marino,0.029773,0,0
+Saudi Arabia,0.085555,0,0
+Senegal,0,0,0
+Serbia,0.081923,0,0
+Seychelles,0,0,0
+Singapore,0.033647,0,0
+Slovakia,0.040391,0,0
+Slovenia,0.041149,0,24.527
+Somalia,0,0,0
+South Africa,0.10773,0,0
+Spain,0.11078,0,27.402
+Sri Lanka,0.010566,0,0
+Sudan,0,0,0
+Suriname,0,0,0
+Sweden,0.06313,0,22.915
+Switzerland,0.10136,0,19.159
+Syria,0,0,0
+Taiwan*,0.044812,0,0
+Tanzania,0,0,0
+Thailand,0.08427,0,0
+Timor-Leste,0,0,0
+Togo,0,0,0
+Trinidad and Tobago,0,0,0
+Tunisia,0.089226,0,0
+Turkey,0.16556,0,0
+US,0.12477,0,26.09
+Uganda,0,0,0
+Ukraine,0,0,0
+United Arab Emirates,0.06314,0,0
+United Kingdom,0.094494,0,31.791
+Uruguay,0.048951,0,0
+Uzbekistan,0,0,0
+Venezuela,0,0,0
+Vietnam,0.030877,0,0
+West Bank and Gaza,0,0,0
+Zambia,0,0,0
+Zimbabwe,0,0,0

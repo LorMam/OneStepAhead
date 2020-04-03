@@ -11,12 +11,13 @@ from dataManagement import sourcePaths
 from dataManagement import compactDataPath
 from dataManagement import ProsperityDataPath
 from dataManagement import HopkinsData
-from dataManagement import toBeNormalized
 from dataManagement import joinToFinalTable
 from dataManagement import finalFilePath
 
 
 def main():
+    #register all paths to use in datamanagement.py!!!
+
     # "none" in toPath returns DataFrame
     # getDatafromProsperityDataset(ProsperityDataPath, "none")
     # getDataFromJohnshopkinsGithub("none")
@@ -84,7 +85,7 @@ def joinData(fromFiles, fromCountries, toPath):
 # outfile has countries, start Date and case numbers relative from start date
 def getDataFromJohnshopkinsGithub(toPath):
     Threshold = 100  # from which date on should be counted
-    path = 'JohnsHopkins2020-03-29NotUsed.csv'  # if offline use this
+    path = 'PipelineIntermediates/JohnsHopkins2020-03-29NotUsed.csv'  # if offline use this
     try:
         url = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv'
         data = pd.read_csv(url, error_bad_lines=False)
@@ -134,7 +135,7 @@ def getDatafromProsperityDataset(fromPath, toPath):
     if (toPath == "none"):
         return outData
     else:
-        outData.to_csv("ProspData.csv")
+        outData.to_csv(toPath)
 
 
 
