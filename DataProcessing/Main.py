@@ -7,24 +7,6 @@ from dataProcessing import WriteGrowthRates
 
 def main():
 
-    HopkinsData = getDataFromJohnshopkinsGithub("none")
-    ProsperityData = getDatafromProsperityDataset(ProsperityDataPath,"none")
-
-    GrowthRates = WriteGrowthRates(HopkinsData, "none")
-
-    HDR_Data = exctractRelevantData(includedCountries, sourcePaths, "none")
-
-    #calculate growth rate function
-
-   #joinData()
-
-
-    #perform modeling
-
-if __name__ == '__main__':
-    main()
-
-
     # list of countries to be included in prediction model
     # Country Names as in UN Data
     closerLookat = ["China", "Japan", "United Kingdom", "United States", "Italy", "Germany", "Algeria", "Egypt",
@@ -104,4 +86,25 @@ if __name__ == '__main__':
     # Final Merged clean File
     finalFilePath = 'PipelineIntermediates/finalCleanData.csv'
     googleDataFolder = 'PipelineIntermediates/googleTrends/'
+
+    HopkinsData = getDataFromJohnshopkinsGithub("none")
+    ProsperityData = getDatafromProsperityDataset(ProsperityDataPath,"none")
+
+    GrowthRates = WriteGrowthRates(HopkinsData, "none")
+
+    HDR_Data = exctractRelevantData(includedCountries, sourcePaths, "none")
+
+    #calculate growth rate function
+
+   #joinData()
+
+
+    #perform modeling
+
+
+
+
+
+if __name__ == '__main__':
+    main()
 

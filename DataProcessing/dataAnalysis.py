@@ -2,10 +2,10 @@ import csv
 import os,sys
 
 import numpy as np
+import pandas as pd
 from datetime import date
 from scipy.interpolate import interp1d
 from scipy.optimize import curve_fit
-from dataProcessing import inData
 
 from sklearn.linear_model import LinearRegression
 
@@ -48,7 +48,7 @@ def ObtainGrowthRate(inputfile,country,daterange=False,interventiondate="2000-01
     daystart=0
     dayend=100
     #Read in data file 
-    df = inData(inputfile)
+    df = pd.read_csv(inputfile)
     
     date100 = df[country][df["Days since 100"] == daystart]
     
@@ -151,7 +151,7 @@ def ObtainGrowthRate(inputfile,country,daterange=False,interventiondate="2000-01
 #country_file = days since 100 cases , total number of cases, csv format
 def intervention_analysis(datefile,country_file):
 
-    df = inData(datefile)
+    df = pd.read_csv(datefile)
     
     gr_ratios = np.zeros(df.shape)
     num_ratios = np.zeros(df.shape[1])
