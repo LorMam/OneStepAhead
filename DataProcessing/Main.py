@@ -1,17 +1,34 @@
+from dataProcessing import getDataFromJohnshopkinsGithub
+from dataProcessing import joinData
+from dataProcessing import exctractRelevantData
+from dataProcessing import getDatafromProsperityDataset
+from dataProcessing import WriteGrowthRates
+
+
+def main():
+
+    HopkinsData = getDataFromJohnshopkinsGithub("none")
+    ProsperityData = getDatafromProsperityDataset(ProsperityDataPath,"none")
+
+    GrowthRates = WriteGrowthRates(HopkinsData, "none")
+
+    HDR_Data = exctractRelevantData(includedCountries, sourcePaths, "none")
+
+    #calculate growth rate function
+
+   #joinData()
+
+
+    #perform modeling
 
 if __name__ == '__main__':
     main()
 
-    from dataProcessing import getDataFromJohnshopkinsGithub
-    from dataProcessing import joinData
-    from dataProcessing import exctractRelevantData
-    from dataProcessing import getDatafromProsperityDataset
-    from dataProcessing import WriteGrowthRates
 
     # list of countries to be included in prediction model
     # Country Names as in UN Data
     closerLookat = ["China", "Japan", "United Kingdom", "United States", "Italy", "Germany", "Algeria", "Egypt",
-                    "Burkina Faso", "South Africa", "Brazil", "Chile", "Australia"]
+                    "South Africa", "Brazil", "Chile", "Australia"]
     # kicked out becasue their names do problems... "Iran (Islamic Republic of)", "Korea (Republic of)",
     allCountries = ["Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina",
                     "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados",
@@ -88,18 +105,3 @@ if __name__ == '__main__':
     finalFilePath = 'PipelineIntermediates/finalCleanData.csv'
     googleDataFolder = 'PipelineIntermediates/googleTrends/'
 
-def main():
-
-    HopkinsData = getDataFromJohnshopkinsGithub("none")
-    ProsperityData = getDatafromProsperityDataset(ProsperityDataPath,"none")
-
-    GrowthRates = WriteGrowthRates(HopkinsData, "none")
-
-    HDR_Data = exctractRelevantData(includedCountries, sourcePaths, "none")
-
-    #calculate growth rate function
-
-   #joinData()
-
-
-    #perform modeling

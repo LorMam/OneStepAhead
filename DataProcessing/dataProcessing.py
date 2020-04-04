@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from datetime import date
 import dateutil.parser
+from dataAnalysis import ObtainGrowthRate
 
 # list of countries, list of Paths -> 2DArray of Countries and their data
 def exctractRelevantData(countries, fromFiles, toPath):  # may have been easier with using pandas
@@ -128,17 +129,39 @@ def getDatafromProsperityDataset(FromData, toPath):
 def WriteGrowthRates(FromData, toPath):
     data = inData(FromData)
 
-
-
-    #TODO @ Alison put your function here
-
-
-
     if (toPath == "none"):
         return data
-    else:
-        data.to_csv(toPath)
 
+    #TODO @ Alison put your function here
+    gr1 = []
+    gr2 = []
+    dc = []
+    
+    outname = toPath
+    with open(outname,mode='w') as toPath:
+        csv_writer = csv.DictWriter(toPath,fieldnames=["Country","GrowthRate1","GrowthRate2","DayOfChange"])
+        csv_writer.writeheader()
+
+        cid = 1
+        while cid < len(data.columns):
+            growthrate = ObtainGrowthRate(country_file,data.columns[cid])
+
+            csv_writer.writerow({"Country":data.columns[cid],"GrowthRate1":format(growthrate[0],'.5g'),
+                                "GrowthRate2":format(growthrate[1],'.5g'),"DayOfChange":format(growthrate[2],'.5g')})
+            gr1.append(growthrate[0])
+            gr2.append(growthrate[1])
+            dc.append(growthrate[2])
+            
+            cid += 1
+            
+    #else:
+    #data.to_csv(toPath)
+
+    #Also return growth rate information
+    growthrateinfo = data.columns,gr1,gr2,dc
+    
+    return growthrateinfo
+    
 
 def outToCsv(path, data):
     import csv
