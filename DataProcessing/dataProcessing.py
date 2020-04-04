@@ -144,7 +144,7 @@ def WriteGrowthRates(FromData, toPath):
 
         cid = 1
         while cid < len(data.columns):
-            growthrate = ObtainGrowthRate(country_file,data.columns[cid])
+            growthrate = ObtainGrowthRate(FromData,data.columns[cid])
 
             csv_writer.writerow({"Country":data.columns[cid],"GrowthRate1":format(growthrate[0],'.5g'),
                                 "GrowthRate2":format(growthrate[1],'.5g'),"DayOfChange":format(growthrate[2],'.5g')})

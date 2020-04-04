@@ -61,6 +61,7 @@ class predictionModel():
 
         df_hd = inData(inputdata)
 
+        #Determine the selected variables to construct the model
         selvars = []
         colid = 0
         for pname in df_hd.columns:
@@ -74,8 +75,9 @@ class predictionModel():
         model = LinearRegression().fit(x, y)
 
         r_sq = model.score(x, y)
+        self.score = r_sq
 
-        coeffs = model.coef_
+        self.coeff = model.coef_
 
         self.model = model
 
@@ -90,20 +92,21 @@ def main():
     coef = [-2.36494606e-03,  2.15270501e-03,  2.80678716e-01,  3.49335911e-05, -1.39790582e+00, -5.83476662e-01,  1.63075352e-03]
     score = [0.8777857786441605]
 
+    #Need to read this in generically / match generically
     PredictionDataset = pd.DataFrame({ "Indices": ["Prosperity Index Health Score", "Population using at least basic drinking-water services (%)", "Human development index (HDI)", "Population. total (millions)",
              "Population. under age 5 (%)", "Population. ages 65 and older (%)",  "yearly anual Temperature"],
                                        "Values": [3, 0.3, 6, 6, 0.1, 0.2, 20]})
 
     dataallpath = "OneStepAhead/DataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv"
-    x = predictionModel(c, p, coef, score)
+    x = predictionModel(c, p)# coef, score)
     x.createRegressionModel(dataallpath,p)
-    x.toCsv("savedModels/bestModel.csv")
-    x.fromCsv("savedModels/bestModel.csv")
+    x.toCsv("savedModels/testModel.csv")
+    x.fromCsv("savedModels/testModel.csv")
 
     x.runModelGR1(PredictionDataset)
 
-    x.predictGrowthRate(PredictionDataset)
-    
+    gr = x.predictGrowthRate(PredictionDataset)
+    print("Predicted growth rate for",PredictionDataset["Values"],"is",gr)
 #https://medium.com/datadriveninvestor/a-simple-guide-to-creating-predictive-models-in-python-part-2a-aa86ece98f86
 #Tensor Flow guide
 #https://medium.com/datadriveninvestor/a-simple-guide-to-creating-predictive-models-in-python-part-2b-7be3afb5c557

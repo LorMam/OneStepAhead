@@ -3,7 +3,8 @@ from dataProcessing import joinData
 from dataProcessing import exctractRelevantData
 from dataProcessing import getDatafromProsperityDataset
 from dataProcessing import WriteGrowthRates
-
+import predictionModel
+from IPython import embed
 
 def main():
 
@@ -87,22 +88,23 @@ def main():
     finalFilePath = 'PipelineIntermediates/finalCleanData.csv'
     googleDataFolder = 'PipelineIntermediates/googleTrends/'
 
+    
     HopkinsData = getDataFromJohnshopkinsGithub("none")
     ProsperityData = getDatafromProsperityDataset(ProsperityDataPath,"none")
-
-    GrowthRates = WriteGrowthRates(HopkinsData, "none")
 
     HDR_Data = exctractRelevantData(includedCountries, sourcePaths, "none")
 
     #calculate growth rate function
+    GrowthRateData = 'PipelineIntermediates/GrowthRates.csv'
+    GrowthRates = WriteGrowthRates(HopkinsData, GrowthRateData)
 
    #joinData()
 
 
     #perform modeling
+    tst = predictionModel()
 
-
-
+    embed()
 
 
 if __name__ == '__main__':
