@@ -1,21 +1,30 @@
 import pandas as pd
-from dataProcessing import outToCsv
-
+import numpy as np
+from dataProcessing import inData
+from sklearn.linear_model import LinearRegression
+import csv
 
 class predictionModel():
-    def __init__(self, countriesInModel, parametersInModel, coefficients, score):
+    def __init__(self, countriesInModel, parametersInModel):#, coefficients, score):
         self.countries = countriesInModel
         self.parameters = parametersInModel
-        self.coef = coefficients
-        self.score = score
+        #self.coef = coefficients
+        #self.score = score
 
     def toCsv(self, path):
         out = []
         out.append(self.countries)
         out.append(self.parameters)
         out.append(self.coef)
-        out.append(self.score)
-        outToCsv(path, out)
+        #out.append(self.score)
+        print("Model R^2",self.score)
+
+        outdf = pd.DataFrame(out, columns = ['Countries', 'Parameters', 'Coefficients']) 
+        outdf.to_csv(path)
+        #with open(path, 'w', newline='') as file:	
+        #    writer = csv.writer(file)	
+        #    writer.writerows(out)
+            
 
     def fromCsv(self, path):
         for index, line in enumerate(open(path)):
@@ -51,7 +60,7 @@ class predictionModel():
 
     def predictGrowthRate(self,dataset):
         #Return predicted initial growth rates given values from UN dataset
-        return self.model.predict(dataset["Values"])
+        return self.model.predict(dataset)
         
     #Create the Regression Model
     #Input:
@@ -65,10 +74,12 @@ class predictionModel():
         selvars = []
         colid = 0
         for pname in df_hd.columns:
-            if pname in p:
+            if pname in pvar:
+                print(pname)
                 selvars.append(colid)
             colid += 1
-
+            
+        print("Number of selection variables =",len(selvars))
         x = df_hd.iloc[ : , selvars]
         y = df_hd["GrowthRate1"]
 
@@ -77,8 +88,9 @@ class predictionModel():
         r_sq = model.score(x, y)
         self.score = r_sq
 
-        self.coeff = model.coef_
-
+        self.coef = model.coef_
+        print("Number of coefficients =",len(self.coef))
+        
         self.model = model
 
         return
@@ -87,7 +99,7 @@ class predictionModel():
     
 def main():
     c = ["China", "Japan",  "United Kingdom", "United States", "Italy", "Germany", "Algeria", "Egypt", "South Africa", "Brazil", "Chile", "Australia"]
-    p = ["Prosperity Index Health Score", "Population using at least basic drinking-water services (%)", "Human development index (HDI)", "Population. total (millions)"
+    p = ["Prosperity Index Health Score", "Population using at least basic drinking-water services (%)", "Human development index (HDI)", "Population. total (millions)",
              "Population. under age 5 (%)", "Population. ages 65 and older (%)", "yearly anual Temperature"]
     coef = [-2.36494606e-03,  2.15270501e-03,  2.80678716e-01,  3.49335911e-05, -1.39790582e+00, -5.83476662e-01,  1.63075352e-03]
     score = [0.8777857786441605]
@@ -96,16 +108,20 @@ def main():
     PredictionDataset = pd.DataFrame({ "Indices": ["Prosperity Index Health Score", "Population using at least basic drinking-water services (%)", "Human development index (HDI)", "Population. total (millions)",
              "Population. under age 5 (%)", "Population. ages 65 and older (%)",  "yearly anual Temperature"],
                                        "Values": [3, 0.3, 6, 6, 0.1, 0.2, 20]})
-
-    dataallpath = "OneStepAhead/DataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv"
+    
+    dataallpath = "PipelineIntermediates/finalCleanDataCopyPasteBasic.csv"
     x = predictionModel(c, p)# coef, score)
     x.createRegressionModel(dataallpath,p)
-    x.toCsv("savedModels/testModel.csv")
-    x.fromCsv("savedModels/testModel.csv")
+    #Need to fix formatting here...
+    #x.toCsv("savedModels/testModel.csv")
+    #x.fromCsv("savedModels/testModel.csv")
 
     x.runModelGR1(PredictionDataset)
 
-    gr = x.predictGrowthRate(PredictionDataset)
+    #Need to read in data we want to test for different countries
+    testvals = np.array([[3, 0.3, 6, 6, 0.1, 0.2, 20]])
+    gr = x.predictGrowthRate(testvals)
+    
     print("Predicted growth rate for",PredictionDataset["Values"],"is",gr)
 #https://medium.com/datadriveninvestor/a-simple-guide-to-creating-predictive-models-in-python-part-2a-aa86ece98f86
 #Tensor Flow guide

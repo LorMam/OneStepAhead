@@ -3,11 +3,10 @@ import os,sys
 
 import numpy as np
 import pandas as pd
-from datetime import date
+from datetime import date, timedelta
 from scipy.interpolate import interp1d
 from scipy.optimize import curve_fit
 
-from sklearn.linear_model import LinearRegression
 
 #Fitting functions
 
@@ -26,11 +25,19 @@ def chisquare(data,expct):
 
 #Function to find the number of days between two dates
 def days_diff(date1,date2):
-    
-    d1info = date1.split("-")
-    d2info = date2.split("-")
-    d1 = date(int(d1info[0]), int(d1info[1]), int(d1info[2]))
-    d2 = date(int(d2info[0]),int(d2info[1]),int(d2info[2]))
+
+    if not isinstance(date1,date): 
+        d1info = date1.split("-")
+        d1 = date(int(d1info[0]), int(d1info[1]), int(d1info[2]))
+    else:
+        d1 = date1
+        
+    if not isinstance(date2,date):
+        d2info = date2.split("-")
+        d2 = date(int(d2info[0]),int(d2info[1]),int(d2info[2]))
+    else:
+        d2 = date2
+        
     delta = d2 - d1
     
     return(delta.days)
@@ -51,6 +58,7 @@ def ObtainGrowthRate(inputfile,country,daterange=False,interventiondate="2000-01
     df = inputfile
     
     date100 = df[country][df["Days since 100"] == daystart]
+    #print("Date of 100th case in country",country,"is",date100[0])
     
     #Find intervention date in days after day of case 100
     if not isinstance(date100[0],np.float64):
@@ -70,7 +78,7 @@ def ObtainGrowthRate(inputfile,country,daterange=False,interventiondate="2000-01
     mask = mask & np.logical_not(np.isnan(cases100))
    
     if not sum(mask):
-        print("Insufficient data for",country)
+        #print("Insufficient data for",country)
         return 0., 0., 0.
     
     #Mask to only consider days with data
@@ -83,14 +91,14 @@ def ObtainGrowthRate(inputfile,country,daterange=False,interventiondate="2000-01
     
     #Check for sufficient data points:
     if len(cases100[mask]) < 5:
-        print("Insufficient data for",country)
+        #print("Insufficient data for",country)
         return 0., 0., 0.
     
     #Perform a linear fit to the data
     popt, pcov = curve_fit(linear_fit, days100[mask],np.log10(cases100[mask]))
     chi2 = chisquare(cases100[mask],10.**(days100[mask]*popt[0] + popt[1]))
 
-    inflection_date = 0.
+    inflection_day = 0.
     logchi2 = 0
     #Need minimum number of approx. ten days for a logistic fit
     if len(days100[mask]) > 15.:
@@ -100,19 +108,20 @@ def ObtainGrowthRate(inputfile,country,daterange=False,interventiondate="2000-01
                                  p0=[2.5,1,max(cases100[mask])],maxfev=1200)
             logchi2 = chisquare(cases100[mask],logistic_model(days100[mask],*log_fit))
             
-            inflection_date = log_fit[1]
+            inflection_day = log_fit[1]
         except RuntimeError:
             print("Logistic function fit failed for",country)
             
-            
-    if ((chi2 < logchi2) or (inflection_date > max(days100[mask])) or not inflection_date) and not (inter_date > 5):
+
+    inflection_date = date100[0] + timedelta(days=inflection_day)
+
+    if ((chi2 < logchi2) or (inflection_day > max(days100[mask])) or not inflection_day) and not (inter_date > 5):
         growthrate = popt[0]
         print("linear fit preferred for",country,"growth rate",growthrate)
         return growthrate, 0., inflection_date
 
-    if (logchi2 < chi2) and (inflection_date < max(days100[mask])):
-        print("logistic fit preferred for",country)
-        print("inflection date",inflection_date)
+    if (logchi2 < chi2) and (inflection_day < max(days100[mask])):
+        print("logistic fit preferred for",country,"inflection date",inflection_date)
     
         #Alternatively, calculate pre and post intervention date:
     if inter_date > 5.:
@@ -120,8 +129,8 @@ def ObtainGrowthRate(inputfile,country,daterange=False,interventiondate="2000-01
         mask2 = mask & (days100 > inter_date)
     else:
         #Perform linear fits pre and post inflection date to compare growth rates
-        mask1 = mask & (days100 < inflection_date)
-        mask2 = mask & (days100 > inflection_date)
+        mask1 = mask & (days100 < inflection_day)
+        mask2 = mask & (days100 > inflection_day)
 
 
     growthrate = 0.
@@ -141,6 +150,7 @@ def ObtainGrowthRate(inputfile,country,daterange=False,interventiondate="2000-01
     if inter_date > 5:
         print("intervention date",inter_date)
         return growthrate, growthrate2, inter_date
+
     
     return growthrate, growthrate2, inflection_date
 

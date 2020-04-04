@@ -102,16 +102,21 @@ def main():
 
     #calculate growth rate function
     GrowthRateData = 'PipelineIntermediates/GrowthRates.csv'
+    #embed()
     GrowthRates = WriteGrowthRates(HopkinsData, GrowthRateData)
     #TODO maybe do the print() as log somewhere in .txt
-    #print(GrowthRates) #I don't know how to interpret return
+    #print(GrowthRates) 
+    #Perhaps call some data visulisation / plotting here
+
 
     #joinData()
 
 
     #perform modeling
-    tst = predictionModel()
+    tst = predictionModel.main()
 
+
+    #Intervention analysis
 
     embed()
 
