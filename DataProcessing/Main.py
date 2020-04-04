@@ -1,8 +1,10 @@
 from dataProcessing import getDataFromJohnshopkinsGithub
 from dataProcessing import joinData
-from dataProcessing import exctractRelevantData
+from dataProcessing import getDataFromHDR
 from dataProcessing import getDatafromProsperityDataset
 from dataProcessing import WriteGrowthRates
+
+import pandas as pd
 
 
 def main():
@@ -40,13 +42,8 @@ def main():
                     "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Uganda", "Ukraine",
                     "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu",
                     "Venezuela (Bolivarian Republic of)", "Viet Nam", "Yemen", "Zambia", "Zimbabwe"]
-    includedCountries = closerLookat
     # excluded because data missing: "Korea (Democratic People's Rep. of)", , "Somalia",
 
-    # data just made up!!!!
-    dayOfHundredCases = ['2020-02-25', '2020-02-01', '2020-01-03', '2020-03-06', '2020-02-25', '2020-02-01',
-                         '2020-01-03', '2020-03-06', '2020-02-25', '2020-02-01', '2020-01-03', '2020-03-06',
-                         '2020-02-25']
     sourcePaths = [
         # all datasets from http://hdr.undp.org/en/data#
         'DataResources/HDR/Population, total (millions).csv',
@@ -87,21 +84,25 @@ def main():
     finalFilePath = 'PipelineIntermediates/finalCleanData.csv'
     googleDataFolder = 'PipelineIntermediates/googleTrends/'
 
-    HopkinsData = getDataFromJohnshopkinsGithub("none")
-    ProsperityData = getDatafromProsperityDataset(ProsperityDataPath,"none")
 
-    GrowthRates = WriteGrowthRates(HopkinsData, "none")
 
-    HDR_Data = exctractRelevantData(includedCountries, sourcePaths, "none")
+    opkinsData = getDataFromJohnshopkinsGithub("none")
+    #print(HopkinsData) looks fine
 
-    #calculate growth rate function
+    rosperityData = getDatafromProsperityDataset(ProsperityDataPath,"none")
+    #print(ProsperityData) looks fine
+    
+    rowthRates = WriteGrowthRates(HopkinsData, "none")
+    #TODO maybe do the print() as log somewhere in .txt
+    #print(GrowthRates) #I don't know how to interpret return
+    
+    DR_Data = getDataFromHDR(closerLookat, sourcePaths, "none")
+    #print(HDR_Data) looks fine
 
-   #joinData()
+    #joinData()
 
 
     #perform modeling
-
-
 
 
 

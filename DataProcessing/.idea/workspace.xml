@@ -4,9 +4,8 @@
     <list default="true" id="c7a6120d-ea93-4df8-8d8c-0bb48dddebdb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataManagement.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/dataProcessing.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataProcessing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/googleAPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/googleAPI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/predictionModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/predictionModel.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +35,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
     <property name="last_opened_file_path" value="D:/Daten Lorenz/FinalWebApp" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -49,7 +49,7 @@
       <recent name="D:\Daten Lorenz\DataProcessing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.dataProcessing">
+  <component name="RunManager" selected="Python.Main">
     <configuration name="Envdatarocessing" type="PythonConfigurationType" factoryName="Python">
       <module name="DataProcessing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -64,6 +64,28 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="DataProcessing" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -143,9 +165,11 @@
       <item itemvalue="Python.dataProcessing" />
       <item itemvalue="Python.googleAPI" />
       <item itemvalue="Python.predictionModel" />
+      <item itemvalue="Python.Main" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Main" />
         <item itemvalue="Python.dataProcessing" />
         <item itemvalue="Python.predictionModel" />
         <item itemvalue="Python.googleAPI" />
@@ -173,7 +197,8 @@
       <workItem from="1585768005170" duration="9262000" />
       <workItem from="1585822345179" duration="678000" />
       <workItem from="1585848030047" duration="3991000" />
-      <workItem from="1585911230427" duration="3697000" />
+      <workItem from="1585911230427" duration="3824000" />
+      <workItem from="1585942666555" duration="2985000" />
     </task>
     <task id="LOCAL-00001" summary="test with pycharm">
       <created>1585502985866</created>
@@ -252,7 +277,14 @@
       <option name="project" value="LOCAL" />
       <updated>1585912961845</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="implemented Master File: Main.py&#10;merged dataManagement with Main">
+      <created>1585915041911</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1585915041911</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -270,7 +302,8 @@
     <MESSAGE value="cleaned up data structure&#10;built class for handling models (predictionModel.py)&#10;finished getDataFromProsperityDataset" />
     <MESSAGE value="Refactoring" />
     <MESSAGE value="changed project structure&#10;finished fromcsv in predictionModel.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed project structure&#10;finished fromcsv in predictionModel.py" />
+    <MESSAGE value="implemented Master File: Main.py&#10;merged dataManagement with Main" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented Master File: Main.py&#10;merged dataManagement with Main" />
   </component>
   <component name="WindowStateProjectService">
     <state x="828" y="172" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585435001840">
@@ -281,10 +314,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1585445153317" />
-    <state x="2435" y="101" key="CommitChangelistDialog2" timestamp="1585915020165">
+    <state x="2435" y="101" key="CommitChangelistDialog2" timestamp="1585915040473">
       <screen x="1920" y="0" width="1680" height="1010" />
     </state>
-    <state x="2435" y="101" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585915020165" />
+    <state x="2435" y="101" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585915040473" />
     <state x="573" y="160" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1585559619124" />
     <state x="92" y="92" width="1736" height="856" key="DiffContextDialog" timestamp="1585528383134">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -295,59 +328,59 @@
     </state>
     <state x="2568" y="267" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585848103326" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1585752707730" />
-    <state width="1637" height="299" key="GridCell.Tab.0.bottom" timestamp="1585915020197">
+    <state width="1637" height="335" key="GridCell.Tab.0.bottom" timestamp="1585951644352">
       <screen x="1920" y="0" width="1680" height="1010" />
     </state>
-    <state width="1637" height="299" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585915020197" />
+    <state width="1637" height="335" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585951644352" />
     <state width="1877" height="347" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1585576514671" />
-    <state width="1637" height="299" key="GridCell.Tab.0.center" timestamp="1585915020197">
+    <state width="1637" height="335" key="GridCell.Tab.0.center" timestamp="1585951644352">
       <screen x="1920" y="0" width="1680" height="1010" />
     </state>
-    <state width="1637" height="299" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585915020197" />
+    <state width="1637" height="335" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585951644352" />
     <state width="1877" height="347" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1585576514670" />
-    <state width="1637" height="299" key="GridCell.Tab.0.left" timestamp="1585915020197">
+    <state width="1637" height="335" key="GridCell.Tab.0.left" timestamp="1585951644352">
       <screen x="1920" y="0" width="1680" height="1010" />
     </state>
-    <state width="1637" height="299" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585915020197" />
+    <state width="1637" height="335" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585951644352" />
     <state width="1877" height="347" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1585576514670" />
-    <state width="1637" height="299" key="GridCell.Tab.0.right" timestamp="1585915020197">
+    <state width="1637" height="335" key="GridCell.Tab.0.right" timestamp="1585951644352">
       <screen x="1920" y="0" width="1680" height="1010" />
     </state>
-    <state width="1637" height="299" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585915020197" />
+    <state width="1637" height="335" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585951644352" />
     <state width="1877" height="347" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1585576514670" />
-    <state width="1637" height="335" key="GridCell.Tab.1.bottom" timestamp="1585778463360">
+    <state width="1637" height="335" key="GridCell.Tab.1.bottom" timestamp="1585951644353">
       <screen x="1920" y="0" width="1680" height="1010" />
     </state>
-    <state width="1637" height="335" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585778463360" />
+    <state width="1637" height="335" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585951644353" />
     <state width="1877" height="347" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1585576514671" />
-    <state width="1637" height="335" key="GridCell.Tab.1.center" timestamp="1585778463360">
+    <state width="1637" height="335" key="GridCell.Tab.1.center" timestamp="1585951644352">
       <screen x="1920" y="0" width="1680" height="1010" />
     </state>
-    <state width="1637" height="335" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585778463360" />
+    <state width="1637" height="335" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585951644352" />
     <state width="1877" height="347" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1585576514671" />
-    <state width="1637" height="335" key="GridCell.Tab.1.left" timestamp="1585778463360">
+    <state width="1637" height="335" key="GridCell.Tab.1.left" timestamp="1585951644352">
       <screen x="1920" y="0" width="1680" height="1010" />
     </state>
-    <state width="1637" height="335" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585778463360" />
+    <state width="1637" height="335" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585951644352" />
     <state width="1877" height="347" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1585576514671" />
-    <state width="1637" height="335" key="GridCell.Tab.1.right" timestamp="1585778463360">
+    <state width="1637" height="335" key="GridCell.Tab.1.right" timestamp="1585951644353">
       <screen x="1920" y="0" width="1680" height="1010" />
     </state>
-    <state width="1637" height="335" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585778463360" />
+    <state width="1637" height="335" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585951644353" />
     <state width="1877" height="347" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1585576514671" />
     <state x="461" y="162" key="SettingsEditor" timestamp="1585435401799">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="162" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1585435401799" />
-    <state x="2584" y="296" key="com.intellij.ide.util.TipDialog" timestamp="1585911285919">
+    <state x="2584" y="296" key="com.intellij.ide.util.TipDialog" timestamp="1585942763810">
       <screen x="1920" y="0" width="1680" height="1010" />
     </state>
-    <state x="2584" y="296" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585911285919" />
+    <state x="2584" y="296" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585942763810" />
     <state x="656" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1585747361810" />
-    <state x="2330" y="424" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585914960507">
+    <state x="2330" y="424" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1585942827709">
       <screen x="1920" y="0" width="1680" height="1010" />
     </state>
-    <state x="2330" y="424" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585914960507" />
+    <state x="2330" y="424" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.0.1680.1010@1920.0.1680.1010" timestamp="1585942827709" />
     <state x="469" y="437" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1585574116762" />
     <state x="2393" y="270" width="1216" height="697" key="dock-window-1" timestamp="1585774068707">
       <screen x="1920" y="0" width="1680" height="1010" />
@@ -364,6 +397,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/DataProcessing$Envdatarocessing.coverage" NAME="Envdatarocessing Coverage Results" MODIFIED="1585435424677" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/DataProcessing$Main.coverage" NAME="Main Coverage Results" MODIFIED="1585943923251" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DataProcessing$dataProcessing.coverage" NAME="dataProcessing Coverage Results" MODIFIED="1585914103466" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DataProcessing$googleAPI.coverage" NAME="googleAPI Coverage Results" MODIFIED="1585863908309" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/DataProcessing$predictionModel.coverage" NAME="predictionModel Coverage Results" MODIFIED="1585913996538" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
