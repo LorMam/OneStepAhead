@@ -1,10 +1,16 @@
 from dataProcessing import getDataFromJohnshopkinsGithub
 from dataProcessing import joinData
-from dataProcessing import exctractRelevantData
+from dataProcessing import getDataFromHDR
 from dataProcessing import getDatafromProsperityDataset
 from dataProcessing import WriteGrowthRates
+<<<<<<< HEAD
 import predictionModel
 from IPython import embed
+=======
+
+import pandas as pd
+
+>>>>>>> 603671da3b1bc58ad05c7847760f9ab734a409e7
 
 def main():
 
@@ -41,13 +47,8 @@ def main():
                     "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Uganda", "Ukraine",
                     "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu",
                     "Venezuela (Bolivarian Republic of)", "Viet Nam", "Yemen", "Zambia", "Zimbabwe"]
-    includedCountries = closerLookat
     # excluded because data missing: "Korea (Democratic People's Rep. of)", , "Somalia",
 
-    # data just made up!!!!
-    dayOfHundredCases = ['2020-02-25', '2020-02-01', '2020-01-03', '2020-03-06', '2020-02-25', '2020-02-01',
-                         '2020-01-03', '2020-03-06', '2020-02-25', '2020-02-01', '2020-01-03', '2020-03-06',
-                         '2020-02-25']
     sourcePaths = [
         # all datasets from http://hdr.undp.org/en/data#
         'DataResources/HDR/Population, total (millions).csv',
@@ -88,21 +89,30 @@ def main():
     finalFilePath = 'PipelineIntermediates/finalCleanData.csv'
     googleDataFolder = 'PipelineIntermediates/googleTrends/'
 
-    
-    HopkinsData = getDataFromJohnshopkinsGithub("none")
-    ProsperityData = getDatafromProsperityDataset(ProsperityDataPath,"none")
 
-    HDR_Data = exctractRelevantData(includedCountries, sourcePaths, "none")
+
+    HopkinsData = getDataFromJohnshopkinsGithub("none")
+    #print(HopkinsData) looks fine
+
+    ProsperityData = getDatafromProsperityDataset(ProsperityDataPath,"none")
+    #print(ProsperityData) looks fine
+    
+    
+    HDR_Data = getDataFromHDR(closerLookat, sourcePaths, "none")
+    #print(HDR_Data) looks fine
 
     #calculate growth rate function
     GrowthRateData = 'PipelineIntermediates/GrowthRates.csv'
     GrowthRates = WriteGrowthRates(HopkinsData, GrowthRateData)
+    #TODO maybe do the print() as log somewhere in .txt
+    #print(GrowthRates) #I don't know how to interpret return
 
-   #joinData()
+    #joinData()
 
 
     #perform modeling
     tst = predictionModel()
+
 
     embed()
 

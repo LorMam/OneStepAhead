@@ -8,7 +8,7 @@ import dateutil.parser
 from dataAnalysis import ObtainGrowthRate
 
 # list of countries, list of Paths -> 2DArray of Countries and their data
-def exctractRelevantData(countries, fromFiles, toPath):  # may have been easier with using pandas
+def getDataFromHDR(countries, fromFiles, toPath):  # may have been easier with using pandas
     latestYear = '2018'
     cleanData = np.append('Country', countries)
     normalizer = 0  #TODO normalize given datasets by population
@@ -37,13 +37,14 @@ def exctractRelevantData(countries, fromFiles, toPath):  # may have been easier 
             temp.append(column(dataNew, dataNew[0].index(country))[1])
         cleanData = np.append(cleanData, temp)
 
-    cleanData = cleanData.reshape([len(fromFiles) + 1, len(countries) + 1])
-    cleanData = np.transpose(cleanData)
-
+    cleanData = cleanData.reshape([len(fromFiles) + 1, len(countries) + 1]).transpose()
+    
+    outData = pd.DataFrame(cleanData, index=column(cleanData, 0), columns=cleanData[0])
+    outData = outData.drop("Country",axis=0).drop("Country", axis=1)
     if (toPath == "none"):
-        return cleanData
+        return outData
     else:
-        outToCsv(toPath, cleanData)
+        outData.to_csv(toPath)
 
 #join Data of difference files by column "Country"
 def joinData(fromFiles, fromCountries, toPath):
@@ -129,14 +130,10 @@ def getDatafromProsperityDataset(FromData, toPath):
 def WriteGrowthRates(FromData, toPath):
     data = inData(FromData)
 
-    if (toPath == "none"):
-        return data
-
-    #TODO @ Alison put your function here
     gr1 = []
     gr2 = []
     dc = []
-    
+
     outname = toPath
     with open(outname,mode='w') as toPath:
         csv_writer = csv.DictWriter(toPath,fieldnames=["Country","GrowthRate1","GrowthRate2","DayOfChange"])
@@ -144,7 +141,8 @@ def WriteGrowthRates(FromData, toPath):
 
         cid = 1
         while cid < len(data.columns):
-            growthrate = ObtainGrowthRate(FromData,data.columns[cid])
+
+            growthrate = ObtainGrowthRate(data,data.columns[cid])
 
             csv_writer.writerow({"Country":data.columns[cid],"GrowthRate1":format(growthrate[0],'.5g'),
                                 "GrowthRate2":format(growthrate[1],'.5g'),"DayOfChange":format(growthrate[2],'.5g')})
@@ -153,22 +151,11 @@ def WriteGrowthRates(FromData, toPath):
             dc.append(growthrate[2])
             
             cid += 1
-            
-    #else:
-    #data.to_csv(toPath)
 
     #Also return growth rate information
     growthrateinfo = data.columns,gr1,gr2,dc
     
     return growthrateinfo
     
-
-def outToCsv(path, data):
-    import csv
-    with open(path, 'w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerows(data)
-
-
 def column(matrix, i):
     return [row[i] for row in matrix]

@@ -47,8 +47,8 @@ def ObtainGrowthRate(inputfile,country,daterange=False,interventiondate="2000-01
     #initialise date range
     daystart=0
     dayend=100
-    #Read in data file 
-    df = pd.read_csv(inputfile)
+    #data file already read in 
+    df = inputfile
     
     date100 = df[country][df["Days since 100"] == daystart]
     
@@ -152,6 +152,7 @@ def ObtainGrowthRate(inputfile,country,daterange=False,interventiondate="2000-01
 def intervention_analysis(datefile,country_file):
 
     df = pd.read_csv(datefile)
+    cf = pd.read_csv(country_file)
     
     gr_ratios = np.zeros(df.shape)
     num_ratios = np.zeros(df.shape[1])
@@ -175,7 +176,7 @@ def intervention_analysis(datefile,country_file):
             elif flag:
                 date = column
                 print("Obtaining Growth rate for",country,date)
-                igr = ObtainGrowthRate(country_file,country,True,date)
+                igr = ObtainGrowthRate(cf,country,True,date)
                 print("Intervention Date",date,"growth rate before=",igr[0],"growth rate after = ",igr[1])
                 
                 if igr[0] and igr[1]:
