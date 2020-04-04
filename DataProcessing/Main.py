@@ -3,6 +3,7 @@ from dataProcessing import joinData
 from dataProcessing import getDataFromHDR
 from dataProcessing import getDatafromProsperityDataset
 from dataProcessing import WriteGrowthRates
+from dataProcessing import getTemperatureData
 
 import predictionModel
 from IPython import embed
@@ -83,6 +84,7 @@ def main():
         compactDataPath,
         InterventionDataPath]
     ProsperityDataPath = "DataResources/cleanDataProsperityIndex.CSV"
+    TemperatureDataPath = "DataResources/rawGlobalLandTemperaturesByCountry.csv"
     HopkinsData = 'PipelineIntermediates/CountryCasesFromHopkins.csv'
     # Final Merged clean File
     finalFilePath = 'PipelineIntermediates/finalCleanDataCopyPasteBasic.csv'
@@ -90,22 +92,25 @@ def main():
 
 
 
-    HopkinsData = getDataFromJohnshopkinsGithub("none")
+    #HopkinsData = getDataFromJohnshopkinsGithub("none")
     #print(HopkinsData) looks fine
 
-    ProsperityData = getDatafromProsperityDataset(ProsperityDataPath,"none")
+    #ProsperityData = getDatafromProsperityDataset(ProsperityDataPath,"none")
     #print(ProsperityData) looks fine
     
     
-    HDR_Data = getDataFromHDR(closerLookat, sourcePaths, "none")
+    #HDR_Data = getDataFromHDR(closerLookat, sourcePaths, "none")
     #print(HDR_Data) looks fine
+
+    TemperatureData = getTemperatureData(TemperatureDataPath, "none")
+
 
     #calculate growth rate function
     GrowthRateData = 'PipelineIntermediates/GrowthRates.csv'
 
-    GrowthRates = WriteGrowthRates(HopkinsData, "none")
+    #GrowthRates = WriteGrowthRates(HopkinsData, "none")
     #TODO maybe do the print() as log somewhere in .txt
-    #print(GrowthRates) 
+    #print(GrowthRates)
     #Perhaps call some data visulisation / plotting here
 
 

@@ -3,6 +3,7 @@ import os
 
 import numpy as np
 import pandas as pd
+import datetime
 from datetime import date
 import dateutil.parser
 from dataAnalysis import ObtainGrowthRate
@@ -42,10 +43,8 @@ def getDataFromHDR(countries, fromFiles, toPath):  # may have been easier with u
     
     outData = pd.DataFrame(cleanData, index=column(cleanData, 0), columns=cleanData[0])
     outData = outData.drop("Country",axis=0).drop("Country", axis=1)
-    if (toPath == "none"):
-        return outData
-    else:
-        outData.to_csv(toPath)
+
+    return dataOut(toPath, outData)
 
 #join Data of difference files by column "Country"
 def joinData(fromFiles, fromCountries, toPath):
@@ -58,10 +57,7 @@ def joinData(fromFiles, fromCountries, toPath):
         toJoin = pd.read_csv(p)
         data = data.join(toJoin.set_index('Country'))
 
-    if (toPath == "none"):
-        return data
-    else:
-        data.to_csv(toPath)
+    return dataOut(toPath, data)
 
 
 # convert Data from all countries
@@ -95,10 +91,15 @@ def getDataFromJohnshopkinsGithub(toPath):
         temp = pd.DataFrame({index: temp})
         outData = outData.join(temp)
 
+    return dataOut(toPath, outData)
+
+
+
+def dataOut(toPath, outData):
     if (toPath == "none"):
         return outData
     else:
-        outData.to_csv(toPath, index=False)
+        outData.to_csv(toPath)
 
 def inData(PathOrDF):
     if (isinstance(PathOrDF, str)):
@@ -122,10 +123,27 @@ def getDatafromProsperityDataset(FromData, toPath):
         #print(outData)
         outData = outData.join(out.set_index("area_name"))
 
-    if (toPath == "none"):
-        return outData
-    else:
-        outData.to_csv(toPath)
+    return dataOut(toPath, outData)
+
+#dt, AverageTemperature, AverageTemperatureUncertainty, Country -> Yearly, Monthly avg temperature per country
+def getTemperatureData(FromData, toPath):
+    data = inData(FromData)
+    data = data.drop(columns='AverageTemperatureUncertainty')
+
+    startdate = datetime.datetime.strptime('1990-01-01', '%Y-%m-%d')
+    datemask = data['dt'].apply(lambda d: datetime.datetime.strptime(d, '%Y-%m-%d')) > startdate##datetime.datetime > date('1990-01-01')
+    data=data[datemask]
+
+    dates = data['dt'].apply(lambda d: str.split(d, "-"))
+
+    data['year'] = column(dates,0)
+    data['month'] = column(dates, 1)
+
+    yearlyAvg = data.groupby(['Country']).mean()
+    monthlyAvg = data.groupby(['Country', 'month']).mean()
+    #print(monthlyAvg)
+    outData=yearlyAvg #for now, months have to be added
+    return dataOut(toPath, outData)
 
 #takes [path or Dataframe] and [path or "none"], returns data or writes to File
 def WriteGrowthRates(FromData, toPath):
@@ -149,11 +167,8 @@ def WriteGrowthRates(FromData, toPath):
     #Also return growth rate information
 
     outData = pd.DataFrame({"Country":data.columns[1:],"GrowthRate1":gr1,"GrowthRate2":gr2,"DayOfChange":dc})
-    
-    if (toPath == "none"):
-        return outData
-    else:
-        outData.to_csv(toPath)
+
+    return dataOut(toPath, outData)
 
         
 def column(matrix, i):
