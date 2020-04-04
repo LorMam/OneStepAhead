@@ -3,14 +3,13 @@ from dataProcessing import joinData
 from dataProcessing import getDataFromHDR
 from dataProcessing import getDatafromProsperityDataset
 from dataProcessing import WriteGrowthRates
-<<<<<<< HEAD
+
 import predictionModel
 from IPython import embed
-=======
+
 
 import pandas as pd
 
->>>>>>> 603671da3b1bc58ad05c7847760f9ab734a409e7
 
 def main():
 
