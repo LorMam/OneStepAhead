@@ -7,6 +7,7 @@ from datetime import date
 import dateutil.parser
 from dataAnalysis import ObtainGrowthRate
 
+
 # list of countries, list of Paths -> 2DArray of Countries and their data
 def getDataFromHDR(countries, fromFiles, toPath):  # may have been easier with using pandas
     latestYear = '2018'
@@ -134,28 +135,26 @@ def WriteGrowthRates(FromData, toPath):
     gr2 = []
     dc = []
 
-    outname = toPath
-    with open(outname,mode='w') as toPath:
-        csv_writer = csv.DictWriter(toPath,fieldnames=["Country","GrowthRate1","GrowthRate2","DayOfChange"])
-        csv_writer.writeheader()
-
-        cid = 1
-        while cid < len(data.columns):
-
-            growthrate = ObtainGrowthRate(data,data.columns[cid])
-
-            csv_writer.writerow({"Country":data.columns[cid],"GrowthRate1":format(growthrate[0],'.5g'),
-                                "GrowthRate2":format(growthrate[1],'.5g'),"DayOfChange":format(growthrate[2],'.5g')})
-            gr1.append(growthrate[0])
-            gr2.append(growthrate[1])
-            dc.append(growthrate[2])
+    cid = 1
+    while cid < len(data.columns):
+        
+        growthrate = ObtainGrowthRate(data,data.columns[cid])
+        
+        gr1.append(growthrate[0])
+        gr2.append(growthrate[1])
+        dc.append(growthrate[2])
             
-            cid += 1
-
+        cid += 1
+    
     #Also return growth rate information
-    growthrateinfo = data.columns,gr1,gr2,dc
+
+    outData = pd.DataFrame({"Country":data.columns[1:],"GrowthRate1":gr1,"GrowthRate2":gr2,"DayOfChange":dc})
     
-    return growthrateinfo
-    
+    if (toPath == "none"):
+        return outData
+    else:
+        outData.to_csv(toPath)
+
+        
 def column(matrix, i):
     return [row[i] for row in matrix]

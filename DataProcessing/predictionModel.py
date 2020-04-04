@@ -5,11 +5,9 @@ from sklearn.linear_model import LinearRegression
 import csv
 
 class predictionModel():
-    def __init__(self, countriesInModel, parametersInModel):#, coefficients, score):
+    def __init__(self, countriesInModel, parametersInModel):#
         self.countries = countriesInModel
         self.parameters = parametersInModel
-        #self.coef = coefficients
-        #self.score = score
 
     def toCsv(self, path):
         out = []
@@ -42,7 +40,7 @@ class predictionModel():
     
     #TODO @ Lorenz - don't understand what these functions are meant to do?
     #dataset is a dataframe with columns ["Indices", "Values"]
-    def runModelGR1(self, dataset):
+    def predictGrowthRate(self, dataset):
         #check if parameters of dataset are the same order as model
         #calculate growth Rate 1
         out = 0
@@ -58,9 +56,6 @@ class predictionModel():
         return 'dummy'
 
 
-    def predictGrowthRate(self,dataset):
-        #Return predicted initial growth rates given values from UN dataset
-        return self.model.predict(dataset)
         
     #Create the Regression Model
     #Input:
@@ -91,13 +86,12 @@ class predictionModel():
         self.coef = model.coef_
         print("Number of coefficients =",len(self.coef))
         
-        self.model = model
 
         return
         
         
     
-def main():
+def main(fromData):
     c = ["China", "Japan",  "United Kingdom", "United States", "Italy", "Germany", "Algeria", "Egypt", "South Africa", "Brazil", "Chile", "Australia"]
     p = ["Prosperity Index Health Score", "Population using at least basic drinking-water services (%)", "Human development index (HDI)", "Population. total (millions)",
              "Population. under age 5 (%)", "Population. ages 65 and older (%)", "yearly anual Temperature"]
@@ -105,24 +99,22 @@ def main():
     score = [0.8777857786441605]
 
     #Need to read this in generically / match generically
+    #Need to read in data we want to test for different countries
     PredictionDataset = pd.DataFrame({ "Indices": ["Prosperity Index Health Score", "Population using at least basic drinking-water services (%)", "Human development index (HDI)", "Population. total (millions)",
              "Population. under age 5 (%)", "Population. ages 65 and older (%)",  "yearly anual Temperature"],
                                        "Values": [3, 0.3, 6, 6, 0.1, 0.2, 20]})
     
     dataallpath = "PipelineIntermediates/finalCleanDataCopyPasteBasic.csv"
-    x = predictionModel(c, p)# coef, score)
+    x = predictionModel(c, p)#
     x.createRegressionModel(dataallpath,p)
     #Need to fix formatting here...
-    #x.toCsv("savedModels/testModel.csv")
-    #x.fromCsv("savedModels/testModel.csv")
+    x.toCsv("savedModels/testModel.csv")
+    x.fromCsv("savedModels/testModel.csv")
 
-    x.runModelGR1(PredictionDataset)
-
-    #Need to read in data we want to test for different countries
-    testvals = np.array([[3, 0.3, 6, 6, 0.1, 0.2, 20]])
-    gr = x.predictGrowthRate(testvals)
-    
-    print("Predicted growth rate for",PredictionDataset["Values"],"is",gr)
+    gr = x.predictGrowthRate(PredictionDataset)
+   
+   
+    #print("Predicted growth rate for",PredictionDataset["Values"],"is",gr)
 #https://medium.com/datadriveninvestor/a-simple-guide-to-creating-predictive-models-in-python-part-2a-aa86ece98f86
 #Tensor Flow guide
 #https://medium.com/datadriveninvestor/a-simple-guide-to-creating-predictive-models-in-python-part-2b-7be3afb5c557

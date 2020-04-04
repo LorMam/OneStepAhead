@@ -85,7 +85,7 @@ def main():
     ProsperityDataPath = "DataResources/cleanDataProsperityIndex.CSV"
     HopkinsData = 'PipelineIntermediates/CountryCasesFromHopkins.csv'
     # Final Merged clean File
-    finalFilePath = 'PipelineIntermediates/finalCleanData.csv'
+    finalFilePath = 'PipelineIntermediates/finalCleanDataCopyPasteBasic.csv'
     googleDataFolder = 'PipelineIntermediates/googleTrends/'
 
 
@@ -102,8 +102,8 @@ def main():
 
     #calculate growth rate function
     GrowthRateData = 'PipelineIntermediates/GrowthRates.csv'
-    #embed()
-    GrowthRates = WriteGrowthRates(HopkinsData, GrowthRateData)
+
+    GrowthRates = WriteGrowthRates(HopkinsData, "none")
     #TODO maybe do the print() as log somewhere in .txt
     #print(GrowthRates) 
     #Perhaps call some data visulisation / plotting here
@@ -113,12 +113,12 @@ def main():
 
 
     #perform modeling
-    tst = predictionModel.main()
+    #tst = predictionModel.main(finalFilePath)
 
 
-    #Intervention analysis
+    #Intervention - to second chain
 
-    embed()
+    #embed()
 
 
 if __name__ == '__main__':

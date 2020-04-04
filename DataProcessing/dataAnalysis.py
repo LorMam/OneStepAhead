@@ -8,8 +8,15 @@ from scipy.interpolate import interp1d
 from scipy.optimize import curve_fit
 
 
-#Fitting functions
+def inData(PathOrDF):
+    if (isinstance(PathOrDF, str)):
+        data = pd.read_csv(PathOrDF)
+    else:
+        data = PathOrDF
+    return data
 
+
+#Fitting functions
 def logistic_model(x,a,b,c):
     return c/(1+np.exp(-(x-b)/a))
 
@@ -23,25 +30,37 @@ def linear_fit(x,m,c):
 def chisquare(data,expct):
     return sum((data-expct)**2 / expct)
 
+#check day is in date format, or convert to date from string
+def get_date(day):
+    if not isinstance(day,date): 
+        dinfo = day.split("-")
+        ddate = date(int(dinfo[0]), int(dinfo[1]), int(dinfo[2]))
+    else:
+        ddate = day
+    
+    return ddate    
+
 #Function to find the number of days between two dates
 def days_diff(date1,date2):
 
-    if not isinstance(date1,date): 
-        d1info = date1.split("-")
-        d1 = date(int(d1info[0]), int(d1info[1]), int(d1info[2]))
-    else:
-        d1 = date1
-        
-    if not isinstance(date2,date):
-        d2info = date2.split("-")
-        d2 = date(int(d2info[0]),int(d2info[1]),int(d2info[2]))
-    else:
-        d2 = date2
+    d1 = get_date(date1)
+    d2 = get_date(date2)
         
     delta = d2 - d1
     
     return(delta.days)
 
+#Function to perform linear fit to obtain growth rate
+def fitlineargrowth(fitdays,fitcases,fitmask):
+    gr = 0.
+    chi2 = 0.
+
+    if sum(fitmask) > 5:
+        popt, pcov = curve_fit(linear_fit, fitdays[fitmask],np.log10(fitcases[fitmask]))
+        chi2 = chisquare(fitcases[fitmask],10.**(fitdays[fitmask]*popt[0] + popt[1]))
+        gr = popt[0]
+
+    return gr, chi2
 
 #Function to obtain growth rate from data file
 #Input: 
@@ -88,15 +107,14 @@ def ObtainGrowthRate(inputfile,country,daterange=False,interventiondate="2000-01
     #Adjust if date range is specified
     if daterange:
         mask = (days100 > daystart) & (days100 < dayend)
-    
+        
+    #Perform a linear fit to the data
+    growthrate, chi2 = fitlineargrowth(days100,cases100,mask)
+
     #Check for sufficient data points:
-    if len(cases100[mask]) < 5:
+    if not growthrate:
         #print("Insufficient data for",country)
         return 0., 0., 0.
-    
-    #Perform a linear fit to the data
-    popt, pcov = curve_fit(linear_fit, days100[mask],np.log10(cases100[mask]))
-    chi2 = chisquare(cases100[mask],10.**(days100[mask]*popt[0] + popt[1]))
 
     inflection_day = 0.
     logchi2 = 0
@@ -116,7 +134,6 @@ def ObtainGrowthRate(inputfile,country,daterange=False,interventiondate="2000-01
     inflection_date = date100[0] + timedelta(days=inflection_day)
 
     if ((chi2 < logchi2) or (inflection_day > max(days100[mask])) or not inflection_day) and not (inter_date > 5):
-        growthrate = popt[0]
         print("linear fit preferred for",country,"growth rate",growthrate)
         return growthrate, 0., inflection_date
 
@@ -132,20 +149,11 @@ def ObtainGrowthRate(inputfile,country,daterange=False,interventiondate="2000-01
         mask1 = mask & (days100 < inflection_day)
         mask2 = mask & (days100 > inflection_day)
 
-
-    growthrate = 0.
-    growthrate2 = 0.
     
-    #Check for sufficient data points:
-    if sum(mask1) > 5:
-        popt, pcov = curve_fit(linear_fit, days100[mask1],np.log10(cases100[mask1]))
-        chi2 = chisquare(cases100[mask1],10.**(days100[mask1]*popt[0] + popt[1]))
-        growthrate = popt[0]
+    #Perform linear fits
+    growthrate, chi2 = fitlineargrowth(days100,cases100,mask1)
     
-    if sum(mask2) > 5:
-        popt2, pcov2 = curve_fit(linear_fit, days100[mask2],np.log10(cases100[mask2]))
-        chi2_2 = chisquare(cases100[mask2],10.**(days100[mask2]*popt2[0] + popt2[1]))
-        growthrate2 = popt2[0]
+    growthrate2, chi2_2 = fitlineargrowth(days100,cases100,mask2)
         
     if inter_date > 5:
         print("intervention date",inter_date)
@@ -159,10 +167,10 @@ def ObtainGrowthRate(inputfile,country,daterange=False,interventiondate="2000-01
 #Input:
 #datefile = csv format countries & intervention dates
 #country_file = days since 100 cases , total number of cases, csv format
-def intervention_analysis(datefile,country_file):
+def interventionGrowthRates(datefile,country_file,toPath):
 
-    df = pd.read_csv(datefile)
-    cf = pd.read_csv(country_file)
+    df = inData(datefile)
+    cf = inData(country_file)
     
     gr_ratios = np.zeros(df.shape)
     num_ratios = np.zeros(df.shape[1])
@@ -173,7 +181,14 @@ def intervention_analysis(datefile,country_file):
         if not (col=="Country") and itt % 2:
             inter_types.append(col)
         itt += 1
-    print(inter_types)
+    #print(inter_types)
+
+    clist = []
+    gr1list = []
+    gr2list = []
+    idlist = []
+    ratiolist = []
+
     
     for row in df.iterrows():
         cnt = 0 # counter
@@ -185,18 +200,32 @@ def intervention_analysis(datefile,country_file):
                 flag = int(column)
             elif flag:
                 date = column
-                print("Obtaining Growth rate for",country,date)
+                #print("Obtaining Growth rate for",country,date)
                 igr = ObtainGrowthRate(cf,country,True,date)
-                print("Intervention Date",date,"growth rate before=",igr[0],"growth rate after = ",igr[1])
-                
+                #print("Intervention Date",date,"growth rate before=",igr[0],"growth rate after = ",igr[1])
+                ratio = 0.
                 if igr[0] and igr[1]:
-                    gr_ratios[row[0]][cnt] = igr[1]/igr[0]
+                    ratio = igr[1]/igr[0]
+                    gr_ratios[row[0]][cnt] = ratio
                     num_ratios[cnt] += 1
                     
+                clist.append(country)
+                gr1list.append(igr[0])
+                gr2list.append(igr[1])
+                idlist.append(date)
+                ratiolist.append(ratio)
             cnt += 1
             
-    #meanratios = np.mean(gr_ratios.T)
-    
+    outData = pd.DataFrame({"Country":clist,"GrowthRate1":gr1list,"GrowthRate2":gr2list,
+                            "DayOfChange":idlist,"GrowthRateRatio":ratiolist})
+
+    if (toPath == "none"):
+        return outData
+    else:
+        outData.to_csv(toPath)
+        
+
+'''
     it = 0
     mean_ratio_values = []
     num_ratio_values = []
@@ -212,5 +241,5 @@ def intervention_analysis(datefile,country_file):
             
     
     return inter_types, mean_ratio_values, num_ratio_values, min_ratio_values, max_ratio_values
-
+'''
 
