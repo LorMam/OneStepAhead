@@ -4,6 +4,7 @@ from dataProcessing import getDataFromHDR
 from dataProcessing import getDatafromProsperityDataset
 from dataProcessing import WriteGrowthRates
 from dataProcessing import getTemperatureData
+from dataProcessing import getTestingData
 
 import predictionModel
 from IPython import embed
@@ -93,17 +94,19 @@ def main():
 
 
     #HopkinsData = getDataFromJohnshopkinsGithub("none")
-    #print(HopkinsData) looks fine
+    #print(HopkinsData) #looks fine
 
     #ProsperityData = getDatafromProsperityDataset(ProsperityDataPath,"none")
-    #print(ProsperityData) looks fine
+    #print(ProsperityData) #looks fine
     
-    
-    #HDR_Data = getDataFromHDR(closerLookat, sourcePaths, "none")
-    #print(HDR_Data) looks fine
+    #HDR_Data = getDataFromHDR(sourcePaths, "none")
+    #print(HDR_Data) #looks fine
 
-    TemperatureData = getTemperatureData(TemperatureDataPath, "none")
+    #TemperatureData = getTemperatureData(TemperatureDataPath, "none")
+    #print(TemperatureData) # looks fine
 
+    #TestingData = getTestingData("none")
+    #print(TestingData)
 
     #calculate growth rate function
     GrowthRateData = 'PipelineIntermediates/GrowthRates.csv'

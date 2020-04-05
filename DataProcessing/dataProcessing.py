@@ -9,40 +9,37 @@ import dateutil.parser
 from dataAnalysis import ObtainGrowthRate
 
 
-# list of countries, list of Paths -> 2DArray of Countries and their data
-def getDataFromHDR(countries, fromFiles, toPath):  # may have been easier with using pandas
+# list of Paths -> 2DArray of Countries and their data
+def getDataFromHDR(fromFiles, toPath):
     latestYear = '2018'
-    cleanData = np.append('Country', countries)
+    outData = pd.DataFrame()
     normalizer = 0  #TODO normalize given datasets by population
+
     # go through dataSources
     for path in fromFiles:
         import csv
         with open(path, 'r') as file:
             reader = csv.reader(file)
-            dataTemp = []
+            data = []
             for count, row in enumerate(reader):
                 # get Dataset Name in first line
                 if (count == 0): # get Name of Dataset from all cells in first line
                     Name = "".join(row)
-                elif (count < 196): #TODO remove magic number, (cut off before 'world,...')
-                    dataTemp.append(row)
-        # get index of column with selected year
-        dataCol = dataTemp[0].index(latestYear)
-        # only keep country and 2018 data column
-        dataNew = []
-        dataNew.append(column(dataTemp, 1))
-        dataNew.append(column(dataTemp, dataCol))
+                elif (count == 1):
+                    headers = row
+                else:
+                    try:
+                        int(row[0]) # take all lines having a rank number
+                        data.append(row)
+                    except:
+                        None
+        dat = pd.DataFrame(data, columns=headers)
+        if (outData.empty):
+            outData['Country'] = dat['Country']
+        dataCol = dat[['Country', latestYear]]
+        dataCol.columns = ['Country', Name]
 
-        # look up all countries in data and collect their data
-        temp = [Name]
-        for country in countries:
-            temp.append(column(dataNew, dataNew[0].index(country))[1])
-        cleanData = np.append(cleanData, temp)
-
-    cleanData = cleanData.reshape([len(fromFiles) + 1, len(countries) + 1]).transpose()
-    
-    outData = pd.DataFrame(cleanData, index=column(cleanData, 0), columns=cleanData[0])
-    outData = outData.drop("Country",axis=0).drop("Country", axis=1)
+        outData = outData.merge(dataCol, on='Country', how='left')
 
     return dataOut(toPath, outData)
 
@@ -139,11 +136,82 @@ def getTemperatureData(FromData, toPath):
     data['year'] = column(dates,0)
     data['month'] = column(dates, 1)
 
-    yearlyAvg = data.groupby(['Country']).mean()
-    monthlyAvg = data.groupby(['Country', 'month']).mean()
-    #print(monthlyAvg)
-    outData=yearlyAvg #for now, months have to be added
+    outData = data.groupby(['Country']).mean().reset_index()
+    monthlyAvg = data.groupby(['Country', 'month'],).mean().reset_index()
+
+    monthlyAvg=pd.DataFrame(monthlyAvg['AverageTemperature'].values.reshape([monthlyAvg['Country'].nunique(), 12]))
+    monthlyAvg.columns=range(1,13)
+    outData = outData.join(monthlyAvg)
+
     return dataOut(toPath, outData)
+
+
+def getTestingData(toPath):
+    #covid-testing-05-Apr-all-observations.csv from google drive - does Filename stay the same?????
+    #https://drive.google.com/open?id=19WI7vvzlrZvD_CnydUq5Zt0uw1aky_sT
+    file_id = '19WI7vvzlrZvD_CnydUq5Zt0uw1aky_sT'
+    destination = 'DataResources/OurWorldInDataTesting.csv'
+    download_file_from_google_drive(file_id, destination)
+
+    f=pd.read_csv('DataResources/OurWorldInDataTesting.csv')
+
+    '''#try to get from website directly
+    import urllib.request as request
+    url = 'blob:https://ourworldindata.org/5f603fc2-9a59-4e00-8422-1df3333cbc18'
+    # fake user agent of Safari
+    fake_useragent = 'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25'
+    r = request.Request(url, headers={'User-Agent': fake_useragent})
+    f = request.urlopen(r)'''
+
+    #'https://covid.ourworldindata.org/data/ecdc/full_data.csv'
+    #'http://localhost:8080/data/tests/latest/data.csv'
+
+    f=f.drop(columns=['Source URL','Source label','Notes'])
+
+    country = f['Entity'].apply(lambda d: str.split(d, " - "))
+    f['Country']=column(country,0)
+    f['Unit']=column(country,1)
+    
+    #average of all new test per day
+    outData = f.groupby(['Country']).mean().reset_index()
+
+    #keep Cumulative total per million, Country
+    outData = outData[['Country', 'Daily change in cumulative total per million']]
+
+    return dataOut(toPath, outData)
+
+
+#taken from this StackOverflow answer: https://stackoverflow.com/a/39225039
+import requests
+
+def download_file_from_google_drive(id, destination):
+    URL = "https://docs.google.com/uc?export=download"
+
+    session = requests.Session()
+
+    response = session.get(URL, params = { 'id' : id }, stream = True)
+    token = get_confirm_token(response)
+
+    if token:
+        params = { 'id' : id, 'confirm' : token }
+        response = session.get(URL, params = params, stream = True)
+
+    save_response_content(response, destination)
+
+def get_confirm_token(response):
+    for key, value in response.cookies.items():
+        if key.startswith('download_warning'):
+            return value
+
+    return None
+
+def save_response_content(response, destination):
+    CHUNK_SIZE = 32768
+
+    with open(destination, "wb") as f:
+        for chunk in response.iter_content(CHUNK_SIZE):
+            if chunk: # filter out keep-alive new chunks
+                f.write(chunk)
 
 #takes [path or Dataframe] and [path or "none"], returns data or writes to File
 def WriteGrowthRates(FromData, toPath):
