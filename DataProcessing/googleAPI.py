@@ -5,24 +5,17 @@ import pycountry
 from pytrends.request import TrendReq
 from datetime import date
 from dataProcessing import outToCsv
+from dataProcessing import dataOut
 
 from dataProcessing import column
 pytrend = TrendReq()
 
-from Main import closerLookat
-from Main import dayOfHundredCases
-from Main import googleDataFolder
-
-wordsToSearch = ['covid 19', 'corona', 'coronavirus']
-
 #set with countries and start date
-InfoIn = pd.DataFrame({'Country': closerLookat,
-            'Start': dayOfHundredCases}) #Data just Made up, import from source file later
 
 
 # https://pypi.org/project/pytrends/
 
-def main():
+def getGoogleTrends(InfoIn, toPath, wordsToSearch):
     # get international standard code for countries
     InfoIn['Countrycode'] = getCountrycodes(InfoIn['Country'])
     print(InfoIn)
@@ -35,6 +28,7 @@ def main():
             data.to_csv(googleDataFolder + row["Country"] + ".csv")
         else:
             print(row["Country"] + " country code not found")
+    return dataOut(toPath, data)
 
 def getCountrycodes(listOfCountries):
     countries = {}

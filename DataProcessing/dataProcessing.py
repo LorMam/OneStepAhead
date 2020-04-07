@@ -40,22 +40,60 @@ def getDataFromHDR(fromFiles, toPath):
         dataCol.columns = ['Country', Name]
 
         outData = outData.merge(dataCol, on='Country', how='left')
+    normalizer = 1 #"Population, total (millions)"
+    normalize = [5,6,7] #["Population, ages 15â€“64 (millions)", "Population, ages 65 and older (millions)", "Population, under age 5 (millions)"]
+    outData=outData.replace('..', float("nan"))
+
+    for n in normalize:
+        series1 = outData.iloc[:,n]
+        series2 = outData.iloc[:,normalizer]
+        outData.iloc[:,n] = pd.to_numeric(series1).div(pd.to_numeric(series2),fill_value=None)
 
     return dataOut(toPath, outData)
 
 #join Data of difference files by column "Country"
-def joinData(fromFiles, fromCountries, toPath):
+def joinData(fromFiles, toPath, allCountries):
 
-    data = pd.DataFrame({"Country": fromCountries})
-    data = data.set_index("Country")
+    outData = pd.DataFrame({"Country": allCountries})
+    outData = outData.set_index("Country")
     # errors might originate from not having ',' as separator and '.' as decimal point
     for p in fromFiles:
-        # p = joinToFinalTable[2]
-        toJoin = pd.read_csv(p)
-        data = data.join(toJoin.set_index('Country'))
+        data = inData(p)
 
-    return dataOut(toPath, data)
+        data = replace(data)
 
+        outData = outData.merge(data, on='Country', how='left')
+
+    return dataOut(toPath, outData)
+
+def replace(data):
+    # in extra function... and Iterate through df
+    data = data.replace(to_replace="Bolivia (Plurinational State of)", value="Bolivia")
+    data = data.replace(to_replace="Cape Verde", value="Cabo Verde")
+    data = data.replace(to_replace="Cï¿½te d'Ivoire", value="CÃƒÂ´te d'Ivoire")
+    data = data.replace(to_replace="Democratic Republic of Congo", value="Congo")
+    data = data.replace(to_replace="Congo (Democratic Republic of the)", value="Congo")
+    data = data.replace(to_replace="Czech Republic", value="Czechia")
+    data = data.replace(to_replace="Eswatini (Kingdom of)", value="Eswatini")
+    data = data.replace(to_replace="France (Europe)", value="France")
+    data = data.replace(to_replace="Hong Kong, China (SAR)", value="Hong Kong")
+    data = data.replace(to_replace="Iran (Islamic Republic of)", value="Iran")
+    data = data.replace(to_replace="Korea (Republic of)", value="South Korea")
+    data = data.replace(to_replace="Moldova (Republic of)", value="Moldova")
+    data = data.replace(to_replace="Palestine, State of", value="Palestina")
+    data = data.replace(to_replace="Russian Federation", value="Russia")
+    data = data.replace(to_replace="Saint Vincent And The Grenadines", value="Saint Vincent and the Grenadines")
+    data = data.replace(to_replace="Sï¿½o Tomï¿½ and Prï¿½ncipe", value="Sao Tome and Principe")
+    data = data.replace(to_replace="Sao Tome And Principe", value="Sao Tome and Principe")
+    data = data.replace(to_replace="Syrian Arab Republic", value="Syria")
+    data = data.replace(to_replace="Tanzania (United Republic of)", value="Tanzania")
+    data = data.replace(to_replace="Timor-Leste", value="Timor Leste")
+    data = data.replace(to_replace="United Kingdom (Europe)", value="United Kingdom")
+    data = data.replace(to_replace="Venezuela (Bolivarian Republic of)", value="Venezuela")
+    data = data.replace(to_replace="Viet Nam", value="Vietnam")
+    data = data.replace(to_replace="Lao People's Democratic Republic", value="Laos")
+
+    return data
 
 # convert Data from all countries
 # getting newest Data from github csv
@@ -111,14 +149,14 @@ def getDatafromProsperityDataset(FromData, toPath):
     data = inData(FromData)
 
     out = []
-    outData = pd.DataFrame({"area_name" : data["area_name"].unique()})
-    outData = outData.set_index("area_name")
+    outData = pd.DataFrame({"Country" : data["Country"].unique()})
+    outData = outData.set_index("Country")
     for indic in data["indicator_name"].unique(): # for every indicator
         mask = data["indicator_name"] == indic
-        out = pd.DataFrame({indic: data[mask]["score_2019"], "area_name" : data[mask]["area_name"]})
+        out = pd.DataFrame({indic: data[mask]["score_2019"], "Country" : data[mask]["Country"]})
         #print(out)
         #print(outData)
-        outData = outData.join(out.set_index("area_name"))
+        outData = outData.join(out.set_index("Country"))
 
     return dataOut(toPath, outData)
 
