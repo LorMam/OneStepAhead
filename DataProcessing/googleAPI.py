@@ -4,7 +4,6 @@ import pycountry
 
 from pytrends.request import TrendReq
 from datetime import date
-from dataProcessing import outToCsv
 from dataProcessing import dataOut
 
 from dataProcessing import column
@@ -18,17 +17,35 @@ pytrend = TrendReq()
 def getGoogleTrends(InfoIn, toPath, wordsToSearch):
     # get international standard code for countries
     InfoIn['Countrycode'] = getCountrycodes(InfoIn['Country'])
+
+    #Venezuela = VEN
+    #Vietnam = VNM
+    #WestBank and Gaza - none
+
     print(InfoIn)
+
+    temp = "empty"
     for i, row in InfoIn.iterrows():
-        print(row)
-        time = row['Start'] + ' ' + date.today().isoformat()
+        time = str(row['Start Day']) + ' ' + str(row['Start Day'])
         code = row["Countrycode"]
         if (code != 'Unknown code'):
-            data = pd.DataFrame(googleSearchTrends(wordsToSearch, code, time))
-            data.to_csv(googleDataFolder + row["Country"] + ".csv")
+            data = pd.DataFrame(googleSearchTrends(wordsToSearch, code, time)).reset_index()
+            data["Country"] = row["Country"]
+
+            '''            for n in range(len(wordsToSearch)):
+            print(data.iloc[n, :])
+            print(data.iloc[4, :])
+            data.loc[n] = data.loc[n] * (100 / data.loc[4])'''
+
+            if (isinstance(temp, pd.DataFrame)):
+                temp = temp.append(data)
+            else:
+                temp = data
+
         else:
             print(row["Country"] + " country code not found")
-    return dataOut(toPath, data)
+
+    return dataOut(toPath, temp)
 
 def getCountrycodes(listOfCountries):
     countries = {}

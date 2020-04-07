@@ -5,7 +5,7 @@ from dataProcessing import getDatafromProsperityDataset
 from dataProcessing import WriteGrowthRates
 from dataProcessing import getTemperatureData
 from dataProcessing import getTestingData
-#from googleAPI import getGoogleTrends
+from DataProcessing.googleAPI import getGoogleTrends
 
 import predictionModel
 from IPython import embed
@@ -17,17 +17,19 @@ import pandas as pd
 
 # list of countries to be included in prediction model
 # Country Names as in UN Data
+
+
 closerLookat = ["China", "Japan", "United Kingdom", "United States", "Italy", "Germany", "Algeria", "Egypt",
                 "South Africa", "Brazil", "Chile", "Australia"]
 
-allCountries = ["Bolivia","Cabo Verde","CÃƒÂ´te d'Ivoire","Congo","Czechia","Eswatini","France","Hong Kong","Iran",
+allCountries = ["Bolivia","Cabo Verde","Cote d'Ivoire","Congo","Czechia","Eswatini","France","Hong Kong","Iran",
                 "South Korea","Moldova","Palestina","Russia","Saint Vincent and the Grenadines","Sao Tome and Principe",
                 "Syria","Tanzania","Timor Leste","United Kingdom","Venezuela","Vietnam","Afghanistan","Albania",
                 "Algeria","Andorra","Angola","Antigua and Barbuda","Argentina","Armenia","Australia","Austria",
                 "Azerbaijan","Bahamas","Bahrain","Baker Island","Bangladesh","Barbados","Belarus","Belgium","Belize",
                 "Benin","Bhutan","Bosnia and Herzegovina","Botswana","Brazil","Brunei Darussalam","Bulgaria",
                 "Burkina Faso","Burma","Burundi","Cambodia","Cameroon","Canada","Central African Republic","Chad",
-                "Chile","China","Colombia","Comoros","Costa Rica","Croatia","Cuba","CuraÃ§ao","Cyprus","Denmark",
+                "Chile","China","Colombia","Comoros","Costa Rica","Croatia","Cuba","Curacao","Cyprus","Denmark",
                 "Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea"
                 ,"Estonia","Ethiopia","Falkland Islands (Islas Malvinas)","Federated States Of Micronesia","Fiji","Finland",
                 "French Guiana","French Southern And Antarctic Lands","Gabon","Gambia","Georgia","Germany","Ghana",
@@ -72,7 +74,7 @@ atLeastProspData = ["Bolivia","Cabo Verde","Congo","Czechia","Eswatini","France"
                 "Uzbekistan","Yemen","Zambia","Zimbabwe"]
 
 #but Temperature and/or HDR
-noProsperityData = ["CÃƒÂ´te d'Ivoire", "Palestina", "Saint Vincent and the Grenadines","Sao Tome and Principe", "Timor Leste", "Andorra", "Antigua and Barbuda", "Bahamas", "Baker Island", "Barbados",
+noProsperityData = ["Cote d'Ivoire", "Palestina", "Saint Vincent and the Grenadines","Sao Tome and Principe", "Timor Leste", "Andorra", "Antigua and Barbuda", "Bahamas", "Baker Island", "Barbados",
                 "Bhutan", "Brunei Darussalam", "Burma", "CuraÃ§ao", "Dominica", "Falkland Islands (Islas Malvinas)", "Federated States Of Micronesia", "Fiji", "French Guiana", "Gambia", "Grenada","Guam", "Heard Island And Mcdonald Islands", "Isle Of Man",
                 "Jersey", "Kingman Reef","Kiribati", "Liechtenstein", "Macedonia", "Maldives", "Marshall Islands","Martinique","Mayotte","Micronesia (Federated States of)","Monaco", "New Caledonia", "Northern Mariana Islands", "Oceania","Palau",
                 "Puerto Rico", "Saint Kitts And Nevis","Saint Lucia", "Saint Martin","Samoa", "Solomon Islands", "South Georgia And The South Sandwich Isla","Svalbard And Jan Mayen","Swaziland", "Tonga", "Vanuatu","Virgin Islands"]
@@ -124,19 +126,19 @@ def main():
 
     #STATIC DATA - DONE (for now) see staticDataOut
 
-    '''    ProsperityData = getDatafromProsperityDataset(ProsperityDataPath, "none")
-    print(ProsperityData) #looks fine
+    #ProsperityData = getDatafromProsperityDataset(ProsperityDataPath, "PipelineIntermediates/ProspData.csv")
+    #print(ProsperityData) #looks fine
 
-    HDR_Data = getDataFromHDR(sourcePaths, "none")
-    print(HDR_Data) #looks fine
+    #HDR_Data = getDataFromHDR(sourcePaths, "none")
+    #print(HDR_Data) #looks fine
 
-    TemperatureData = getTemperatureData(TemperatureDataPath, "none")
-    print(TemperatureData) # looks fine
-    '''
-    toJoin = [ProsperityData, HDR_Data, TemperatureData]
+    #TemperatureData = getTemperatureData(TemperatureDataPath, "none")
+    #print(TemperatureData) # looks fine
+
+    #toJoin = [ProsperityData, HDR_Data, TemperatureData]
     #toJoin = ["PipelineIntermediates/ProspData.csv", "PipelineIntermediates/TempData.csv", "PipelineIntermediates/HDRData.csv"]
 
-    joinData(toJoin, staticDataOut, allCountries)
+    #joinData(toJoin, staticDataOut, allCountries)
 
 
 
@@ -149,13 +151,13 @@ def main():
     #print(TestingData)
 
     #GoogleWords for Start Dates
-    wordsToSearch=['covid19', 'corona', 'coronavirus']
+    wordsToSearch=['covid19', 'corona', 'coronavirus', 'google']
     df = pd.DataFrame(HopkinsData.iloc[0,1:]).reset_index()
     df.columns = ['Country','Start Day']
     df = df[df['Start Day'].notna()]
-    print(df)
-    #googleTrends = getGoogleTrends(df, "none", wordsToSearch)
 
+    googleTrends = getGoogleTrends(df, 'PipelineIntermediates/googleData.csv', wordsToSearch)
+    print(googleTrends)
 
     #calculate growth rate function
     GrowthRateData = 'PipelineIntermediates/GrowthRates.csv'

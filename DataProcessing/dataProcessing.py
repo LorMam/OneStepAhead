@@ -70,7 +70,7 @@ def replace(data):
     # in extra function... and Iterate through df
     data = data.replace(to_replace="Bolivia (Plurinational State of)", value="Bolivia")
     data = data.replace(to_replace="Cape Verde", value="Cabo Verde")
-    data = data.replace(to_replace="Cï¿½te d'Ivoire", value="CÃƒÂ´te d'Ivoire")
+    data = data.replace(to_replace="Cï¿½te d'Ivoire", value="Cote d'Ivoire")
     data = data.replace(to_replace="Democratic Republic of Congo", value="Congo")
     data = data.replace(to_replace="Congo (Democratic Republic of the)", value="Congo")
     data = data.replace(to_replace="Czech Republic", value="Czechia")
@@ -92,6 +92,7 @@ def replace(data):
     data = data.replace(to_replace="Venezuela (Bolivarian Republic of)", value="Venezuela")
     data = data.replace(to_replace="Viet Nam", value="Vietnam")
     data = data.replace(to_replace="Lao People's Democratic Republic", value="Laos")
+    data = data.replace(to_replace="CuraÃ§ao", value="Curacao")
 
     return data
 
