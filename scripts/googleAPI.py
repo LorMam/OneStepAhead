@@ -1,36 +1,82 @@
 import pandas as pd
 import numpy as np
-import pycountry
-
+from googletrans import Translator
 from pytrends.request import TrendReq
 from datetime import date
 from dataProcessing import dataOut
 
 from dataProcessing import column
+
 pytrend = TrendReq()
 
-#set with countries and start date
+
+# pytrend = TrendReq(hl='en-US', tz=360)
+
+# set with countries and start date
 
 
 # https://pypi.org/project/pytrends/
-
+# https://pypi.org/project/googletrans/ not official
+# https://cloud.google.com/translate/docs/basic/translating-text#translate_translate_text-python official, but not used now
 def getGoogleTrends(InfoIn, toPath, wordsToSearch):
     # get international standard code for countries
-    InfoIn['Countrycode'] = getCountrycodes(InfoIn['Country'])
-
-    #Venezuela = VEN
-    #Vietnam = VNM
-    #WestBank and Gaza - none
-
-    print(InfoIn)
-
+    temp = getCountryInfo(InfoIn['Country'])
+    InfoIn = InfoIn.merge(temp, on='Country', how='left')
+    translator = Translator()
     temp = "empty"
+
     for i, row in InfoIn.iterrows():
         time = str(row['Start Day']) + ' ' + str(row['Start Day'])
         code = row["Countrycode"]
         if (code != 'Unknown code'):
-            data = pd.DataFrame(googleSearchTrends(wordsToSearch, code, time)).reset_index()
+            mainLang = row['Languages'].split(',')[0]
+            mainLang = mainLang[0:2]  # cut second language specification
+
+            try:
+                translations = translator.translate(wordsToSearch[1], dest=mainLang, src='en')
+                languageSpecific = []
+                for trans in translations:
+                    languageSpecific.append(str(trans.text))
+            except:
+                print("language" + mainLang + "not available")
+
+            originalWords = []
+
+            for i in wordsToSearch[0]:
+                originalWords.append(i)
+
+            # print(languageSpecific)
+            # print(originalWords)
+            allWords = languageSpecific + originalWords
+
+            groups = np.split(allWords, [4])
+
+            print(allWords)
+            # print(originalWords)
+            # print(languageSpecific)
+            # print(code)
+            # print(time)
+            # ["ایستگاه قطار", "اتوبوس", "test", "test1", "test2"],
+            # pytrend.build_payload(["اتوبوس"], timeframe=time, geo=code)
+            # print(pytrend.interest_over_time())
+            # print('ENDE')
+
+            data = "empty"
+            for i in groups:
+                i = np.append(i, "google")
+                pytrend.build_payload(i, timeframe=time, geo=code)
+                outcome = pytrend.interest_over_time().reset_index()
+
+                if (isinstance(data, pd.DataFrame)):
+                    data = data.merge(outcome, on='date')
+                else:
+                    data = outcome
+            # print("language or google doesnt work")
+            # data = pd.DataFrame(columns=['Country'])
+            # print(data)
             data["Country"] = row["Country"]
+            for i, word in enumerate(wordsToSearch[1]):
+                data['searched' + word] = languageSpecific[i]
 
             '''            for n in range(len(wordsToSearch)):
             print(data.iloc[n, :])
@@ -41,24 +87,33 @@ def getGoogleTrends(InfoIn, toPath, wordsToSearch):
                 temp = temp.append(data)
             else:
                 temp = data
-
+            # print(temp)
         else:
             print(row["Country"] + " country code not found")
 
     return dataOut(toPath, temp)
 
-def getCountrycodes(listOfCountries):
-    countries = {}
-    for country in pycountry.countries:
-        countries[country.name] = country.alpha_2
 
-    codes = [countries.get(country, 'Unknown code') for country in listOfCountries]
-    return codes
+# gets country languages and country Iso alpha 2 codes
+def getCountryInfo(listOfCountries):
+    path = 'DataResources/countriesLookUp.csv'
+    LookUp = pd.read_csv(path)
+    countries = pd.DataFrame(columns=['Country', 'Countrycode', 'Languages'])
+    # print(LookUp['name'])
+    for country in listOfCountries:
+        lang = 'Unknown code'
+        code = 'Unknown code'
+        if country in LookUp['name'].unique():
+            row = LookUp[LookUp['name'] == country]
+            code = row['ISO3166-1-Alpha-2'].values[0]
+            lang = row['Languages'].values[0]
+        elif country in LookUp['official_name_en'].unique():
+            row = LookUp[LookUp['official_name_en'] == country]
+            code = row['ISO3166-1-Alpha-2'].values[0]
+            lang = row['Languages'].values[0]
 
-def googleSearchTrends(search, code, time):
-    pytrend.build_payload(kw_list=search, timeframe=time, geo=code)
-    return pytrend.interest_over_time()
-
+        countries = countries.append({'Country': country, 'Countrycode': code, 'Languages': lang}, ignore_index=True)
+    return countries
     '''
     #setup payload
     #timeframe
@@ -85,6 +140,7 @@ def googleSearchTrends(search, code, time):
     # related queries
     # pytrend.related_queries()
     # pytrend.related_topics()'''
+
 
 if __name__ == '__main__':
     main()

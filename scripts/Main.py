@@ -151,7 +151,7 @@ def main():
     #print(TestingData)
 
     #GoogleWords for Start Dates
-    wordsToSearch=['covid19', 'corona', 'coronavirus', 'google']
+    wordsToSearch=[['covid19', 'corona', 'coronavirus', 'train station', 'bus'], ['train station', 'bus']]
     df = pd.DataFrame(HopkinsData.iloc[0,1:]).reset_index()
     df.columns = ['Country','Start Day']
     df = df[df['Start Day'].notna()]
