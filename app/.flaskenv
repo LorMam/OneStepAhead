@@ -1,0 +1,2 @@
+FLASK_APP=oneStepAhead.py
+FLASK_ENV=development

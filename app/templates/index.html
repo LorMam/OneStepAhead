@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static',filename='styles/normalize.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
+        <link rel="icon" type="image/png" href="img/OSA_logo.png">
+        <meta charset="utf-8">
+        <title>OneStepAhead</title>
+    </head>
+    <body>
+        <header>
+            <h1 id="headLine">One Step Ahead</h1>
+            <h2 id="subHeadLine">Epidemic growth rate modelling and prediction for current 2019-nCoV outbreak</h2>
+            <div id="loadingBackground">
+                <div class="loadingImage" id="loading0"></div>
+                <div class="loadingImage" id="loading1"></div>
+                <div class="loadingImage" id="loading2"></div>
+                <div class="loadingImage" id="loading3"></div>
+                <div class="loadingImage" id="loading4"></div>
+                <div class="loadingImage" id="loading5"></div>
+                <div class="loadingImage" id="loading6"></div>
+                <div class="loadingImage" id="loading7"></div>
+                <div class="loadingImage" id="loading8"></div>
+            </div>
+        </header>
+        <main>
+            <nav id="nav">
+                <p>One Step Ahead</p>
+            </nav>
+            <section id="section1">
+                <div id="aboutUs">
+                    <h2>About us</h2>
+                    <p>We are a group of passionate createives and coders who want to help fighting the spread and the consquences of the Spread of Sars-Cov-2 better known as Corona virus or under the disease it is causing - COVID-19.</p>
+                    <h3>Problem description</h3>
+                    <p>Many problems arise with COVID-19 and the battle against it. We can only address one.
+                    We believe that one huge issue is <strong>uncertainty</strong>. How to deal with uncertainty? By planning. But for what shall we plan?</p>
+                    <h3>Solution description</h3>
+                    <p>We do not have a fortune teller sphere but we have the powerfull tools of <strong>Machine-</strong> and <strong>Deep Learning</strong>.
+                    So we gonne face this problem with <strong>prediction</strong>.</p>
+                    <h3>what is new about this approach?</h3>
+                    <p>Yes, nothing to special here. Anyway, we see another huge problem ahead of us. The Spread of the virus in <strong>developing countries</strong> and <strong>refugees camps</strong>. Where we see only few cases today. So just applying <em>time-series forecasting</em> is not good enough here. We want to add more features to the model. This way we can not only</p>
+                    <ul>
+                    <li>predict the number of cases
+                    but also</li>
+                    <li>explain how effective activities taken are
+                    We will accomplish this by <em>explaining the model</em>. Some models are explainable by default (like regression or logistic regression). Other models can be explained by special tools like <em>lime</em> for example.</li>
+                    </ul>
+                </div>
+                <div id="page1">
+                    <div id="countries">
+                        <h3>Countries</h3>
+                        <button onclick="uncheck()">Uncheck all</button>
+                        <button onclick="check()">check all</button>
+                        <input id="search" type="text" placeholder="Search" onkeyup="search()">
+                        <div id="countryList"></div>
+                    </div>
+                    <div id="graph">
+                        <p><b>Confirmed cases</b> plotted against <b>time</b>. Time starts for each country after reaching 100 cases</p>
+                        <canvas id="graphs" width="900px" height="500px"></canvas>
+                    </div>
+                </div>
+            </section>
+            <section  id="section2">
+                <div id="predictionHead"><h2>Prediction models</h2></div>
+                <div id="parameters">
+                    <h3>Parameter</h3>
+                    <hr>
+                     <h4 class="noselect">Unselected</h4>
+                    <div id="parameterUnselected">
+                    </div>
+                    <hr>
+                    <h4 class="noselect">Selected</h4>
+                    <div id="parameterSelected">
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer>
+            Footer toDo
+        </footer>
+        <script src="{{ url_for('static',filename='js/graphs.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/load.js') }}"></script>
+        <script src="{{ url_for('static',filename='js/js.js') }}"></script>
+    </body>
+</html>

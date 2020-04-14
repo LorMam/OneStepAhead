@@ -13,7 +13,7 @@ The situation is changing rapidly, so one might not have the time to wait for ne
 
 ### Solution description
 
-We develop a Website, which gives skateholders and interested people the possibility to create regression models for the initial growth rate of the spread in a given country. Also one can use a given Prediction model and play around with the input factors to see which Variables influence the spread in what manner.
+We develop a Website, which gives stakeholders and interested people the possibility to create regression models for the initial growth rate of the spread in a given country. Also one can use a given Prediction model and play around with the input factors to see which Variables influence the spread in what manner.
 
 Also we provide an event history regression model on the Timing and Type of Interventions. To use this tool might help getting a better understanding of the possibilities to control the spread.
 
