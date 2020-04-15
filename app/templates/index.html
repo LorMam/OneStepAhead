@@ -30,21 +30,31 @@
             <section id="section1">
                 <div id="aboutUs">
                     <h2>About us</h2>
-                    <p>We are a group of passionate createives and coders who want to help fighting the spread and the consquences of the Spread of Sars-Cov-2 better known as Corona virus or under the disease it is causing - COVID-19.</p>
+                    <p>We are a group of passionate creatives and coders who want to help fighting the spread and the consquences of the Spread of the novel Coronavirus, causing COVID-19.</p>
                     <h3>Problem description</h3>
-                    <p>Many problems arise with COVID-19 and the battle against it. We can only address one.
-                    We believe that one huge issue is <strong>uncertainty</strong>. How to deal with uncertainty? By planning. But for what shall we plan?</p>
+                    <p>Many problems arise with COVID-19 and the battle against it. Since there is no Vaccination available, all that can be done are Non-Pharmaceutical Interventions. By the time there is Data available how successfull these Interventions were in managing the spread of Covid19.
+                    The situation is changing rapidly, so one might not have the time to wait for new scientific paper to be published, just including the newest data.</p>
                     <h3>Solution description</h3>
-                    <p>We do not have a fortune teller sphere but we have the powerfull tools of <strong>Machine-</strong> and <strong>Deep Learning</strong>.
-                    So we gonne face this problem with <strong>prediction</strong>.</p>
-                    <h3>what is new about this approach?</h3>
-                    <p>Yes, nothing to special here. Anyway, we see another huge problem ahead of us. The Spread of the virus in <strong>developing countries</strong> and <strong>refugees camps</strong>. Where we see only few cases today. So just applying <em>time-series forecasting</em> is not good enough here. We want to add more features to the model. This way we can not only</p>
+                    <p>We develop a Website, which gives stakeholders and interested people the possibility to create regression models for the initial growth rate of the spread in a given country. Also one can use a given Prediction model and play around with the input factors to see which Variables influence the spread in what manner.</p>
+                    <p>Also we provide an event history regression model on the Timing and Type of Interventions. To use this tool might help getting a better understanding of the possibilities to control the spread.</p>
+                    <p>The Data we use is always up to date, so all calculations and predictions are getting more accurate over time.</p>
+                    <p>We plan to improve our Website, so it can be modified for future pandemics and other diseases as well.</p>
+                    <h4>what is new about this approach?</h4>
+                    <p>We can</p>
                     <ul>
-                    <li>predict the number of cases
+                    <li>predict the number of cases from general country Data e.g. GDP, quality of Healthcare system
                     but also</li>
-                    <li>explain how effective activities taken are
-                    We will accomplish this by <em>explaining the model</em>. Some models are explainable by default (like regression or logistic regression). Other models can be explained by special tools like <em>lime</em> for example.</li>
+                    <li>explain how effective governmental measures taken are and provide a tool on planning those</li>
                     </ul>
+                    <h3>Data Sources</h3>
+                    <ul>
+                    <li>Data Repository by Johns Hopkins
+                    ...<a href="https://github.com/CSSEGISandData/COVID-19">https://github.com/CSSEGISandData/COVID-19</a></li>
+                    <li>Prosperity Index</li>
+                    <li>Human Development Report</li>
+                    </ul>
+                    <h3>Solution Architecture</h3>
+                    <p>We use a python backend with a Data Pipeline, providing our Model with the newest data available. This is Integrated into a Flask-Application. Front End is Programmed in Javascript.</p>
                 </div>
                 <div id="scrollPoint" style="opacity: 0;">you dount find me</div>
                 <div id="page1">
@@ -70,14 +80,16 @@
                 <div id="predictionHead"><h2>Prediction models</h2></div>
                 <div id="parameters">
                     <h3>Parameters</h3>
-                    <button id="makeButton" onclick="sendParameters()">Make</button>
+                    <div id="parameterSettings">
+                        <div id="accuracy" class="setting"></div>
+                        <button id="makeButton" onclick="sendParameters()" class="setting">Make</button>
+                    </div>
                     <hr>
                     <h4 class="noselect">Selected</h4>
                     <div id="parameterSelected"></div>
                     <h4 class="noselect">Unselected</h4>
                     <div id="parameterUnselected"></div>
                 </div>
-                <div id="accuracy"></div>
             </section>
         </main>
         <footer>

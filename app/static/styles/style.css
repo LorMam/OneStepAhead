@@ -22,9 +22,24 @@ body{
 
 section{
     margin-top: 5px;
-    background: white;
+    display: block;
     overflow: hidden;
-    display: inline;
+}
+
+a{
+    text-decoration: none;
+    color: #2f69a1;
+    transition: color 0.1s;
+}
+
+a:hover{
+    color: #00918b;
+}
+
+a:hover:at-level{
+    content: "test";
+    display: block;
+    color: black;
 }
 
 header{
@@ -304,9 +319,9 @@ input[type="text"]{
     height: 2em;
     padding: 10px;
     font-size: 11pt;
-    border-top: 1px solid gray;
+    border-top: 1px solid black;
     opacity: 1;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, height 0.3s;
 }
 
 .invisible{
@@ -345,11 +360,16 @@ input[type="text"]{
     background: linear-gradient(90deg, rgba(129, 14, 15) 0%, rgba(205, 147, 138) 6%, rgba(251,251,251,1) 30%, rgba(242,242,242,1) 84%);
 }
 
-#accuracy{
-    margin-left: 100px;
-    margin-top: 50px;
-    display: block;
-    float: left;
+#parameterSettings{
+    border: 1px solid black;
+}
+
+.expandedParameter{
+    height: 100px;
+}
+
+.setting{
+    padding: 5px;
 }
 
 footer{

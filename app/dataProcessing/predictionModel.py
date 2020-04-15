@@ -28,7 +28,7 @@ def predict(Parameters):
     #         "Population. under age 5 (%)", "Population. ages 65 and older (%)",  "yearly anual Temperature"],
     #                                   "Values": [3, 0.3, 6, 6, 0.1, 0.2, 20]})
 
-    dataallpath = "PipelineIntermediates/finalCleanDataCopyPasteBasic.csv"  # TODO must be the same that Frontend gets
+    dataallpath = "dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv"  # TODO must be the same that Frontend gets
 
     df = pd.read_csv(dataallpath)
     x = Model(df["Country"].tolist(), Parameters)
@@ -37,8 +37,8 @@ def predict(Parameters):
 
     out = x.toDF()
     print('funktion läuft')
-    pritn(out.to_csv(header=False))
-    return out.to_csv(header=False)
+    print(out.to_csv(header=False, index=False))
+    return out.to_csv(header=False, index=False)
 
 
 class Model():
@@ -47,7 +47,7 @@ class Model():
         self.parameters = parametersInModel
 
     def toDF(self):
-        out = pd.DataFrame({'': self.countries})
+        out = pd.DataFrame({'0': self.countries})
         out = pd.concat([out, pd.DataFrame({'1': self.parameters})], axis=1)
         out = pd.concat([out, pd.DataFrame({'2': self.coef})], axis=1)
         out = pd.concat([out, pd.DataFrame({'3': [self.score]})], 1)

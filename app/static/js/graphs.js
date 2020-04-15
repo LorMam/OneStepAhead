@@ -30,6 +30,7 @@ class Plotter{
     constructor(canvas){
         this.canvas = canvas;
         this.ctx = canvas.getContext("2d");
+        this.canvas.addEventListener('mousemove', e => this.updateOnMouse(e));
         this.data = null;
         this.graphs = [];
         this.valueFilter = e => isNumeric(e);
@@ -153,6 +154,8 @@ class Plotter{
                 //minY = Math.min(minY, value);
             }
         }
+        maxY = Math.max(500, maxY);
+        maxX = Math.max(10, maxX);
         this.changeMaxValues(minX, maxX * 1.2, minY, maxY * 1.2);
     }
 
@@ -196,6 +199,11 @@ class Plotter{
         }else{
             return{x: (this.yAxis.thickness + (xIteration / (this.minMax.maxX - this.minMax.minX)) * (this.canvas.width - this.yAxis.thickness)), y: (this.canvas.height - this.xAxis.thickness) - ((value - this.minMax.minY) / (this.minMax.maxY - this.minMax.minY) * (this.canvas.height - this.xAxis.thickness))};
         }
+    }
+
+    updateOnMouse(e){
+        let x = e.clientX;
+        let y = e.clientY;
     }
 
     draw(){

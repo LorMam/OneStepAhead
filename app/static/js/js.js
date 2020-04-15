@@ -9,6 +9,8 @@ let countries = {};
 
 let parameters = {};
 
+let hoverable = true;
+
 function createCountries(struct){
     let count = 0;
     let text = "";
@@ -37,8 +39,12 @@ function setVisibilityOfCountry(country, visible, draw){
     plotter.setVisibleOfGraph(country, visible, draw);
 }
 
+let timeout;
 function countryHovered(country){
-    plotter.hoverGraph(country);
+    clearTimeout(timeout);
+    if(hoverable){
+        timeout = setTimeout(() => {plotter.hoverGraph(country);}, 100);
+    }
 }
 
 function loadGraphs(struct){
@@ -120,6 +126,8 @@ function handleScroll(){
 }
 
 function search(){
+    hoverable = false;
+    setTimeout(() => hoverable = true,200);
     let s = document.getElementById("search").value;
     for (const [key, val] of Object.entries(countries)) {
         if(key.toLowerCase().includes(s.toLowerCase(), 0)){
@@ -174,10 +182,39 @@ function sendParameters(){
     let list = getParameterList();
     if(list.length > 0) {
         httpGetCsvArrayRowCol(gotParameters, "/getModel?parameterList=" + list, 1, 10, 0, 0);
+    }else{
+         document.getElementById("accuracy").innerText = "please select at least one Parameter";
     }
 }
 
 function gotParameters(result){
     console.log(result);
-    document.getElementById("accuracy").innerText = "Accuracy: " + result[2][1];
+    document.getElementById("accuracy").innerText = "Accuracy: " + Math.round(result[2][0] * 1000000) / 1000000;
+    for (const parameter of result[0]) {
+        if (parameter !== "\r" && parameter.length > 0){
+            document.getElementById(parameter + "selected").classList.add("expandedParameter");
+            document.getElementById(parameter + "selected").innerHTML = "" +
+                parameter +
+                "<hr>" +
+                "Influence: " + Math.round(result[1][result[0].indexOf(parameter)] * 10000000) / 10000000 +
+                "<hr>" +
+                "<label for='" + parameter + "range'>Country Value: </label>" +
+                "<input type='range' id='" + parameter + "range' class='parameterRange'>" +
+                "<img src='/static/img/Black_check.svg' class='paramCheck invisible' alt='checkImage'>";
+        }
+    }
+    for (const [key, val] of Object.entries(parameters)) {
+        if(!result[0].includes(key, 0)){
+            document.getElementById(key + "selected").classList.remove("expandedParameter");
+        }
+    }
 }
+
+
+//TODO @Lorenz function (grothrate) => Object{0: "100", 1: "109", 2: "169", 3: "200", 4: "239", 5: "267", 6: "314", 7: "314", 8: "559", 9: "689", … }
+//Beispiel:
+//let out = {}
+//out[0] = 100;
+//out[1] = 109;
+//etc..
+//return out;

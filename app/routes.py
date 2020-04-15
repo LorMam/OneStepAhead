@@ -27,17 +27,17 @@ def graphs():
         abort(404)
 
 
-@app.route('/getModel')
+@app.route('/getModel', methods=['GET', 'POST'])
 def get_model():
-    Parameters = request.args.get('parameterList')
-    Param = str(Parameters).split(',')
-    print(predict(Param))
+    parameters = request.args.get('parameterList')
+    param = str(parameters).split(',')
+    print(predict(param))
     try:
         df = pd.read_csv("dataProcessing/savedModels/bestModel.csv")
         #run predict(Parameters) from predictionModel
         #print(df.to_csv())
-        print(predict(Param))
-        return predict(Param)
+        print(predict(param))
+        return predict(param)
     except OSError:
         abort(404)
 
