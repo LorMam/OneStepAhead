@@ -46,9 +46,15 @@
                     We will accomplish this by <em>explaining the model</em>. Some models are explainable by default (like regression or logistic regression). Other models can be explained by special tools like <em>lime</em> for example.</li>
                     </ul>
                 </div>
+                <div id="scrollPoint" style="opacity: 0;">you dount find me</div>
                 <div id="page1">
                     <div id="countries">
                         <h3>Countries</h3>
+
+                        <label id="logLabel">
+                            Log Y-Axis
+                            <input type="checkbox" id="logCheck" value="false" onchange="logChanged()">
+                        </label>
                         <button onclick="uncheck()">Uncheck all</button>
                         <button onclick="check()">check all</button>
                         <input id="search" type="text" placeholder="Search" onkeyup="search()">
@@ -63,16 +69,15 @@
             <section  id="section2">
                 <div id="predictionHead"><h2>Prediction models</h2></div>
                 <div id="parameters">
-                    <h3>Parameter</h3>
-                    <hr>
-                     <h4 class="noselect">Unselected</h4>
-                    <div id="parameterUnselected">
-                    </div>
+                    <h3>Parameters</h3>
+                    <button id="makeButton" onclick="sendParameters()">Make</button>
                     <hr>
                     <h4 class="noselect">Selected</h4>
-                    <div id="parameterSelected">
-                    </div>
+                    <div id="parameterSelected"></div>
+                    <h4 class="noselect">Unselected</h4>
+                    <div id="parameterUnselected"></div>
                 </div>
+                <div id="accuracy"></div>
             </section>
         </main>
         <footer>

@@ -4,8 +4,12 @@ function httpGetCsvStruct(done, url){
     httpGet(e => done(csvToJsonHeaderAndFirstCol(e)), url);
 }
 
-function httpGetCsvArray(done, url){
-    httpGet(e => done(csvToArray(e)), url);
+function httpGetCsvArray(done, url, rowStart, rowEnd, colStartTrim, colEndTrim){
+    httpGet(e => done(csvToArray(e, rowStart, rowEnd, colStartTrim, colEndTrim)), url);
+}
+
+function httpGetCsvArrayRowCol(done, url, rowStart, rowEnd, colStartTrim, colEndTrim){
+    httpGet(e => done(csvToArrayRowCol(e, rowStart, rowEnd, colStartTrim, colEndTrim)), url);
 }
 
 function httpGet(done, url) {
@@ -16,6 +20,7 @@ function httpGet(done, url) {
             if (xhr.status === 200) {
                 done(xhr.responseText);
             } else {
+                console.log(url);
                 console.error("error: " + xhr.statusText);
             }
         }
@@ -65,8 +70,53 @@ function csvToJsonHeaderAndFirstCol(csv){
     return jsonObj;
 }
 
-function csvToArray(csv){
-    return csv.split(',');
+function csvToArrayRowCol(csv, rowStart, rowEnd, colStartTrim1, colEndTrim1){
+    console.log(csv);
+    const rows = csv.split("\n");
+    const out = [];
+    let colEndTrim = 0;
+    let colStartTrim = 0;
+    if(colStartTrim1){
+        colStartTrim = colStartTrim1;
+    }
+     if(colEndTrim1){
+        colEndTrim = colEndTrim1;
+     }
+     let row1 = 0;
+     let col1 = 0;
+     for (let i = rowStart; i < Math.min(rowEnd, rows.length); i++) {
+        let data = rows[i].split(',');
+        col1 = 0;
+        out[row1] = [];
+        for (let col = colStartTrim; col < data.length - colEndTrim; col++) {
+            out[row1][col1] = data[col];
+            col1++;
+        }
+        row1++;
+    }
+    return out;
+}
+
+function csvToArray(csv, rowStart, rowEnd, colStartTrim1, colEndTrim1){
+    const rows = csv.split("\n");
+    const out = [];
+    let colEndTrim = 0;
+    let colStartTrim = 0;
+    if(colStartTrim1){
+        colStartTrim = colStartTrim1;
+    }
+     if(colEndTrim1){
+        colEndTrim = colEndTrim1;
+    }
+    let count = 0;
+    for (let i = rowStart; i < Math.min(rowEnd, rows.length); i++) {
+        let data = rows[i - rowStart].split(',');
+        for (let col = colStartTrim; col < data.length - colEndTrim; col++) {
+            out[count] = data[col];
+            count++;
+        }
+    }
+    return out;
 }
 
 function filterString(string){

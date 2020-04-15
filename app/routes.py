@@ -1,5 +1,6 @@
 from app import app
-from flask import render_template, send_from_directory, abort
+from flask import render_template, abort, request
+import pandas as pd
 
 
 @app.route('/')
@@ -10,14 +11,31 @@ def index():
 
 @app.route('/parameter', methods=['GET'])
 def parameter():
-    return "Prosperity Index Health Score,Population using at least basic drinking-water services (%)," \
-           "Human development index (HDI),Population. total (millions)Population. under age 5 (%),Population. ages 65 " \
-           "and older (%),yearly anual Temperature "
+    try:
+        df = pd.read_csv("../dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
+        return df.to_csv()
+    except OSError:
+        abort(404)
 
 
 @app.route('/graphs')
 def graphs():
     try:
-        return send_from_directory(app.config["CLIENT_CSV"], filename="../dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv", as_attachment=True)
-    except FileNotFoundError:
+        df = pd.read_csv("../dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
+        return df.to_csv()
+    except OSError:
         abort(404)
+
+
+@app.route('/getModel')
+def get_model():
+    print(request.args.get('parameterList'))
+    try:
+        df = pd.read_csv("../dataProcessing/savedModels/bestModel.csv")
+        return df.to_csv()
+    except OSError:
+        abort(404)
+
+
+# TODO @Lorenz
+# parameterliste -> bestModel.csv

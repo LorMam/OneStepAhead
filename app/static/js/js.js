@@ -1,8 +1,7 @@
 "use strict";
-//httpGetCsvStruct(loadGraphs, "https://data.humdata.org/hxlproxy/api/data-preview.csv?url=https%3A%2F%2Fraw.githubusercontent.com%2FCSSEGISandData%2FCOVID-19%2Fmaster%2Fcsse_covid_19_data%2Fcsse_covid_19_time_series%2Ftime_series_covid19_confirmed_global.csv&filename=time_series_covid19_confirmed_global.csv");
-httpGetCsvStruct(loadGraphs, "https://raw.githubusercontent.com/ChristophAl/OneStepAhead/master/DataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv");
+httpGetCsvStruct(loadGraphs, "/graphs");
 
-httpGetCsvArray(loadParameters, "/graphs");
+httpGetCsvArray(loadParameters, "/parameter", 0, 1, 2, 3);
 
 const plotter = new Plotter(document.getElementById("graphs"));
 
@@ -43,6 +42,7 @@ function countryHovered(country){
 }
 
 function loadGraphs(struct){
+    delete struct["Days since 100"];
     createCountries(struct);
     plotter.setData(struct);
     plotter.setKeyFilter(e => e !="0");
@@ -123,8 +123,10 @@ function search(){
     let s = document.getElementById("search").value;
     for (const [key, val] of Object.entries(countries)) {
         if(key.toLowerCase().includes(s.toLowerCase(), 0)){
-            document.getElementById(key).scrollIntoView(true);
-            document.getElementById("graphs").scrollIntoView(true);
+            document.getElementById(key).scrollIntoView({behavior: "smooth", block: "start"});
+            document.getElementById("scrollPoint").scrollIntoView(true);
+            window.scrollY += 100;
+            plotter.hoverGraph(key);
             return;
         }
     }
@@ -151,4 +153,31 @@ function paramClicked(name){
         document.getElementById(name + "unselected").style.display = "block";
         document.getElementById(name + "selected").style.display = "none";
     }
+}
+
+function logChanged(){
+    plotter.logaRythmus = document.getElementById("logCheck").checked;
+    plotter.draw();
+}
+
+function getParameterList(){
+    let list = "";
+    for (const [key, val] of Object.entries(parameters)) {
+        if(val){
+            list += key + ","
+        }
+    }
+    return list.substring(0, list.length - 1);
+}
+
+function sendParameters(){
+    let list = getParameterList();
+    if(list.length > 0) {
+        httpGetCsvArrayRowCol(gotParameters, "/getModel?parameterList=" + list, 1, 10, 0, 0);
+    }
+}
+
+function gotParameters(result){
+    console.log(result);
+    document.getElementById("accuracy").innerText = "Accuracy: " + result[2][1];
 }

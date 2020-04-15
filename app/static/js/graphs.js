@@ -11,12 +11,12 @@ class Graph{
 }
 
 class Axis{
-    constructor(name, stepNames, calculate, thickness){
+    constructor(name, stepNames, multiplicator, thickness){
         this.name = name;
         this.toolTip = "Tooltip: toDo";
         this.stepNames = stepNames;
         this.thickness = thickness;
-        this.calculate = calculate;
+        this.multiplicator = multiplicator;
     }
 }
 
@@ -34,8 +34,9 @@ class Plotter{
         this.graphs = [];
         this.valueFilter = e => isNumeric(e);
         this.keyFilter = e => true;
-        this.xAxis = new Axis("Date", null, e => e, 20);
-        this.yAxis = new Axis("Infectes", null, e => e, 60);
+        this.logaRythmus = false;
+        this.xAxis = new Axis("Days since 100 conf. Cases", "", 1, 20);
+        this.yAxis = new Axis("Confirmed Cases", "", 10, 60);
         this.transitionGraphs = null;
         this.keys = [];
         this.minMax = {
@@ -45,14 +46,13 @@ class Plotter{
             'maxY': 0
         };
         this.newAnimation = true;
-        this.progress
     }
 
     hoverGraph(name){
         let found = false;
         for (const graph of this.graphs) {
             graph.hovered = false;
-            if(graph.name == name && !found){
+            if(graph.name === name && !found){
                 graph.hovered = true;
                 this.focusOnGraph(graph);
                 found = true;
@@ -65,7 +65,7 @@ class Plotter{
 
     setVisibleOfGraph(name, visible, draw){
         for (const graph of this.graphs) {
-            if(graph.name == name){
+            if(graph.name === name){
                 graph.visible = visible;
                 if(draw && graph.visible){
                     this.focusOnGraph(graph);
@@ -112,14 +112,14 @@ class Plotter{
             }
             let max = 0;
             for (const [key, val] of Object.entries(graph.values)) {
-                if(val != ""){
+                if(val !== ""){
                     max++;
                 }
             }
             maxX = Math.max(max, maxX);
         }
         let maxY = 0;
-        let minY = -100;
+        let minY = 100;
         for (const graph of this.graphs) {
              if(!graph.visible){
                 continue;
@@ -127,7 +127,7 @@ class Plotter{
             for (const value of Object.values(graph.values)) {
                 if(this.valueFilter(value)){
                     maxY = Math.max(maxY, value);
-                    minY = Math.min(minY, value);
+                    //minY = Math.min(minY, value);
                 }
             }
         }
@@ -141,16 +141,16 @@ class Plotter{
         let maxX = 0;
         let minX = 0;
         for (const [key, val] of Object.entries(graph.values)) {
-            if(val != ""){
+            if(val !== ""){
                 maxX++;
             }
         }
         let maxY = 0;
-        let minY= -10000;
+        let minY= 100;
         for (const value of Object.values(graph.values)) {
-            if(this.valueFilter(value)){
+            if (this.valueFilter(value)) {
                 maxY = Math.max(maxY, value);
-                minY = Math.min(minY, value);
+                //minY = Math.min(minY, value);
             }
         }
         this.changeMaxValues(minX, maxX * 1.2, minY, maxY * 1.2);
@@ -160,7 +160,7 @@ class Plotter{
         this.keys = [];
         for (const graph of this.graphs) {
             for (const [key, val] of Object.entries(graph.values)) {
-                if(this.keys.indexOf(key) == -1 && this.keyFilter(key)){//keyFilter
+                if(this.keys.indexOf(key) === -1 && this.keyFilter(key)){//keyFilter
                     this.keys.push(key);
                 }
             }
@@ -186,18 +186,28 @@ class Plotter{
         }
     }
 
-    getlocationOfValue(value, xIteration){
-        return{x: (this.yAxis.thickness + (xIteration / (this.minMax.maxX - this.minMax.minX)) * (this.canvas.width - this.yAxis.thickness)), y: (this.canvas.height - this.xAxis.thickness) - ((value / (this.minMax.maxY)) * (this.canvas.height - this.xAxis.thickness))};
+    getBaseLog(x, y) {
+        return Math.log(y) / Math.log(x);
+    }
+
+    getLocationOfValue(value, xIteration) {
+        if(this.logaRythmus){
+            return{x: (this.yAxis.thickness + (xIteration / (this.minMax.maxX - this.minMax.minX)) * (this.canvas.width - this.yAxis.thickness)), y: (this.canvas.height - this.xAxis.thickness) - (this.getBaseLog(this.yAxis.multiplicator, (value - this.minMax.minY)) / this.getBaseLog(this.yAxis.multiplicator, (this.minMax.maxY - this.minMax.minY)) * (this.canvas.height - this.xAxis.thickness))};
+        }else{
+            return{x: (this.yAxis.thickness + (xIteration / (this.minMax.maxX - this.minMax.minX)) * (this.canvas.width - this.yAxis.thickness)), y: (this.canvas.height - this.xAxis.thickness) - ((value - this.minMax.minY) / (this.minMax.maxY - this.minMax.minY) * (this.canvas.height - this.xAxis.thickness))};
+        }
     }
 
     draw(){
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.beginPath();
-        for (let i = 0; i < this.minMax.maxY - 10; i += Math.max(1, Math.floor(this.minMax.maxY / 7))) {
-            let point = this.getlocationOfValue(i, 0);
+        let count = 1;
+        for (let i = this.logaRythmus ? 100 : parseInt(this.minMax.minY); i < this.minMax.maxY; this.logaRythmus ? i = Math.pow(this.yAxis.multiplicator, count) : i += Math.max(5, Math.floor((this.minMax.maxY - this.minMax.minY) / 100) * 10)) {
+            let point = this.getLocationOfValue(i, 0);
             this.ctx.moveTo(this.yAxis.thickness, point.y);
             this.ctx.lineTo(this.canvas.width, point.y);
             this.ctx.fillText(i + "", 1, point.y);
+            count++;
         }
         this.ctx.strokeStyle = "gray";
         this.ctx.stroke();
@@ -214,7 +224,7 @@ class Plotter{
                 let x = 0;
                 for (const key of this.keys) {
                     if(this.valueFilter(graph.values[key])){
-                        let loc = this.getlocationOfValue(graph.values[key], x);
+                        let loc = this.getLocationOfValue(graph.values[key], x);
                         this.ctx.lineTo(loc.x , loc.y);
                     }
                     x++;
@@ -229,7 +239,7 @@ class Plotter{
             let x = 0;
             for (const key of this.keys) {
                 if(this.valueFilter(hovered.values[key])){
-                    let loc = this.getlocationOfValue(hovered.values[key], x);
+                    let loc = this.getLocationOfValue(hovered.values[key], x);
                     this.ctx.lineTo(loc.x , loc.y);
                 }
                 x++;
@@ -246,18 +256,20 @@ class Plotter{
         
         this.ctx.font =  "15px Arial";
         for (let i = this.minMax.minX; i < this.minMax.maxX; i += Math.max(1, Math.round(this.minMax.maxX / 4))) {
-            let point = this.getlocationOfValue(0, i);
+            let point = this.getLocationOfValue(0, i);
             this.ctx.fillText(i + "", point.x, this.canvas.height - 1);
         }
         this.ctx.strokeStyle = "gray";
         this.ctx.stroke();
+        this.ctx.fillText(this.xAxis.name, this.canvas.width - 190, this.canvas.height - this.xAxis.thickness - 5);
+        this.ctx.fillText(this.yAxis.name, this.yAxis.thickness + 5, 20);
     }
 }
 
 function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
       color += letters[Math.floor(2 + Math.random() * 7)];
     }
     return color;

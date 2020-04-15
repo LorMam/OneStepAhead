@@ -23,6 +23,8 @@ body{
 section{
     margin-top: 5px;
     background: white;
+    overflow: hidden;
+    display: inline;
 }
 
 header{
@@ -258,6 +260,10 @@ h2{
     margin-left: 2%;
 }
 
+#logLabel{
+    display: block;
+}
+
 button{
     font-size: 10pt;
     width: 48%;
@@ -268,7 +274,12 @@ input[type="text"]{
 }
 
 #section2{
+    background: white;
+    padding-right: 5%;
+    padding-left: 5%;
     margin-top: 50px;
+    overflow: hidden;
+    display: block;
 }
 
 #predictionHead{
@@ -277,12 +288,21 @@ input[type="text"]{
 }
 
 #parameters{
+    display: inline-block;
     width: 20%;
-    border: 1px solid black;
+}
+
+#parameters h4{
+    padding: 10px;
+    text-align: center;
+    margin: 0;
+    background: rgb(237,237,237);
+    background: linear-gradient(0deg, rgba(237,237,237,1) 0%, rgba(255,255,255,1) 45%, rgba(255,255,255,1) 55%, rgba(237,237,237,1) 100%);
 }
 
 .parameter{
-    padding: 5px;
+    height: 2em;
+    padding: 10px;
     font-size: 11pt;
     border-top: 1px solid gray;
     opacity: 1;
@@ -293,10 +313,6 @@ input[type="text"]{
     opacity: 0;
 }
 
-.parameter:hover {
-    background-color: #6886b0;
-}
-
 .paramCheck{
     float: right;
     width: auto;
@@ -304,12 +320,36 @@ input[type="text"]{
     opacity: 1;
 }
 
-#parameterSelected div{
-    background-color: #93eea8;
+#makeButton{
+    width: 100%;
+    height: 50px;
 }
 
-#parameterSelected div:hover{
-     background-color: #6886b0;
+#parameterSelected .parameter{
+    background: rgb(6,129,9);
+    background: linear-gradient(90deg, rgba(6,129,9,1) 0%, rgba(156,205,156,1) 2%, rgb(255, 255, 255) 8%, rgb(255, 255, 255) 84%);
+}
+
+#parameterSelected .parameter:hover{
+    background: rgb(6,129,9);
+    background: linear-gradient(90deg, rgba(6,129,9,1) 0%, rgba(156,205,156,1) 6%, rgba(251,251,251,1) 30%, rgba(242,242,242,1) 84%);
+}
+
+#parameterUnselected .parameter{
+    background: rgb(6,129,9);
+    background: linear-gradient(90deg, rgb(129, 14, 15) 0%, rgb(205, 147, 138) 2%, rgb(255, 255, 255) 8%, rgb(255, 255, 255) 84%);
+}
+
+#parameterUnselected .parameter:hover{
+    background: rgb(6,129,9);
+    background: linear-gradient(90deg, rgba(129, 14, 15) 0%, rgba(205, 147, 138) 6%, rgba(251,251,251,1) 30%, rgba(242,242,242,1) 84%);
+}
+
+#accuracy{
+    margin-left: 100px;
+    margin-top: 50px;
+    display: block;
+    float: left;
 }
 
 footer{
@@ -317,6 +357,7 @@ footer{
     background: white;
     text-align: center;
     padding: 20px;
+    width: 100%;
     display: block;
 }
 
