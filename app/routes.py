@@ -3,6 +3,7 @@ from flask import render_template, abort, request
 import pandas as pd
 from .dataProcessing.predictionModel import predict
 
+
 @app.route('/')
 @app.route('/index')
 def index():

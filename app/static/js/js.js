@@ -198,14 +198,17 @@ function gotParameters(result){
                 "<hr>" +
                 "Influence: " + Math.round(result[1][result[0].indexOf(parameter)] * 10000000) / 10000000 +
                 "<hr>" +
+                "<div onclick='event.stopPropagation()'>" +
                 "<label for='" + parameter + "range'>Country Value: </label>" +
-                "<input type='range' id='" + parameter + "range' class='parameterRange'>" +
-                "<img src='/static/img/Black_check.svg' class='paramCheck invisible' alt='checkImage'>";
+                "<input type='range' id='" + parameter + "range' class='parameterRange' on>" +
+                "<img src='/static/img/Black_check.svg' class='paramCheck invisible' alt='checkImage'>" +
+                "</div>";
         }
     }
     for (const [key, val] of Object.entries(parameters)) {
         if(!result[0].includes(key, 0)){
             document.getElementById(key + "selected").classList.remove("expandedParameter");
+            document.getElementById(key + "selected").innerHTML = key;
         }
     }
 }
