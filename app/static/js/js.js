@@ -197,12 +197,7 @@ function gotParameters(result){
                 parameter +
                 "<hr>" +
                 "Influence: " + Math.round(result[1][result[0].indexOf(parameter)] * 10000000) / 10000000 +
-                "<hr>" +
-                "<div onclick='event.stopPropagation()'>" +
-                "<label for='" + parameter + "range'>Country Value: </label>" +
-                "<input type='range' id='" + parameter + "range' class='parameterRange' on>" +
-                "<img src='/static/img/Black_check.svg' class='paramCheck invisible' alt='checkImage'>" +
-                "</div>";
+                "<img src='/static/img/Black_check.svg' class='paramCheck invisible' alt='checkImage'>";
         }
     }
     for (const [key, val] of Object.entries(parameters)) {

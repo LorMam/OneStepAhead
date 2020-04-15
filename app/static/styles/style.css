@@ -317,9 +317,9 @@ input[type="text"]{
 
 .parameter{
     height: 2em;
-    padding: 10px;
+    padding: 20px 10px;
     font-size: 11pt;
-    border-top: 1px solid black;
+    border-top: 2px solid #222;
     opacity: 1;
     transition: opacity 0.2s, height 0.3s;
 }
@@ -365,7 +365,7 @@ input[type="text"]{
 }
 
 .expandedParameter{
-    height: 120px;
+    height: 80px;
 }
 
 .setting{
