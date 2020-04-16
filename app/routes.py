@@ -1,7 +1,26 @@
+import atexit
+import time
+
 from app import app
 from flask import render_template, abort, request
 import pandas as pd
+
 from .dataProcessing.predictionModel import predict
+from apscheduler.schedulers.background import BackgroundScheduler
+
+
+#TODO @Lorenz
+#update johnhopkinsdata
+def updateDaily():
+    print(time.strftime("%A, %d. %B %Y %I:%M:%S %p"))
+
+
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=updateDaily, trigger="interval", hours=24)
+scheduler.start()
+
+# Shut down the scheduler when exiting the app
+atexit.register(lambda: scheduler.shutdown())
 
 
 @app.route('/')
@@ -42,6 +61,10 @@ def get_model():
     except OSError:
         abort(404)
 
-
-# TODO @Lorenz
-# parameterliste -> bestModel.csv
+@app.route('/finalCleanData')
+def finalCleanData():
+    try:
+        df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
+        return df.to_csv()
+    except OSError:
+        abort(404)

@@ -1,0 +1,46 @@
+hj,hoje
+vc,você
+vcs,vocês
+aq,aqui
+eh,é
+cmg,comigo
+cm,comigo
+c,com
+iso,isso
+mto,muito
+mt,muito
+vo,vou
+p,para
+pq,porque
+q,que
+ñ,não
+n,não
+ta,esta
+aki,aqui
+td,tudo
+blz,beleza
+ond,onde
+qndo,quando
+qnd,quando
+mnh,minha
+ve,ver
+pfv,por favor
+pfvr,por favor
+av,avenida
+tb,também
+tbm,também
+cc,conta corrente
+obg,obrigado
+ctt,contato
+nn,nao
+qd,quando
+hr,hora
+fco,faço
+qlq,qualquer
+d,de
+to,estou
+qt,quanto
+msg,mensagem
+prq,porque
+msgm,mensagem
+vlr,valor

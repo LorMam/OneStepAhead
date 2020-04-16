@@ -4,6 +4,10 @@ function httpGetCsvStruct(done, url){
     httpGet(e => done(csvToJsonHeaderAndFirstCol(e)), url);
 }
 
+function httpGetCsvArrayTable(done, url){
+    httpGet(e => done(csvToArrayTable(e)), url);
+}
+
 function httpGetCsvArray(done, url, rowStart, rowEnd, colStartTrim, colEndTrim){
     httpGet(e => done(csvToArray(e, rowStart, rowEnd, colStartTrim, colEndTrim)), url);
 }
@@ -11,6 +15,8 @@ function httpGetCsvArray(done, url, rowStart, rowEnd, colStartTrim, colEndTrim){
 function httpGetCsvArrayRowCol(done, url, rowStart, rowEnd, colStartTrim, colEndTrim){
     httpGet(e => done(csvToArrayRowCol(e, rowStart, rowEnd, colStartTrim, colEndTrim)), url);
 }
+
+
 
 function httpGet(done, url) {
     const xhr = new XMLHttpRequest();
@@ -71,7 +77,6 @@ function csvToJsonHeaderAndFirstCol(csv){
 }
 
 function csvToArrayRowCol(csv, rowStart, rowEnd, colStartTrim1, colEndTrim1){
-    console.log(csv);
     const rows = csv.split("\n");
     const out = [];
     let colEndTrim = 0;
@@ -95,6 +100,21 @@ function csvToArrayRowCol(csv, rowStart, rowEnd, colStartTrim1, colEndTrim1){
         row1++;
     }
     return out;
+}
+
+function csvToArrayTable(csv){
+    const data = {};
+    const rows = csv.split('\n');
+    const header = rows[0].split(',');
+    for (let row = 0; row < rows.length; row++) {
+        let r = rows[row].split(',');
+        data[r[1]] = {};
+        for (let column = 2; column < header.length; column++) {
+            data[r[1]][header[column]] = r[column];
+        }
+
+    }
+    return data;
 }
 
 function csvToArray(csv, rowStart, rowEnd, colStartTrim1, colEndTrim1){

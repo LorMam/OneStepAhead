@@ -3,6 +3,9 @@ httpGetCsvStruct(loadGraphs, "/graphs");
 
 httpGetCsvArray(loadParameters, "/parameter", 0, 1, 2, 3);
 
+httpGetCsvArrayTable(gotFinalCleanData, '/finalCleanData');
+
+
 const plotter = new Plotter(document.getElementById("graphs"));
 
 let countries = {};
@@ -15,9 +18,9 @@ function createCountries(struct){
     let count = 0;
     let text = "";
     for (const [key, val] of Object.entries(struct)) {
-        if(val[0] != ""){
+        if(val[0] !== ""){
             countries[key] = true;
-            text += ("<div class='noselect selected countryElement" + (count%2==0 ? " zebra" : "") + "' id='" + key + "' onmouseover='countryHovered(\"" + key + "\")' onclick='countryClicked(\"" + key + "\")'>" + key + "<img src='/static/img/Black_check.svg' class='countryCheck'></div>");
+            text += ("<div class='noselect selected countryElement" + (count%2===0 ? " zebra" : "") + "' id='" + key + "' onmouseover='countryHovered(\"" + key + "\")' onclick='countryClicked(\"" + key + "\")'>" + key + "<img src='/static/img/Black_check.svg' class='countryCheck'></div>");
             count++;
         }
     }
@@ -51,7 +54,7 @@ function loadGraphs(struct){
     delete struct["Days since 100"];
     createCountries(struct);
     plotter.setData(struct);
-    plotter.setKeyFilter(e => e !="0");
+    plotter.setKeyFilter(e => e !== "0");
 }
 
 function check(){
@@ -188,7 +191,6 @@ function sendParameters(){
 }
 
 function gotParameters(result){
-    console.log(result);
     document.getElementById("accuracy").innerText = "Accuracy: " + Math.round(result[2][0] * 1000000) / 1000000;
     for (const parameter of result[0]) {
         if (parameter !== "\r" && parameter.length > 0){
@@ -199,6 +201,7 @@ function gotParameters(result){
                 "Influence: " + Math.round(result[1][result[0].indexOf(parameter)] * 10000000) / 10000000 +
                 "<img src='/static/img/Black_check.svg' class='paramCheck invisible' alt='checkImage'>";
         }
+
     }
     for (const [key, val] of Object.entries(parameters)) {
         if(!result[0].includes(key, 0)){
@@ -206,13 +209,27 @@ function gotParameters(result){
             document.getElementById(key + "selected").innerHTML = key;
         }
     }
+    predictCases(calculateGrowthRate(result));
 }
 
+let finalCleanData;
+function gotFinalCleanData(struct){
+    console.log(struct);
+    finalCleanData = struct;
+}
+
+function calculateGrowthRate(result){
+    console.log(result);
+    for (let i = 0; i < ; i++) {
+        
+    }
+}
 
 //TODO @Lorenz function (grothrate) => Object{0: "100", 1: "109", 2: "169", 3: "200", 4: "239", 5: "267", 6: "314", 7: "314", 8: "559", 9: "689", … }
-//Beispiel:
-//let out = {}
-//out[0] = 100;
-//out[1] = 109;
-//etc..
-//return out;
+function predictCases(growthRate){
+    let graph = {};
+    graph[0] = 100;
+    graph[1] = 200;
+    //console.log(graph);
+    return graph;
+}
