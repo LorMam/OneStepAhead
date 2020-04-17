@@ -261,6 +261,10 @@ h2{
     background-color: #BBB;
 }
 
+.parameterZebra{
+    background: #BBB;
+}
+
 #graph{
     padding-top: 10px;
     float: left;
@@ -303,6 +307,7 @@ input[type="text"]{
 }
 
 #parameters{
+    float: left;
     display: inline-block;
     width: 20%;
 }
@@ -317,7 +322,9 @@ input[type="text"]{
 
 .parameter{
     height: 2em;
-    padding: 20px 10px 10px;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     font-size: 11pt;
     border-top: 2px solid #222;
     opacity: 1;
@@ -365,11 +372,17 @@ input[type="text"]{
 }
 
 .expandedParameter{
-    height: 80px;
+    height: 4.5em;
 }
 
 .setting{
     padding: 5px;
+}
+
+#predictionCanvas{
+    margin-top: 40px;
+    display: inline;
+    float: left;
 }
 
 footer{
@@ -377,7 +390,7 @@ footer{
     background: white;
     text-align: center;
     padding: 20px;
-    display: inline;
+    display: block;
 }
 
 .noselect {

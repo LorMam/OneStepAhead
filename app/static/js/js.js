@@ -5,12 +5,11 @@ httpGetCsvArray(loadParameters, "/parameter", 0, 1, 2, 3);
 
 httpGetCsvArrayTable(gotFinalCleanData, '/finalCleanData');
 
+const countryPlotter = new Plotter(document.getElementById("graphs"), "Days since 100 conf. Cases", "Confirmed Cases", (e) => "Day " + e, (e) => e + " Conf. Cases");
 
-const plotter = new Plotter(document.getElementById("graphs"));
+const predictionPlotter = new Plotter(document.getElementById("predictionCanvas"), "Days", "Predicted Cases", (e) => "Day " + e, (e) => e + " Confirmed Cases");
 
 let countries = {};
-
-let parameters = {};
 
 let hoverable = true;
 
@@ -39,22 +38,26 @@ function setVisibilityOfCountry(country, visible, draw){
     }else {
         document.getElementById(country).classList.remove("selected");
     }
-    plotter.setVisibleOfGraph(country, visible, draw);
+    countryPlotter.setVisibleOfGraph(country, visible, draw);
 }
 
 let timeout;
 function countryHovered(country){
-    clearTimeout(timeout);
-    if(hoverable){
-        timeout = setTimeout(() => {plotter.hoverGraph(country);}, 100);
+   clearTimeout(timeout);
+   if(hoverable){
+        timeout = setTimeout(() => {countryPlotter.hoverGraph(country);}, 100);
     }
 }
 
 function loadGraphs(struct){
     delete struct["Days since 100"];
     createCountries(struct);
-    plotter.setData(struct);
-    plotter.setKeyFilter(e => e !== "0");
+    countryPlotter.setData(struct, (me, x) => {
+        const date = new Date(me.values[0]);
+        date.setDate(date.getDate() + x);
+        return me.name + " (On date: " + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '.' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '.' + date.getFullYear() + ")";
+    });
+    countryPlotter.setKeyFilter(e => e !== "0");
 }
 
 function check(){
@@ -62,7 +65,7 @@ function check(){
         val = true;
         setVisibilityOfCountry(key, true, false);
     }
-    plotter.draw();
+    countryPlotter.draw();
 }
 
 function uncheck(){
@@ -70,12 +73,14 @@ function uncheck(){
         val = false;
         setVisibilityOfCountry(key, false, false);
     }
-    plotter.draw();
+    countryPlotter.draw();
 }
 
 function resize(){
-    plotter.canvas.width = window.innerWidth * 0.68;
-    plotter.draw();
+    countryPlotter.canvas.width = window.innerWidth * 0.68;
+    countryPlotter.draw();
+    predictionPlotter.canvas.width = window.innerWidth * 0.68;
+    predictionPlotter.draw();
 }
 
 window.onresize = resize;
@@ -137,11 +142,22 @@ function search(){
             document.getElementById(key).scrollIntoView({behavior: "smooth", block: "start"});
             document.getElementById("scrollPoint").scrollIntoView(true);
             window.scrollY += 100;
-            plotter.hoverGraph(key);
+            countryPlotter.hoverGraph(key);
             return;
         }
     }
 }
+
+
+function logChanged(){
+    countryPlotter.logaRythmus = document.getElementById("logCheck").checked;
+    countryPlotter.draw();
+}
+
+
+
+let parameters = {};
+let parameterPresets ={ "Recommended" : ["eProsperity Index Health Scor", "Education Index"]};
 
 function loadParameters(params){
     let text = "";
@@ -153,28 +169,55 @@ function loadParameters(params){
     }
     document.getElementById("parameterUnselected").innerHTML = text;
     document.getElementById("parameterSelected").innerHTML = text1;
+    loadParameterPreset(parameterPresets["Recommended"]);
+    sendParameters();
+    updateZebraParameters();
 }
 
-function paramClicked(name){
-    parameters[name] = !parameters[name];
-    if(parameters[name]){
-        document.getElementById(name + "unselected").style.display = "none";
-        document.getElementById(name + "selected").style.display = "block";
-    }else{
-        document.getElementById(name + "unselected").style.display = "block";
-        document.getElementById(name + "selected").style.display = "none";
+function loadParameterPreset(preset){
+    for (let [key, val] of Object.entries(parameters)) {
+        if(preset.includes(key)){
+            selectParameter(key, false);
+        }else {
+            deselectParameter(key, false);
+        }
     }
 }
 
-function logChanged(){
-    plotter.logaRythmus = document.getElementById("logCheck").checked;
-    plotter.draw();
+function selectParameter(name, setPreset){
+    parameters[name] = true;
+    document.getElementById(name + "unselected").style.display = "none";
+    document.getElementById(name + "selected").style.display = "block";
+    if(setPreset &&  !parameterPresets[document.getElementById("presetSelect").value].includes(name)) {
+        parameterPresets[document.getElementById("presetSelect").value].push(name);
+    }
+    unloadParameters();
+    updateZebraParameters()
+}
+
+function deselectParameter(name, setPreset) {
+    parameters[name] = false;
+    document.getElementById(name + "unselected").style.display = "block";
+    document.getElementById(name + "selected").style.display = "none";
+    if (setPreset && parameterPresets[document.getElementById("presetSelect").value].indexOf(name) !== -1) {
+        parameterPresets[document.getElementById("presetSelect").value].splice(parameterPresets[document.getElementById("presetSelect").value].indexOf(name), 1);
+    }
+    unloadParameters();
+    updateZebraParameters()
+}
+
+function paramClicked(name){
+    if(parameters[name]){
+        deselectParameter(name, true)
+    }else{
+        selectParameter(name, true);
+    }
 }
 
 function getParameterList(){
     let list = "";
     for (const [key, val] of Object.entries(parameters)) {
-        if(val){
+        if (val) {
             list += key + ","
         }
     }
@@ -190,7 +233,16 @@ function sendParameters(){
     }
 }
 
+function unloadParameters(){
+     document.getElementById("accuracy").innerText = "Click \"Make\" to refresh parameters";
+    for (const key of Object.keys(parameters)) {
+        document.getElementById(key + "selected").classList.remove("expandedParameter");
+        document.getElementById(key + "selected").innerHTML = key;
+    }
+}
+
 function gotParameters(result){
+    unloadParameters();
     document.getElementById("accuracy").innerText = "Accuracy: " + Math.round(result[2][0] * 1000000) / 1000000;
     for (const parameter of result[0]) {
         if (parameter !== "\r" && parameter.length > 0){
@@ -201,15 +253,51 @@ function gotParameters(result){
                 "Influence: " + Math.round(result[1][result[0].indexOf(parameter)] * 10000000) / 10000000 +
                 "<img src='/static/img/Black_check.svg' class='paramCheck invisible' alt='checkImage'>";
         }
-
-    }
-    for (const [key, val] of Object.entries(parameters)) {
-        if(!result[0].includes(key, 0)){
-            document.getElementById(key + "selected").classList.remove("expandedParameter");
-            document.getElementById(key + "selected").innerHTML = key;
-        }
     }
     predictCases(calculateGrowthRate(result));
+}
+
+function refreshPreset(){
+    for (const [key, val] of Object.entries(parameters)) {
+        if(val){
+            selectParameter(key, true);
+        }else{
+            deselectParameter(key, true);
+        }
+    }
+}
+
+function removePreset(){
+    let x = document.getElementById("presetSelect");
+    x.remove(x.selectedIndex);
+    delete parameterPresets[document.getElementById("presetSelect").value];
+}
+
+function addPreset(){
+    const option = document.createElement("option");
+    const text = "Preset0" + document.getElementById("presetSelect").options.length;
+    option.text = text;
+    document.getElementById("presetSelect").add(option);
+    document.getElementById("presetSelect").value = text;
+    parameterPresets[text] = [];
+    refreshPreset();
+}
+
+function updateZebraParameters(){
+    for (let i = 0; i < document.getElementById("parameterSelected").childNodes.length; i++) {
+        if(i % 2 === 0){
+            document.getElementById("parameterSelected").childNodes[i].classList.remove("parameterZebra");
+        }else{
+            document.getElementById("parameterSelected").childNodes[i].classList.add("parameterZebra");
+        }
+    }
+    for (let i = 0; i < document.getElementById("parameterUnselected").childNodes.length; i++) {
+        if(i % 2 === 0){
+            document.getElementById("parameterUnselected").childNodes[i].classList.remove("parameterZebra");
+        }else{
+            document.getElementById("parameterUnselected").childNodes[i].classList.add("parameterZebra");
+        }
+    }
 }
 
 let finalCleanData;
@@ -220,9 +308,13 @@ function gotFinalCleanData(struct){
 
 function calculateGrowthRate(result){
     console.log(result);
-    for (let i = 0; i < ; i++) {
+    for (let i = 0; i < 1; i++) {
         
     }
+}
+
+function presetChanged(){
+    loadParameterPreset(parameterPresets[document.getElementById("presetSelect").value]);
 }
 
 //TODO @Lorenz function (grothrate) => Object{0: "100", 1: "109", 2: "169", 3: "200", 4: "239", 5: "267", 6: "314", 7: "314", 8: "559", 9: "689", … }

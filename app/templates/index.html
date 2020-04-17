@@ -82,6 +82,15 @@
                     <h3>Parameters</h3>
                     <div id="parameterSettings">
                         <div id="accuracy" class="setting"></div>
+                        <div id="presets">
+                            <label for="presetSelect">Presets: </label>
+                            <select id="presetSelect" onchange="presetChanged()">
+                                <option>Recommended</option>
+                            </select>
+                            <button onclick="addPreset()">Add</button>
+                            <button onclick="removePreset()">Remove</button>
+                        </div>
+
                         <button id="makeButton" onclick="sendParameters()" class="setting">Make</button>
                     </div>
                     <hr>
@@ -90,6 +99,7 @@
                     <h4 class="noselect">Unselected</h4>
                     <div id="parameterUnselected"></div>
                 </div>
+                <canvas id="predictionCanvas" width="900px" height="500px"></canvas>
             </section>
         </main>
         <footer>
