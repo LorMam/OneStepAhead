@@ -7,30 +7,78 @@ httpGetCsvArrayTable(gotFinalCleanData, '/finalCleanData');
 
 const countryPlotter = new Plotter(document.getElementById("graphs"), "Days since 100 conf. Cases", "Confirmed Cases", (e) => "Day " + e, (e) => e + " Conf. Cases");
 
-const predictionPlotter = new Plotter(document.getElementById("predictionCanvas"), "Days", "Predicted Cases", (e) => "Day " + e, (e) => e + " Confirmed Cases");
+const predictionPlotter = new Plotter(document.getElementById("predictionCanvas"), "Days", "Predicted Cases", (e) => "Day " + e, (e) => Math.round(e) + " Predicted Cases");
 
 let countries = {};
 
+let maxCasesForPredict = 200;
+let predictableCountries = [];
+
 let hoverable = true;
 
+//crate countryList
 function createCountries(struct){
+    //createPredictableCountries(struct);
     let count = 0;
     let text = "";
     for (const [key, val] of Object.entries(struct)) {
         if(val[0] !== ""){
+            let color = getRandomColor();
+            for (const graph of countryPlotter.graphs) {
+                if(graph.name === key){
+                    color = graph.color;
+                }
+            }
             countries[key] = true;
-            text += ("<div class='noselect selected countryElement" + (count%2===0 ? " zebra" : "") + "' id='" + key + "' onmouseover='countryHovered(\"" + key + "\")' onclick='countryClicked(\"" + key + "\")'>" + key + "<img src='/static/img/Black_check.svg' class='countryCheck'></div>");
+            text += ("<div class='noselect selected countryElement" + (count%2===0 ? " zebra" : "") + "' id='" + key + "' onclick='countryClicked(\"" + key + "\")' ><img src='static/img/search.svg' height='20px' width='auto' onmouseover='countryHovered(\"" + key + "\")' style='background-color: " + color + "; margin-right: 10px;' alt='search country'>" + key + "<img style='margin-right: 6px;' height='20px' width='auto' src='/static/img/eye.svg' class='countryCheck' alt='check'></div>");
             count++;
         }
     }
     document.getElementById("countryList").innerHTML = text;
 }
 
+//create dropdown for all predictable countrys. not in use yet
+function createPredictableCountries(struct){
+    for (const [country, cases] of Object.entries(struct)) {
+        let max = 0;
+        for (const value of Object.values(cases)) {
+            max = Math.max(max, value)
+        }
+        if(max <= maxCasesForPredict){
+            predictableCountries.push(country);
+        }
+    }
+    createPredictableCountryDropDown();
+}
+
+//TODO proper prediction country loading
+//create dropdown for all predictable countrys. only for testing purposes
+function createPredictableCountriesTest(struct){
+    predictableCountries = [];
+    for (const country of Object.keys(struct)) {
+        if(country !== "undefined" && country !== "Country"){
+            predictableCountries.push(country);
+        }
+    }
+    createPredictableCountryDropDown();
+}
+
+function createPredictableCountryDropDown(){
+    let select = document.getElementById("predictCountrySelect");
+    for (const country of predictableCountries) {
+        let option = document.createElement("option");
+        option.text = country;
+        select.add(option);
+    }
+}
+
+//toggle visibility from country
 function countryClicked(country){
     countries[country] = !countries[country];
     setVisibilityOfCountry(country, countries[country], true);
 }
 
+//set visible of country x
 function setVisibilityOfCountry(country, visible, draw){
     countries[country] = visible;
     if(visible){
@@ -41,25 +89,29 @@ function setVisibilityOfCountry(country, visible, draw){
     countryPlotter.setVisibleOfGraph(country, visible, draw);
 }
 
-let timeout;
+//finding country after hovering
+//let timeout;
 function countryHovered(country){
-   clearTimeout(timeout);
-   if(hoverable){
-        timeout = setTimeout(() => {countryPlotter.hoverGraph(country);}, 100);
-    }
+  // clearTimeout(timeout);
+  // if(hoverable){
+        //timeout = setTimeout(() => {countryPlotter.hoverGraph(country);}, 0);
+   // }
+    countryPlotter.hoverGraph(country);
 }
 
+//load country graphs from struct
 function loadGraphs(struct){
     delete struct["Days since 100"];
-    createCountries(struct);
     countryPlotter.setData(struct, (me, x) => {
         const date = new Date(me.values[0]);
         date.setDate(date.getDate() + x);
         return me.name + " (On date: " + ((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '.' + ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + '.' + date.getFullYear() + ")";
     });
     countryPlotter.setKeyFilter(e => e !== "0");
+    createCountries(struct);
 }
 
+//show country
 function check(){
     for (let [key, val] of Object.entries(countries)) {
         val = true;
@@ -68,6 +120,7 @@ function check(){
     countryPlotter.draw();
 }
 
+//hide country
 function uncheck(){
     for (let [key, val] of Object.entries(countries)) {
         val = false;
@@ -76,6 +129,7 @@ function uncheck(){
     countryPlotter.draw();
 }
 
+//resize handling
 function resize(){
     countryPlotter.canvas.width = window.innerWidth * 0.68;
     countryPlotter.draw();
@@ -87,7 +141,8 @@ window.onresize = resize;
 resize();
 
 let firstScrolled = false;
-let images = 8;
+let images = 9;
+//everything related to the loading graph images
 //              startOffset     offsetOfVisibility  time remaining
 //                              after start anim    visible
 let timing = [  2000,           2000,               7000];
@@ -129,10 +184,16 @@ function handleScroll(){
     }
     document.getElementById("headLine").style.top = 45 - (scrollY / window.innerHeight * 50) + "vh";
     for(let i = 0; i < images; i ++){
-        document.getElementById("loading" + i).style.top = -scrollY / (2.2 + (i % 4)) + "px";
+        document.getElementById("loading" + i).style.top = -scrollY / (2.1 + (i % 4)) + "px";
+    }
+    if(scrollY > (window.innerHeight / 3)){
+        document.getElementsByClassName("scroll")[0].classList.add("invisible");
+    }else {
+        document.getElementsByClassName("scroll")[0].classList.remove("invisible");
     }
 }
 
+//search for country
 function search(){
     hoverable = false;
     setTimeout(() => hoverable = true,200);
@@ -148,7 +209,7 @@ function search(){
     }
 }
 
-
+// toggle logarythmic for counntry graph
 function logChanged(){
     countryPlotter.logaRythmus = document.getElementById("logCheck").checked;
     countryPlotter.draw();
@@ -156,8 +217,10 @@ function logChanged(){
 
 
 
+//Everything related to the prediction parameters
+
 let parameters = {};
-let parameterPresets ={ "Recommended" : ["eProsperity Index Health Scor", "Education Index"]};
+let parameterPresets ={ "Recommended" : ["Prosperity Index Health Score","Population using at least basic drinking-water services (%)","Human development index (HDI)","Population. total (millions)Population. under age 5 (%)","Population. ages 65 and older (%),yearly anual Temperature"]};
 
 function loadParameters(params){
     let text = "";
@@ -206,6 +269,7 @@ function deselectParameter(name, setPreset) {
     updateZebraParameters()
 }
 
+
 function paramClicked(name){
     if(parameters[name]){
         deselectParameter(name, true)
@@ -214,6 +278,7 @@ function paramClicked(name){
     }
 }
 
+//idk
 function getParameterList(){
     let list = "";
     for (const [key, val] of Object.entries(parameters)) {
@@ -224,26 +289,31 @@ function getParameterList(){
     return list.substring(0, list.length - 1);
 }
 
+//send current parameters to server
 function sendParameters(){
     let list = getParameterList();
     if(list.length > 0) {
         httpGetCsvArrayRowCol(gotParameters, "/getModel?parameterList=" + list, 1, 10, 0, 0);
     }else{
          document.getElementById("accuracy").innerText = "please select at least one Parameter";
+         document.getElementById("growthRate").innerText = "Growthrate: -";
     }
 }
 
+//deselect all parameters(usful for error catching)
 function unloadParameters(){
      document.getElementById("accuracy").innerText = "Click \"Make\" to refresh parameters";
+     document.getElementById("growthRate").innerText = "Growthrate: -";
     for (const key of Object.keys(parameters)) {
         document.getElementById(key + "selected").classList.remove("expandedParameter");
         document.getElementById(key + "selected").innerHTML = key;
     }
 }
 
+// handle parameter response from server
 function gotParameters(result){
     unloadParameters();
-    document.getElementById("accuracy").innerText = "Accuracy: " + Math.round(result[2][0] * 1000000) / 1000000;
+    document.getElementById("accuracy").innerText = "Accuracy: " + Math.round(result[2][0] * 10000) / 100 + "%";
     for (const parameter of result[0]) {
         if (parameter !== "\r" && parameter.length > 0){
             document.getElementById(parameter + "selected").classList.add("expandedParameter");
@@ -267,12 +337,14 @@ function refreshPreset(){
     }
 }
 
+//remove a preset from dropdown
 function removePreset(){
     let x = document.getElementById("presetSelect");
-    x.remove(x.selectedIndex);
+    x.remove(x.selectedIndex);//OK
     delete parameterPresets[document.getElementById("presetSelect").value];
 }
 
+//add a preset to dropdown
 function addPreset(){
     const option = document.createElement("option");
     const text = "Preset0" + document.getElementById("presetSelect").options.length;
@@ -283,6 +355,7 @@ function addPreset(){
     refreshPreset();
 }
 
+//TODO proper zebra effect(gradient??)
 function updateZebraParameters(){
     for (let i = 0; i < document.getElementById("parameterSelected").childNodes.length; i++) {
         if(i % 2 === 0){
@@ -300,28 +373,41 @@ function updateZebraParameters(){
     }
 }
 
+//manage the finalClean data file from server (only for initialisation)
 let finalCleanData;
 function gotFinalCleanData(struct){
-    console.log(struct);
     finalCleanData = struct;
+    createPredictableCountriesTest(struct);
 }
 
+//calculate growthrate from server response
 function calculateGrowthRate(result){
-    console.log(result);
-    for (let i = 0; i < 1; i++) {
-        
+    const predictCountry = document.getElementById("predictCountrySelect").value;
+    let growthRate = 0;
+    let data = {};
+    for (let i = 0; i < result[0].length; i++) {
+        if(result[0][i].length >= 3){
+            data[result[0][i]] = result[1][i];
+        }
     }
+    for (const [param, value] of Object.entries(data)) {
+        growthRate += value * finalCleanData[predictCountry][param];
+    }
+    document.getElementById("growthRate").innerText = "Growth rate: " + Math.round(growthRate * 10000) / 10000;
+    return growthRate;
 }
 
+//handle changed preset from dropdown
 function presetChanged(){
     loadParameterPreset(parameterPresets[document.getElementById("presetSelect").value]);
 }
 
-//TODO @Lorenz function (grothrate) => Object{0: "100", 1: "109", 2: "169", 3: "200", 4: "239", 5: "267", 6: "314", 7: "314", 8: "559", 9: "689", … }
+// take growthrate and add a prediction from that
 function predictCases(growthRate){
+    const predictCountry = document.getElementById("predictCountrySelect").value;
     let graph = {};
-    graph[0] = 100;
-    graph[1] = 200;
-    //console.log(graph);
-    return graph;
+    for (let t = 0; t < 100; t++) {
+        graph[t] = 100 * Math.pow((Math.pow(10, growthRate)), t);
+    }
+    predictionPlotter.setData({[predictCountry]: graph}, (me, x) => me.name);
 }

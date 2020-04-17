@@ -61,6 +61,7 @@ def get_model():
     except OSError:
         abort(404)
 
+
 @app.route('/finalCleanData')
 def finalCleanData():
     try:

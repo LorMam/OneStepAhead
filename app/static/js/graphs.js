@@ -126,8 +126,8 @@ class Plotter{
             for (const [key, val] of Object.entries(graph.values)) {
                 if(val !== ""){
                     max++;
-                    if(isNumeric(key)){
-                        minX = Math.min(minX, parseFloat(key));
+                    if(isNumeric(key) && this.keyFilter(key)){
+                        minX = Math.min(minX, parseInt(key));
                     }
                 }
             }
@@ -163,7 +163,7 @@ class Plotter{
     }
 
     changeMaxValues(minX, maxX, minY, maxY){
-        this.animation(0, this.minMax, this.minMax, {'minX': minX, 'minY': minY, 'maxX': maxX, 'maxY': maxY});
+        this.animation(0, this.minMax, this.minMax, {'minX': Math.round(minX), 'minY': Math.round(minY), 'maxX': Math.round(maxX), 'maxY': Math.round(maxY)});
     }
 
     animation(progress, changeOn, from, to){
@@ -175,7 +175,10 @@ class Plotter{
             this.draw();
             requestAnimationFrame(() => this.animation(progress, changeOn, from, to));
         }else{
-            //console.log("minY: " + changeOn.minY + ", maxY: " + changeOn.maxY);
+            for (const [key, val] of Object.entries(changeOn)) {
+                changeOn[key] = Math.round(val);
+            }
+            this.draw();
         }
     }
 
@@ -189,9 +192,9 @@ class Plotter{
 
     getLocationOfValue(value, xIteration) {
         if(this.logaRythmus){
-            return{x: (this.yAxis.thickness + (xIteration / (this.minMax.maxX - this.minMax.minX)) * (this.canvas.width - this.yAxis.thickness)), y: (this.canvas.height - this.xAxis.thickness) - (this.getBaseLog(this.yAxis.multiplicator, (value - this.minMax.minY)) / this.getBaseLog(this.yAxis.multiplicator, (this.minMax.maxY - this.minMax.minY)) * (this.canvas.height - this.xAxis.thickness))};
+            return{x: (this.yAxis.thickness + ((xIteration - this.minMax.minX) / (this.minMax.maxX - this.minMax.minX)) * (this.canvas.width - this.yAxis.thickness)), y: (this.canvas.height - this.xAxis.thickness) - (this.getBaseLog(this.yAxis.multiplicator, (value - this.minMax.minY)) / this.getBaseLog(this.yAxis.multiplicator, (this.minMax.maxY - this.minMax.minY)) * (this.canvas.height - this.xAxis.thickness))};
         }else{
-            return{x: (this.yAxis.thickness + (xIteration / (this.minMax.maxX - this.minMax.minX)) * (this.canvas.width - this.yAxis.thickness)), y: (this.canvas.height - this.xAxis.thickness) - ((value - this.minMax.minY) / (this.minMax.maxY - this.minMax.minY) * (this.canvas.height - this.xAxis.thickness))};
+            return{x: (this.yAxis.thickness + ((xIteration - this.minMax.minX) / (this.minMax.maxX - this.minMax.minX)) * (this.canvas.width - this.yAxis.thickness)), y: (this.canvas.height - this.xAxis.thickness) - ((value - this.minMax.minY) / (this.minMax.maxY - this.minMax.minY) * (this.canvas.height - this.xAxis.thickness))};
         }
     }
 
@@ -207,6 +210,14 @@ class Plotter{
         }
     }
 
+    grayAllOutExeptOf(graph){
+        for (const graph1 of this.graphs) {
+            if(graph1 != graph){
+                graph1.color = "";
+            }
+        }
+    }
+
     draw(){
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.fillStyle = "black";
@@ -215,15 +226,15 @@ class Plotter{
         if(this.mouseInside && isNumeric(this.mouseX) && isNumeric(this.mouseY)) {
             let minDistance = {};
             minDistance["distance"] = this.canvas.height;
-            const x = Math.round(this.getXIterationFromX(this.mouseX));
+            xIteration = Math.round(this.getXIterationFromX(this.mouseX));
             let point;
             if (this.mouseInside) {
                 for (const graph of this.graphs) {
                     if(!graph.visible){
                         continue;
                     }
-                    if (isNumeric(graph.values[x + 1])) {
-                        point = this.getLocationOfValue(graph.values[x + 1], x);
+                    if (isNumeric(graph.values[xIteration]) && this.valueFilter(graph.values[xIteration]) && xIteration >= this.minMax.minX) {
+                        point = this.getLocationOfValue(graph.values[xIteration], xIteration);
                         let dis = distance(this.mouseX, this.mouseY, point.x, point.y);
                         if (dis < minDistance["distance"]) {
                             minDistance["graph"] = graph;
@@ -237,11 +248,12 @@ class Plotter{
                 minDistance["graph"].hovered = true;
                 hover = true;
                 this.hoveredGraph = minDistance["graph"];
-                xIteration = x;
             }
         }
         this.ctx.beginPath();
         let count = 1;
+        // y axis names and horizontal lines
+        //TODO more appealing numbers :/
         for (let i = this.logaRythmus ? 100 : parseInt(this.minMax.minY); i < this.minMax.maxY; this.logaRythmus ? i = Math.pow(this.yAxis.multiplicator, count) : i += Math.max(5, Math.floor((this.minMax.maxY - this.minMax.minY) / 100) * 10)) {
             let point = this.getLocationOfValue(i, 0);
             this.ctx.moveTo(this.yAxis.thickness, point.y);
@@ -261,7 +273,7 @@ class Plotter{
                     this.ctx.lineWidth = 1;
                 }
                 this.ctx.beginPath();
-                let x = 0;
+                let x = this.minMax.minX;
                 for (const key of this.keys) {
                     if(this.valueFilter(graph.values[key])){
                         let loc = this.getLocationOfValue(graph.values[key], x);
@@ -276,7 +288,7 @@ class Plotter{
             this.ctx.beginPath();
             this.ctx.strokeStyle = hovered.color;
             this.ctx.lineWidth = 6;
-            let x = 0;
+            let x = this.minMax.minX;
             for (const key of this.keys) {
                 if(this.valueFilter(hovered.values[key])){
                     let loc = this.getLocationOfValue(hovered.values[key], x);
@@ -288,26 +300,37 @@ class Plotter{
         }
         this.ctx.beginPath();
         this.ctx.moveTo(this.yAxis.thickness, this.canvas.height - this.xAxis.thickness);
-        this.ctx.lineTo(this.canvas.width, this.canvas.height - this.xAxis.thickness);
-        this.ctx.moveTo(this.yAxis.thickness, 0);
+        this.ctx.lineTo(this.canvas.width - 7, this.canvas.height - this.xAxis.thickness);
+        this.ctx.moveTo(this.yAxis.thickness, 7);
         this.ctx.lineTo(this.yAxis.thickness, this.canvas.height - this.xAxis.thickness);
+        //x Arrow
+        this.ctx.moveTo(this.canvas.width - 10, this.canvas.height - this.xAxis.thickness - 7);
+        this.ctx.lineTo(this.canvas.width - 1, this.canvas.height - this.xAxis.thickness);
+        this.ctx.lineTo(this.canvas.width - 10, this.canvas.height - this.xAxis.thickness + 7);
+        //y Arrow
+        this.ctx.moveTo(this.yAxis.thickness - 7, 10);
+        this.ctx.lineTo(this.yAxis.thickness, 1);
+        this.ctx.lineTo(this.yAxis.thickness + 7, 10);
+        this.ctx.lineCap = "butt";
         this.ctx.fillStyle = "black";
         this.ctx.lineWidth = 2;
-        
+
+        //y Axis values
         this.ctx.font =  "15px Arial";
         for (let i = this.minMax.minX; i < this.minMax.maxX; i += Math.max(1, Math.round(this.minMax.maxX / 4))) {
             let point = this.getLocationOfValue(0, i);
-            this.ctx.fillText(i + "", point.x, this.canvas.height - 1);
+            this.ctx.fillText(Math.round(i) + "", point.x - 1, this.canvas.height - 1);
         }
         this.ctx.strokeStyle = "black";
         this.ctx.stroke();
-        this.ctx.fillText(this.xAxis.name, this.canvas.width - (this.xAxis.name.length * 7 + 10), this.canvas.height - this.xAxis.thickness - 5);
-        this.ctx.fillText(this.yAxis.name, this.yAxis.thickness + 5, 20);
+        this.ctx.fillText(this.xAxis.name, this.canvas.width - (this.xAxis.name.length * 7 + 20), this.canvas.height - this.xAxis.thickness - 5);
+        this.ctx.fillText(this.yAxis.name, this.yAxis.thickness + 10, 20);
         if(hover){
-            const x = Math.min(this.mouseX, this.canvas.width - this.toolTipWidth);
-            const y = Math.min(this.mouseY, this.canvas.height - this.toolTipHeight - this.xAxis.thickness);
+            const point = this.getLocationOfValue(this.hoveredGraph.values[xIteration], xIteration);
+            const x = Math.min(point.x, this.canvas.width - this.toolTipWidth);
+            const y = Math.min(point.y, this.canvas.height - this.toolTipHeight - this.xAxis.thickness);
             this.ctx.fillStyle = this.hoveredGraph.color;
-            const point = this.getLocationOfValue(this.hoveredGraph.values[xIteration + 1], xIteration);
+
             this.ctx.beginPath();
             this.ctx.arc(point.x, point.y, 8,0, Math.PI * 2);
             this.ctx.fill();
@@ -338,11 +361,18 @@ function getRandomColor() {
     let letters = '0123456789ABCDEF';
     let color = '#';
     for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(2 + Math.random() * 7)];
+      color += letters[Math.floor(2 + Math.random() * 10)];
     }
     return color;
 }
 
 function isNumeric(n) {
+    if(typeof n == "string"){
+        for (let i = 0; i < n.length; i++) {
+            if(isNaN(parseFloat(n[i]))){
+                return false;
+            }
+        }
+    }
     return !isNaN(parseFloat(n)) && isFinite(n);
 }

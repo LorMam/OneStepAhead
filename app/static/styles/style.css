@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Lexend+Giga|Noto+Sans+KR|Quicksand&display=swap');
 :root{
     --blueDefault: #2f69a1;
     --blueBright: #5195d7;
@@ -15,12 +14,17 @@
 }
 
 body{
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Noto Sans KR', sans-serif;
     background-color: #EEE;
     width: 100%;
 }
 
+main{
+    background-color: #EEE;
+}
+
 section{
+    padding: 10px;
     margin-top: 5px;
     display: block;
     overflow: hidden;
@@ -46,12 +50,13 @@ header{
     height: 100vh;
 }
 
-h1, h2, h3, h4{
+h1, h2, h3, h4, h5{
+    font-family: 'Quicksand', sans-serif;
     padding: 5px;
 }
 
 header h1{
-    font-family: 'Source Code Pro', monospace;
+    font-family: 'Nunito', sans-serif;
     font-size: 30pt;
     top: 45vh;
     height: 70px;
@@ -88,39 +93,63 @@ header h1:before{
     animation: growWidth 1.5s 2s backwards
 }
 
+#scrollUp{
+    position: relative;
+    transform: scaleY(-1);
+    display: block;
+
+}
+
+.scroll{
+    background-color: transparent;
+    position: absolute;
+    width: 4vw;
+    margin-left: 48vw;
+    margin-right: auto;
+    opacity: 1;
+    bottom: 0;
+    animation: scrollArrow 3s 1.5s backwards;
+    transition: width 0.5s, margin 0.5s, opacity 1s;
+}
+
+.big{
+    width: 7vw;
+    margin-left: 46.5vw;
+}
+
 #loading0{
-    background-image: url("/static/img/curve0.png");
+    background-image: url("/static/img/graphs01.png");
 }
 #loading1{
-    background-image: url("/static/img/curve4.png");
+    background-image: url("/static/img/graphs02.png");
 }
 #loading2{
-    background-image: url("/static/img/curve2.png");
+    background-image: url("/static/img/graphs03.png");
 }
 #loading3{
-    background-image: url("/static/img/curve7.png");
+    background-image: url("/static/img/graphs04.png");
 }
 #loading4{
-    background-image: url("/static/img/curve4.png");
+    background-image: url("/static/img/graphs05.png");
 }
 #loading5{
-    background-image: url("/static/img/curve1.png");
+    background-image: url("/static/img/graphs06.png");
 }
 #loading6{
-    background-image: url("/static/img/curve6.png");
+    background-image: url("/static/img/graphs07.png");
 }
 #loading7{
-    background-image: url("/static/img/curve3.png");
+    background-image: url("/static/img/graphs08.png");
 }
 #loading8{
-    background-image: url("/static/img/curve8.png");
+    background-image: url("/static/img/graphs09.png");
 }
 
 #loadingBackground{
-    width: 100%;
+    width: 100vh;
     height: 100vh;
     position: fixed;
-    top: 0vh;
+    top: 0;
     z-index: -2;
 }
 
@@ -167,6 +196,7 @@ header:after{
 }
 
 nav{
+    display: none;
     width: 100%;
     height: 40px;
     position: fixed;
@@ -186,8 +216,6 @@ nav{
 
 #section1{
     background-color: white;
-    width: 100%;
-    z-index: 10;
 }
 
 #section1:before{
@@ -237,8 +265,8 @@ h2{
 }
 
 .countryElement{
+    padding: 0;
     background-color: #EEE;
-    padding: 3px;
 }
 
 .countryElement:hover{
@@ -371,6 +399,11 @@ input[type="text"]{
     border: 1px solid black;
 }
 
+#parameterSettings div{
+    border-bottom: 1px solid black;
+    padding: 13px;
+}
+
 .expandedParameter{
     height: 4.5em;
 }
@@ -389,7 +422,6 @@ footer{
     margin-top: 10px;
     background: white;
     text-align: center;
-    padding: 20px;
     display: block;
 }
 
@@ -457,5 +489,22 @@ footer{
         width: 100%;
         margin-left: 0%;
         height: 3px;
+    }
+}
+
+@keyframes scrollArrow{
+    0%{
+        opacity: 0;
+        bottom: -40px;
+    }
+    33%{
+        opacity: 1;
+        bottom: 20px;
+    }
+    66%{
+        bottom: -10px;
+    }
+    100%{
+        bottom: 0;
     }
 }

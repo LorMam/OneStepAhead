@@ -3,13 +3,13 @@
     <head>
         <link rel="stylesheet" href="{{ url_for('static',filename='styles/normalize.css') }}">
         <link rel="stylesheet" href="{{ url_for('static',filename='styles/style.css') }}">
-        <link rel="icon" type="image/png" href="img/OSA_logo.png">
+        <link rel="icon" type="image/gif" href="{{ url_for('static',filename='img/animatedLogo.gif') }}">
         <meta charset="utf-8">
         <title>OneStepAhead</title>
     </head>
     <body>
         <header>
-            <h1 id="headLine">One Step Ahead</h1>
+            <h1 id="headLine"><img src="static/img/animatedLogo.gif" height=40px" alt="animated Logo">   One Step Ahead</h1>
             <h2 id="subHeadLine">Epidemic growth rate modelling and prediction for current 2019-nCoV outbreak</h2>
             <div id="loadingBackground">
                 <div class="loadingImage" id="loading0"></div>
@@ -22,14 +22,15 @@
                 <div class="loadingImage" id="loading7"></div>
                 <div class="loadingImage" id="loading8"></div>
             </div>
+            <img onclick="document.getElementById('section1').scrollIntoView({behavior: 'smooth'});" onmouseleave="document.getElementsByClassName('scroll')[0].classList.remove('big');" onmouseover="document.getElementsByClassName('scroll')[0].classList.add('big');" class="scroll" src="static/img/scrollDown.png" alt="scroll down arrow ">
         </header>
         <main>
             <nav id="nav">
-                <p>One Step Ahead</p>
+
             </nav>
             <section id="section1">
                 <div id="aboutUs">
-                    <h2>About us</h2>
+                    <h1 style="text-align: center">About us</h1>
                     <p>We are a group of passionate creatives and coders who want to help fighting the spread and the consquences of the Spread of the novel Coronavirus, causing COVID-19.</p>
                     <h3>Problem description</h3>
                     <p>Many problems arise with COVID-19 and the battle against it. Since there is no Vaccination available, all that can be done are Non-Pharmaceutical Interventions. By the time there is Data available how successfull these Interventions were in managing the spread of Covid19.
@@ -65,8 +66,8 @@
                             Log Y-Axis
                             <input type="checkbox" id="logCheck" value="false" onchange="logChanged()">
                         </label>
-                        <button onclick="uncheck()">Uncheck all</button>
-                        <button onclick="check()">check all</button>
+                        <button onclick="uncheck()">Hide all</button>
+                        <button onclick="check()">Views all</button>
                         <input id="search" type="text" placeholder="Search" onkeyup="search()">
                         <div id="countryList"></div>
                     </div>
@@ -81,7 +82,10 @@
                 <div id="parameters">
                     <h3>Parameters</h3>
                     <div id="parameterSettings">
-                        <div id="accuracy" class="setting"></div>
+                        <div>
+                            <label for="predictCountrySelect">Country for prediction:</label>
+                            <select id="predictCountrySelect"></select>
+                        </div>
                         <div id="presets">
                             <label for="presetSelect">Presets: </label>
                             <select id="presetSelect" onchange="presetChanged()">
@@ -90,8 +94,11 @@
                             <button onclick="addPreset()">Add</button>
                             <button onclick="removePreset()">Remove</button>
                         </div>
-
-                        <button id="makeButton" onclick="sendParameters()" class="setting">Make</button>
+                        <div><button id="makeButton" onclick="sendParameters()" class="setting">Make</button></div>
+                        <div>
+                            <div id="accuracy" class="setting"></div>
+                            <div id="growthRate" class="setting">Growth Rate: ?</div>
+                        </div>
                     </div>
                     <hr>
                     <h4 class="noselect">Selected</h4>
@@ -103,6 +110,7 @@
             </section>
         </main>
         <footer>
+            <img id="scrollUp" onclick="document.getElementById('section1').scrollIntoView({behavior: 'smooth'});" onmouseleave="document.getElementsByClassName('scroll')[1].classList.remove('big');" onmouseover="document.getElementsByClassName('scroll')[1].classList.add('big');" class="scroll" src="static/img/scrollDown.png" alt="scroll down arrow ">
             Footer toDo
         </footer>
         <script src="{{ url_for('static',filename='js/graphs.js') }}"></script>
