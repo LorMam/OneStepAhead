@@ -8,12 +8,15 @@ import pandas as pd
 from .dataProcessing.predictionModel import predict
 from apscheduler.schedulers.background import BackgroundScheduler
 from .dataProcessing.gettingData import getDataFromJohnshopkinsGithub
+from .dataProcessing.gettingData import WriteGrowthRates
 
 
-#TODO @Lorenz
 #update johnhopkinsdata
+#then use this to update growth rates
 def updateDaily():
     getDataFromJohnshopkinsGithub("dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
+    WriteGrowthRates("dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv", "PipelineIntermediates/GrowthRates.csv")
+    #TODO join these to into the static Data
     print(time.strftime("%A, %d. %B %Y %I:%M:%S %p"))
 
 
