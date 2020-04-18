@@ -7,6 +7,7 @@ class Graph{
         this.color = getRandomColor();
         this.visible = true;
         this.hovered = false;
+        this.grayedOut = false;
         this.name = name;
     }
 }
@@ -31,7 +32,7 @@ class Plotter{
         this.canvas = canvas;
         this.ctx = canvas.getContext("2d");
         this.canvas.addEventListener('mousemove', e => this.updateOnMouse(e));
-        this.canvas.addEventListener('mouseleave', e => this.mouseInside = false);
+        this.canvas.addEventListener('mouseleave', e => {this.mouseInside = false; this.grayAllIn(); this.draw()});
         this.canvas.addEventListener('mouseenter', e => this.mouseInside = true);
         this.canvas.addEventListener('mouseup', e => {
             this.updateMaxValuesOnGraphs([this.hoveredGraph]);
@@ -67,6 +68,7 @@ class Plotter{
             }
             graph.hovered = false;
             if(graph.name === name && !found){
+                this.grayAllOutExeptOf(graph);
                 this.removeHovered();
                 graph.hovered = true;
                 this.updateMaxValuesOnGraphs([graph]);
@@ -211,10 +213,17 @@ class Plotter{
     }
 
     grayAllOutExeptOf(graph){
+        graph.grayedOut = false;
         for (const graph1 of this.graphs) {
             if(graph1 != graph){
-                graph1.color = "";
+                graph1.grayedOut = true;
             }
+        }
+    }
+
+    grayAllIn(){
+        for (const graph of this.graphs) {
+            graph.grayedOut = false;
         }
     }
 
@@ -244,10 +253,13 @@ class Plotter{
                 }
             }
             if(minDistance["graph"] != null) {
+                this.grayAllOutExeptOf(this.hoveredGraph);
                 this.removeHovered();
                 minDistance["graph"].hovered = true;
                 hover = true;
                 this.hoveredGraph = minDistance["graph"];
+            }else{
+                this.grayAllIn();
             }
         }
         this.ctx.beginPath();
@@ -266,7 +278,11 @@ class Plotter{
         let hovered;
         for (const graph of this.graphs) {
             if(graph.visible){
-                this.ctx.strokeStyle = graph.color;
+                if(graph.grayedOut){
+                    this.ctx.strokeStyle = "gray";
+                }else {
+                    this.ctx.strokeStyle = graph.color;
+                }
                 if(graph.hovered){
                     hovered = graph;
                 }else{

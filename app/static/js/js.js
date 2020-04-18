@@ -30,7 +30,7 @@ function createCountries(struct){
                 }
             }
             countries[key] = true;
-            text += ("<div class='noselect selected countryElement" + (count%2===0 ? " zebra" : "") + "' id='" + key + "' onclick='countryClicked(\"" + key + "\")' ><img src='static/img/search.svg' height='20px' width='auto' onmouseover='countryHovered(\"" + key + "\")' style='background-color: " + color + "; margin-right: 10px;' alt='search country'>" + key + "<img style='margin-right: 6px;' height='20px' width='auto' src='/static/img/eye.svg' class='countryCheck' alt='check'></div>");
+            text += ("<div class='noselect selected countryElement" + (count%2===0 ? " zebra" : "") + "' id='" + key + "' onclick='countryClicked(\"" + key + "\")' ><img src='static/img/search.svg' height='20px' width='auto' onmouseleave='countryLeave();' onmouseover='countryHovered(\"" + key + "\")' style='background-color: " + color + "; margin-right: 10px;' alt='search country'>" + key + "<img style='margin-right: 6px;' height='20px' width='auto' src='/static/img/eye.svg' class='countryCheck' alt='check'></div>");
             count++;
         }
     }
@@ -97,6 +97,11 @@ function countryHovered(country){
         //timeout = setTimeout(() => {countryPlotter.hoverGraph(country);}, 0);
    // }
     countryPlotter.hoverGraph(country);
+}
+
+function countryLeave(){
+    countryPlotter.grayAllIn();
+    countryPlotter.draw();
 }
 
 //load country graphs from struct
@@ -410,4 +415,5 @@ function predictCases(growthRate){
         graph[t] = 100 * Math.pow((Math.pow(10, growthRate)), t);
     }
     predictionPlotter.setData({[predictCountry]: graph}, (me, x) => me.name);
+    predictionPlotter.hoverGraph(predictCountry);
 }

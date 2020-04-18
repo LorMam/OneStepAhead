@@ -108,7 +108,7 @@ header h1:before{
     margin-right: auto;
     opacity: 1;
     bottom: 0;
-    animation: scrollArrow 3s 1.5s backwards;
+    animation: scrollArrow 2s 1.5s backwards;
     transition: width 0.5s, margin 0.5s, opacity 1s;
 }
 
