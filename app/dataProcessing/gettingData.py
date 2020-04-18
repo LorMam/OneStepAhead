@@ -6,8 +6,10 @@ import pandas as pd
 import datetime
 from datetime import date
 import dateutil.parser
-from dataAnalysis import ObtainGrowthRate
+from app.dataProcessing.dataAnalysis import ObtainGrowthRate
 
+def __init__():
+    pass
 
 # list of Paths -> 2DArray of Countries and their data
 def getDataFromHDR(fromFiles, toPath):
@@ -220,7 +222,7 @@ def getTestingData(toPath):
     return dataOut(toPath, outData)
 
 
-#taken from this StackOverflow answer: https://stackoverflow.com/a/39225039
+'''#taken from this StackOverflow answer: https://stackoverflow.com/a/39225039
 import requests
 
 def download_file_from_google_drive(id, destination):
@@ -235,7 +237,7 @@ def download_file_from_google_drive(id, destination):
         params = { 'id' : id, 'confirm' : token }
         response = session.get(URL, params = params, stream = True)
 
-    save_response_content(response, destination)
+    save_response_content(response, destination)'''
 
 def get_confirm_token(response):
     for key, value in response.cookies.items():
@@ -280,3 +282,4 @@ def WriteGrowthRates(FromData, toPath):
         
 def column(matrix, i):
     return [row[i] for row in matrix]
+

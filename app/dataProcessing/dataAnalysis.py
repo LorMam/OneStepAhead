@@ -7,6 +7,8 @@ from datetime import date, timedelta
 from scipy.interpolate import interp1d
 from scipy.optimize import curve_fit
 
+def __init__():
+    pass
 
 def inData(PathOrDF):
     if (isinstance(PathOrDF, str)):

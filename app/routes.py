@@ -7,11 +7,13 @@ import pandas as pd
 
 from .dataProcessing.predictionModel import predict
 from apscheduler.schedulers.background import BackgroundScheduler
+from .dataProcessing.gettingData import getDataFromJohnshopkinsGithub
 
 
 #TODO @Lorenz
 #update johnhopkinsdata
 def updateDaily():
+    getDataFromJohnshopkinsGithub("dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
     print(time.strftime("%A, %d. %B %Y %I:%M:%S %p"))
 
 
@@ -26,6 +28,7 @@ atexit.register(lambda: scheduler.shutdown())
 @app.route('/')
 @app.route('/index')
 def index():
+    #getDataFromJohnshopkinsGithub("dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv") habs nur hier hingetan, damit ich nicht 24h auf die Aktualisierung warten muss ;)
     return render_template("index.html")
 
 
@@ -51,11 +54,7 @@ def graphs():
 def get_model():
     parameters = request.args.get('parameterList')
     param = str(parameters).split(',')
-    print(predict(param))
     try:
-        df = pd.read_csv("dataProcessing/savedModels/bestModel.csv")
-        #run predict(Parameters) from predictionModel
-        #print(df.to_csv())
         print(predict(param))
         return predict(param)
     except OSError:

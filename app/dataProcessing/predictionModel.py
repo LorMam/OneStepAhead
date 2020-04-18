@@ -14,25 +14,18 @@ def inData(PathOrDF):
 
 
 def predict(Parameters):
-    # print("Predicted growth rate for",PredictionDataset["Values"],"is",gr)
-    # https://medium.com/datadriveninvestor/a-simple-guide-to-creating-predictive-models-in-python-part-2a-aa86ece98f86
-    # Tensor Flow guide
-    # https://medium.com/datadriveninvestor/a-simple-guide-to-creating-predictive-models-in-python-part-2b-7be3afb5c557
-
-    # c = ["China", "Japan",  "United Kingdom", "United States", "Italy", "Germany", "Algeria", "Egypt", "South Africa", "Brazil", "Chile", "Australia"]
-    # p = ["Prosperity Index Health Score", "Population using at least basic drinking-water services (%)", "Human development index (HDI)", "Population. total (millions)", "Population. under age 5 (%)", "Population. ages 65 and older (%)", "yearly anual Temperature"]
-    # coef = [-2.36494606e-03,  2.15270501e-03,  2.80678716e-01,  3.49335911e-05, -1.39790582e+00, -5.83476662e-01,  1.63075352e-03]
-    # score = [0.8777857786441605]
-
-    # PredictionDataset = pd.DataFrame({ "Indices": ["Prosperity Index Health Score", "Population using at least basic drinking-water services (%)", "Human development index (HDI)", "Population. total (millions)",
-    #         "Population. under age 5 (%)", "Population. ages 65 and older (%)",  "yearly anual Temperature"],
-    #                                   "Values": [3, 0.3, 6, 6, 0.1, 0.2, 20]})
+    countriesForModel = ["China", "Japan", "United Kingdom", "United States", "Italy", "Germany", "Algeria", "Egypt",
+                    "South Africa", "Brazil", "Chile"]#, "Australia"] #TODO must be somehow changeable?
 
     dataallpath = "dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv"  # TODO must be the same that Frontend gets
 
     df = pd.read_csv(dataallpath)
-    x = Model(df["Country"].tolist(), Parameters)
-    df = df.filter(np.append(Parameters, ["Country", "GrowthRate1"]))
+
+    #only use selected countries for making the prediction model
+    mask = df.Country.isin(countriesForModel)
+    df=df[mask]
+
+    x = Model(countriesForModel, Parameters)
     x.createRegressionModel(df, Parameters)
 
     out = x.toDF()
