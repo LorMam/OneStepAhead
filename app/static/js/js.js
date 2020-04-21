@@ -30,7 +30,7 @@ function createCountries(struct){
                 }
             }
             countries[key] = true;
-            text += ("<div class='noselect selected countryElement" + (count%2===0 ? " zebra" : "") + "' id='" + key + "' onclick='countryClicked(\"" + key + "\")' ><img src='static/img/search.svg' height='20px' width='auto' onmouseleave='countryLeave();' onmouseover='countryHovered(\"" + key + "\")' style='background-color: " + color + "; margin-right: 10px;' alt='search country'>" + key + "<img style='margin-right: 6px;' height='20px' width='auto' src='/static/img/eye.svg' class='countryCheck' alt='check'></div>");
+            text += ("<div onclick='countryClicked(\"" + key + "\")' class='noselect selected countryElement" + (count%2===0 ? " zebra" : "") + "' id='" + key + "'><img src='static/img/search.svg' height='20px' width='auto' onmouseleave='countryLeave();' onclick='countryHovered(\"" + key + "\"); countryPlotter.clickGraph(\"" + key + "\");' style='background-color: " + color + "; margin-right: 10px;' alt='search country'>" + key + "<img style='margin-right: 6px;' height='20px' width='auto' src='/static/img/eye.svg' class='countryCheck' alt='check'></div>");
             count++;
         }
     }
@@ -96,6 +96,7 @@ function countryHovered(country){
   // if(hoverable){
         //timeout = setTimeout(() => {countryPlotter.hoverGraph(country);}, 0);
    // }
+    event.stopPropagation();
     countryPlotter.hoverGraph(country);
 }
 
@@ -106,6 +107,7 @@ function countryLeave(){
 
 //load country graphs from struct
 function loadGraphs(struct){
+    delete struct["Unnamed: 0"];
     delete struct["Days since 100"];
     countryPlotter.setData(struct, (me, x) => {
         const date = new Date(me.values[0]);
@@ -138,7 +140,7 @@ function uncheck(){
 function resize(){
     countryPlotter.canvas.width = window.innerWidth * 0.68;
     countryPlotter.draw();
-    predictionPlotter.canvas.width = window.innerWidth * 0.68;
+    predictionPlotter.canvas.width = window.innerWidth * 0.55;
     predictionPlotter.draw();
 }
 
@@ -298,7 +300,7 @@ function getParameterList(){
 function sendParameters(){
     let list = getParameterList();
     if(list.length > 0) {
-        httpGetCsvArrayRowCol(gotParameters, "/getModel?parameterList=" + list, 1, 10, 0, 0);
+        httpGetCsvArrayRowCol(gotParameters, "/getModel?parameterList=" + list, 0, 10, 0, 0);
     }else{
          document.getElementById("accuracy").innerText = "please select at least one Parameter";
          document.getElementById("growthRate").innerText = "Growthrate: -";
@@ -318,18 +320,18 @@ function unloadParameters(){
 // handle parameter response from server
 function gotParameters(result){
     unloadParameters();
-    document.getElementById("accuracy").innerText = "Accuracy: " + Math.round(result[2][0] * 10000) / 100 + "%";
-    for (const parameter of result[0]) {
+    document.getElementById("accuracy").innerText = "Accuracy: " + Math.round(result[3][0] * 10000) / 100 + "%";
+    for (const parameter of result[1]) {
         if (parameter !== "\r" && parameter.length > 0){
             document.getElementById(parameter + "selected").classList.add("expandedParameter");
             document.getElementById(parameter + "selected").innerHTML = "" +
                 parameter +
                 "<hr>" +
-                "Influence: " + Math.round(result[1][result[0].indexOf(parameter)] * 10000000) / 10000000 +
+                "Influence: " + Math.round(result[2][result[1].indexOf(parameter)] * 10000000) / 10000000 +
                 "<img src='/static/img/Black_check.svg' class='paramCheck invisible' alt='checkImage'>";
         }
     }
-    predictCases(calculateGrowthRate(result));
+    predictCases(calculateGrowthRate(result), result);
 }
 
 function refreshPreset(){
@@ -385,14 +387,14 @@ function gotFinalCleanData(struct){
     createPredictableCountriesTest(struct);
 }
 
-//calculate growthrate from server response
+//calculate growthrate from server response TODO validate growthrate
 function calculateGrowthRate(result){
     const predictCountry = document.getElementById("predictCountrySelect").value;
     let growthRate = 0;
     let data = {};
-    for (let i = 0; i < result[0].length; i++) {
-        if(result[0][i].length >= 3){
-            data[result[0][i]] = result[1][i];
+    for (let i = 0; i < result[1].length; i++) {
+        if(result[1][i].length >= 3){
+            data[result[1][i]] = result[2][i];
         }
     }
     for (const [param, value] of Object.entries(data)) {
@@ -407,13 +409,117 @@ function presetChanged(){
     loadParameterPreset(parameterPresets[document.getElementById("presetSelect").value]);
 }
 
-// take growthrate and add a prediction from that
-function predictCases(growthRate){
+let predictions = [];
+let predictionID = 0;
+// take growthrate and add a prediction from that TODO validate prediction
+function predictCases(growthRate, response){
     const predictCountry = document.getElementById("predictCountrySelect").value;
-    let graph = {};
+    let data = {};
     for (let t = 0; t < 100; t++) {
-        graph[t] = 100 * Math.pow((Math.pow(10, growthRate)), t);
+        data[t] = 100 * Math.pow((Math.pow(10, growthRate)), t);
     }
-    predictionPlotter.setData({[predictCountry]: graph}, (me, x) => me.name);
-    predictionPlotter.hoverGraph(predictCountry);
+    addPrediction({"graph": new Graph(data, getPredictionName(predictCountry), (me, e) => me.name + ":"), "id": predictionID, "data": response});
+    predictionID++;
+    predictionClicked(predictionID);
+}
+
+//generate name for predictiopn from country and manage dublicates
+function getPredictionName(country){
+    let duplicates = 0;
+    for (const p of predictions) {
+        if(p.graph.name.indexOf(country) > -1){
+            duplicates++;
+        }
+    }
+    return country + (duplicates === 0 ? "" : ((duplicates < 10 ? " 0" : " ") + duplicates));
+}
+
+//add a prediction
+function addPrediction(prediction){
+    predictions.push(prediction);
+    predictionPlotter.addGraph(prediction.graph);
+    predictionPlotter.hoverGraph(prediction.graph.name);
+    const predictionsList = document.getElementById("predictionList");
+    predictionsList.innerHTML += getPredictionHtml(prediction);
+}
+
+function getPredictionHtml(prediction){
+    return  ("<div class='noselect selected countryElement" + (predictions.length%2===0 ? " zebra" : "") + "' id='" + prediction.id + "' onclick='predictionClicked(\"" + prediction.id + "\")'>" +
+                "<img src='static/img/search.svg' height='20px' width='auto' onmouseleave='predictionLeave();' onclick='predictionHovered(\"" + prediction.id + "\")' style='background-color: " + prediction.graph.color + "; margin-right: 10px;' alt='search country'>" +
+                    prediction.graph.name +
+                "<img style='margin-right: 6px;' height='20px' width='auto' src='/static/img/eye.svg' class='countryCheck' alt='check' onclick='predictionEyeClicked(\"" + prediction.id + "\")'>" +
+            "</div>");
+}
+
+function predictionClicked(id){
+    let prediction;
+    for (const p of predictions) {
+        if(p.id == id){ //OK
+            prediction = p;
+            break;
+        }
+    }
+    if(prediction){
+        document.getElementById("predictionHtml").innerHTML = getDescriptionFromPrediction(prediction);
+    }
+}
+
+function predictionHovered(id){
+    predictionPlotter.hoverGraph(id);
+}
+
+function predictionLeave(){
+
+}
+
+function predictionEyeClicked(id){
+    event.stopPropagation();
+    for (const prediction of predictions) {
+        if(prediction.id == id){// only "==" because different type(number, string)
+            setVisibleOfPrediction([prediction], !prediction.graph.visible);
+        }
+    }
+}
+
+function setVisibleOfPrediction(predictions, visible){
+    for (const prediction of predictions) {
+        prediction.graph.visible = visible;
+        if(visible){
+            document.getElementById(prediction.id).classList.add("selected");
+        }else{
+            document.getElementById(prediction.id).classList.remove("selected");
+        }
+    }
+    predictionPlotter.draw();
+}
+
+function getDescriptionFromPrediction(prediction){
+    console.log(prediction.data);
+    return  "<h2>Details for \"" + prediction.graph.name + "\"</h2>" +
+            "<p>To calculate this result we used static data from: <br>" + getListText(prediction.data[0]) + "</p>" +
+            "<p>The following parameters have been used:<br>" + getListText(prediction.data[1]) + "</p>";
+}
+
+function removeBlanks(arr){
+    let out = [];
+    for (const arrElement of arr) {
+        if(arrElement !== "" && arrElement !== "\r"){
+            out.push(arrElement);
+        }
+    }
+    return out;
+}
+
+function getListText(list1){
+    const list = removeBlanks(list1);
+    console.log(list);
+    let listText = "";
+    for (let i = 0; i < list.length; i++) {
+        if(i < list.length - 2){
+            listText += (i === 0 ? "" : ", ") + list[i];
+        }else{
+            listText += " and " + list[i] + ".";
+        }
+    }
+    return listText;
 }

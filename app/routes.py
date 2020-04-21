@@ -1,12 +1,12 @@
 import atexit
 import time
+from apscheduler.schedulers.background import BackgroundScheduler
 
 from app import app
 from flask import render_template, abort, request
 import pandas as pd
 
 from .dataProcessing.predictionModel import predict
-from apscheduler.schedulers.background import BackgroundScheduler
 from .dataProcessing.gettingData import getDataFromJohnshopkinsGithub
 from .dataProcessing.gettingData import WriteGrowthRates
 
@@ -17,7 +17,7 @@ def updateDaily():
     getDataFromJohnshopkinsGithub("dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
     WriteGrowthRates("dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv", "PipelineIntermediates/GrowthRates.csv")
     #TODO join these to into the static Data
-    print(time.strftime("%A, %d. %B %Y %I:%M:%S %p"))
+    print("Updated: " + time.strftime("%A, %d. %B %Y %I:%M:%S %p"))
 
 
 scheduler = BackgroundScheduler()
@@ -47,7 +47,11 @@ def parameter():
 @app.route('/graphs')
 def graphs():
     try:
-        df = pd.read_csv("dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
+        open(r"dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv", 'r')
+    except OSError:
+        print("error")
+    try:
+        df = pd.read_csv(r"dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
         return df.to_csv()
     except OSError:
         abort(404)

@@ -46,6 +46,14 @@ a:hover:at-level{
     color: black;
 }
 
+img{
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
 header{
     height: 100vh;
 }
@@ -267,6 +275,8 @@ h2{
 .countryElement{
     padding: 0;
     background-color: #EEE;
+    display: inline-block;
+    width: 100%;
 }
 
 .countryElement:hover{
@@ -322,8 +332,8 @@ input[type="text"]{
 
 #section2{
     background: white;
-    padding-right: 5%;
-    padding-left: 5%;
+    padding-right: 3%;
+    padding-left: 3%;
     margin-top: 50px;
     overflow: hidden;
     display: block;
@@ -361,6 +371,9 @@ input[type="text"]{
 
 .invisible{
     opacity: 0;
+}
+#predictCountrySelect, #presetSelect{
+    width: 100%;
 }
 
 .paramCheck{
@@ -401,7 +414,11 @@ input[type="text"]{
 
 #parameterSettings div{
     border-bottom: 1px solid black;
-    padding: 13px;
+    padding: 7px;
+}
+
+#parameterSettings div *:not(:first-child){
+    margin-top: 10px;
 }
 
 .expandedParameter{
@@ -413,9 +430,28 @@ input[type="text"]{
 }
 
 #predictionCanvas{
+    margin-left: 2%;
     margin-top: 40px;
-    display: inline;
+    display: inline-block;
     float: left;
+}
+
+#predictionList{
+    display: block;
+    height: 500px;
+    width: 12%;
+    float: left;
+    margin-left: 2%;
+}
+
+#predictionList div{
+    display: block;
+}
+
+#predictionDetails{
+    margin-left: 2%;
+    float: left;
+    width: 75%;
 }
 
 footer{

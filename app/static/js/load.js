@@ -56,6 +56,7 @@ function csvToJsonOnlyHeaders(csv){
 }
 
 function csvToJsonHeaderAndFirstCol(csv){
+    csv = filterString(csv);
     const arr = csv.split('\n');
     const jsonObj = {};
     const headers = arr[0].split(',');
@@ -73,6 +74,7 @@ function csvToJsonHeaderAndFirstCol(csv){
             }
         }
     }
+    console.log(jsonObj);
     return jsonObj;
 }
 
@@ -140,5 +142,8 @@ function csvToArray(csv, rowStart, rowEnd, colStartTrim1, colEndTrim1){
 }
 
 function filterString(string){
-    return string.replace(/'/g, '');
+    string = string.replace(/("([^"]|"")*")/g, 'South korea');
+    string = string.replace(/"/gi, '');
+    string = string.replace(/'/gi, '');
+    return string;
 }

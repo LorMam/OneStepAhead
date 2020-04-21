@@ -9,6 +9,7 @@ class Graph{
         this.hovered = false;
         this.grayedOut = false;
         this.name = name;
+        this.clicked = false;
     }
 }
 
@@ -36,6 +37,7 @@ class Plotter{
         this.canvas.addEventListener('mouseenter', e => this.mouseInside = true);
         this.canvas.addEventListener('mouseup', e => {
             this.updateMaxValuesOnGraphs([this.hoveredGraph]);
+            this.clickGraph(this.hoveredGraph.name);
         });
         this.mouseX = 0;
         this.mouseY = 0;
@@ -58,6 +60,16 @@ class Plotter{
             'maxY': 0
         };
         this.newAnimation = true;
+    }
+
+    deleteGraphsByName(name){
+        for (let i = this.graphs.length - 1; i >= 0 ; i--) {
+            if(this.graphs[i].name === name){
+                this.graphs.splice(this.graphs.indexOf(this.graphs[i]), 1);
+                console.log("remove");
+            }
+        }
+        this.draw();
     }
 
     hoverGraph(name){
@@ -92,6 +104,12 @@ class Plotter{
 
     update(){
         this.updateGraphsByData();
+    }
+
+    addGraph(graph){
+        this.graphs.push(graph);
+        this.updateKeys();
+        this.draw();
     }
 
     setData(data, toolTip){
@@ -227,6 +245,17 @@ class Plotter{
         }
     }
 
+    clickGraph(name){
+        for (const graph of this.graphs) {
+            if(graph.name === name){
+                graph.clicked = true;
+            }else{
+                graph.clicked = false;
+            }
+        }
+        this.draw();
+    }
+
     draw(){
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.fillStyle = "black";
@@ -276,6 +305,7 @@ class Plotter{
         this.ctx.strokeStyle = "gray";
         this.ctx.stroke();
         let hovered;
+        let clicked;
         for (const graph of this.graphs) {
             if(graph.visible){
                 if(graph.grayedOut){
@@ -283,9 +313,11 @@ class Plotter{
                 }else {
                     this.ctx.strokeStyle = graph.color;
                 }
-                if(graph.hovered){
+                if(graph.hovered) {
                     hovered = graph;
-                }else{
+                }else if(graph.clicked){
+                    clicked = graph;
+                } else{
                     this.ctx.lineWidth = 1;
                 }
                 this.ctx.beginPath();
@@ -308,6 +340,20 @@ class Plotter{
             for (const key of this.keys) {
                 if(this.valueFilter(hovered.values[key])){
                     let loc = this.getLocationOfValue(hovered.values[key], x);
+                    this.ctx.lineTo(loc.x , loc.y);
+                }
+                x++;
+            }
+            this.ctx.stroke();
+        }
+        if(clicked){
+            this.ctx.beginPath();
+            this.ctx.strokeStyle = clicked.color;
+            this.ctx.lineWidth = 6;
+            let x = this.minMax.minX;
+            for (const key of this.keys) {
+                if(this.valueFilter(clicked.values[key])){
+                    let loc = this.getLocationOfValue(clicked.values[key], x);
                     this.ctx.lineTo(loc.x , loc.y);
                 }
                 x++;
