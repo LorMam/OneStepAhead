@@ -9,7 +9,7 @@ from .dataProcessing.predictionModel import predict
 from .dataProcessing.gettingData import getDataFromJohnshopkinsGithub
 from .dataProcessing.gettingData import WriteGrowthRates
 
-admin = Blueprint('admin', __name__, url_prefix='/admin')
+frontEnd = Blueprint('frontEnd', __name__)
 
 #update johnhopkinsdata
 #then use this to update growth rates
@@ -28,14 +28,14 @@ scheduler.start()
 atexit.register(lambda: scheduler.shutdown())
 
 
-@admin.route('/')
-@admin.route('/index')
+@frontEnd.route('/')
+@frontEnd.route('/index')
 def index():
     #getDataFromJohnshopkinsGithub("dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv") habs nur hier hingetan, damit ich nicht 24h auf die Aktualisierung warten muss ;)
     return render_template("index.html")
 
 
-@admin.route('/parameter', methods=['GET'])
+@frontEnd.route('/parameter', methods=['GET'])
 def parameter():
     try:
         df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
@@ -44,7 +44,7 @@ def parameter():
         abort(404)
 
 
-@admin.route('/graphs')
+@frontEnd.route('/graphs')
 def graphs():
     try:
         open(r"dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv", 'r')
@@ -57,7 +57,7 @@ def graphs():
         abort(404)
 
 
-@admin.route('/getModel', methods=['GET', 'POST'])
+@frontEnd.route('/getModel', methods=['GET', 'POST'])
 def get_model():
     parameters = request.args.get('parameterList')
     param = str(parameters).split(',')
@@ -68,7 +68,7 @@ def get_model():
         abort(404)
 
 
-@admin.route('/finalCleanData')
+@frontEnd.route('/finalCleanData')
 def finalCleanData():
     try:
         df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")

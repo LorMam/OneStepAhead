@@ -14,7 +14,7 @@ def create_app(testing=False):
     """
 
     app = Flask(__name__)
-
+    from app import routes
     # TODO config
     # Dynamically load config based on the testing argument or FLASK_ENV environment variable
     flask_env = os.getenv("FLASK_ENV", None)
@@ -26,4 +26,8 @@ def create_app(testing=False):
         app.config.from_object(Config)
     else:
         app.config.from_object(Config)
+
+    from app.front_end import frontEnd
+    app.register_blueprint(frontEnd)
+
     return app
