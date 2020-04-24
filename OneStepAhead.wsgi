@@ -7,4 +7,5 @@ with open(activate_this) as file_:
 import sys
 sys.path.insert(0, '/var/www/html/OneStepAhead/OneStepAhead')
 
-from piapp import app as application
+from app import create_app
+application = create_app(testing=False)
