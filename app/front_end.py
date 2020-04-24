@@ -5,17 +5,17 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from flask import render_template, abort, request, Blueprint
 import pandas as pd
 
-from .dataProcessing.predictionModel import predict
-from .dataProcessing.gettingData import getDataFromJohnshopkinsGithub
-from .dataProcessing.gettingData import WriteGrowthRates
+#from .dataProcessing.predictionModel import predict
+#from .dataProcessing.gettingData import getDataFromJohnshopkinsGithub
+#from .dataProcessing.gettingData import WriteGrowthRates
 
 frontEnd = Blueprint('frontEnd', __name__)
 
 #update johnhopkinsdata
 #then use this to update growth rates
 def updateDaily():
-    getDataFromJohnshopkinsGithub("dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
-    WriteGrowthRates("dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv", "PipelineIntermediates/GrowthRates.csv")
+    #getDataFromJohnshopkinsGithub("dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
+    #WriteGrowthRates("dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv", "PipelineIntermediates/GrowthRates.csv")
     #TODO join these to into the static Data
     print("Updated: " + time.strftime("%A, %d. %B %Y %I:%M:%S %p"))
 
@@ -61,11 +61,11 @@ def graphs():
 def get_model():
     parameters = request.args.get('parameterList')
     param = str(parameters).split(',')
-    try:
-        print(predict(param))
-        return predict(param)
-    except OSError:
-        abort(404)
+    #try:
+    #    print(predict(param))
+    #    return predict(param)
+    #except OSError:
+    #    abort(404)
 
 
 @frontEnd.route('/finalCleanData')
