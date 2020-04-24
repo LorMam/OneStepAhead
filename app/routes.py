@@ -61,11 +61,11 @@ def graphs():
 def get_model():
     parameters = request.args.get('parameterList')
     param = str(parameters).split(',')
-    try:
+    #try:
         #print(predict(param))
         #return predict(param)
-    except OSError:
-        abort(404)
+    #except OSError:
+      #  abort(404)
 
 
 @admin.route('/finalCleanData')
