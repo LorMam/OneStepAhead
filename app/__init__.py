@@ -14,7 +14,6 @@ def create_app(testing=False):
     """
 
     app = Flask(__name__)
-    from app import routes
     # TODO config
     # Dynamically load config based on the testing argument or FLASK_ENV environment variable
     flask_env = os.getenv("FLASK_ENV", None)
