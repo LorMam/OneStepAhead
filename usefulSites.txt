@@ -1,1 +1,4 @@
 https://www.digitalocean.com/community/tutorials/how-to-configure-the-apache-web-server-on-an-ubuntu-or-debian-vps
+https://wiki.ubuntuusers.de/Apache/Virtual_Hosts/
+https://stackoverflow.com/questions/37464915/why-i-cant-reload-apache2-on-ubuntu
+https://www.easyprogramming.net/raspberrypi/pi_flask_apache.php
