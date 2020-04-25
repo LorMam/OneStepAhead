@@ -3,7 +3,7 @@ import time
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from flask import render_template, abort, request, Blueprint
-import pandas as pd
+#import pandas as pd
 
 from .dataProcessing.predictionModel import predict
 from .dataProcessing.gettingData import getDataFromJohnshopkinsGithub
@@ -37,11 +37,12 @@ def index():
 
 @frontEnd.route('/parameter', methods=['GET'])
 def parameter():
-    try:
-        df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
-        return df.to_csv()
-    except OSError:
-        abort(404)
+    return "0"
+    #try:
+        #df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
+        #return df.to_csv()
+    #except OSError:
+    #    abort(404)
 
 
 @frontEnd.route('/graphs')
@@ -50,11 +51,11 @@ def graphs():
         open(r"dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv", 'r')
     except OSError:
         print("error")
-    try:
-        df = pd.read_csv(r"dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
-        return df.to_csv()
-    except OSError:
-        abort(404)
+    #try:
+     #   df = pd.read_csv(r"dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
+     #   return df.to_csv()
+   # except OSError:
+   #     abort(404)
 
 
 @frontEnd.route('/getModel', methods=['GET', 'POST'])
@@ -70,8 +71,9 @@ def get_model():
 
 @frontEnd.route('/finalCleanData')
 def finalCleanData():
-    try:
-        df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
-        return df.to_csv()
-    except OSError:
-        abort(404)
+    print("test")
+   # try:
+     #   df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
+   #     return df.to_csv()
+   # except OSError:
+    #    abort(404)
