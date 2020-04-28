@@ -3,9 +3,9 @@ import time
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from flask import render_template, abort, request, Blueprint
-#import pandas as pd
+import pandas as pd
 
-#from .dataProcessing.predictionModel import predict
+from .dataProcessing.predictionModel import predict
 from .dataProcessing.gettingData import getDataFromJohnshopkinsGithub
 from .dataProcessing.gettingData import WriteGrowthRates
 
@@ -38,11 +38,11 @@ def index():
 @frontEnd.route('/parameter', methods=['GET'])
 def parameter():
     return "0"
-    #try:
-        #df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
-        #return df.to_csv()
-    #except OSError:
-    #    abort(404)
+    try:
+        df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
+        return df.to_csv()
+    except OSError:
+        abort(404)
 
 
 @frontEnd.route('/graphs')
@@ -51,29 +51,29 @@ def graphs():
         open(r"dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv", 'r')
     except OSError:
         print("error")
-    #try:
-     #   df = pd.read_csv(r"dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
-     #   return df.to_csv()
-   # except OSError:
-   #     abort(404)
+    try:
+        df = pd.read_csv(r"dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
+        return df.to_csv()
+    except OSError:
+        abort(404)
 
 
 @frontEnd.route('/getModel', methods=['GET', 'POST'])
 def get_model():
     parameters = request.args.get('parameterList')
-    #param = str(parameters).split(',')
-    #try:
-   #     print(predict(param))
-    #    return predict(param)
-   # except OSError:
-   #     abort(404)
+    param = str(parameters).split(',')
+    try:
+        print(predict(param))
+        return predict(param)
+    except OSError:
+        abort(404)
 
 
 @frontEnd.route('/finalCleanData')
 def finalCleanData():
     print("test")
-   # try:
-     #   df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
-   #     return df.to_csv()
-   # except OSError:
-    #    abort(404)
+    try:
+        df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
+        return df.to_csv()
+    except OSError:
+        abort(404)
