@@ -6,8 +6,8 @@ from flask import render_template, abort, request, Blueprint
 #import pandas as pd
 
 #from .dataProcessing.predictionModel import predict
-from .dataProcessing.gettingData import getDataFromJohnshopkinsGithub
-from .dataProcessing.gettingData import WriteGrowthRates
+#from .dataProcessing.gettingData import getDataFromJohnshopkinsGithub
+#from .dataProcessing.gettingData import WriteGrowthRates
 
 frontEnd = Blueprint('frontEnd', __name__)
 
