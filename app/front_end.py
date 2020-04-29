@@ -1,6 +1,6 @@
 import atexit
 import time
-from apscheduler.schedulers.background import BackgroundScheduler
+#from apscheduler.schedulers.background import BackgroundScheduler
 
 from flask import render_template, abort, request, Blueprint
 import pandas as pd
@@ -20,12 +20,12 @@ def updateDaily():
     print("Updated: " + time.strftime("%A, %d. %B %Y %I:%M:%S %p"))
 
 
-scheduler = BackgroundScheduler()
-scheduler.add_job(func=updateDaily, trigger="interval", hours=24)
-scheduler.start()
+#scheduler = BackgroundScheduler()
+#scheduler.add_job(func=updateDaily, trigger="interval", hours=24)
+#scheduler.start()
 
 # Shut down the scheduler when exiting the app
-atexit.register(lambda: scheduler.shutdown())
+#atexit.register(lambda: scheduler.shutdown())
 
 
 @frontEnd.route('/')
