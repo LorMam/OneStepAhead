@@ -38,10 +38,11 @@ def index():
 @frontEnd.route('/parameter', methods=['GET'])
 def parameter():
     try:
-        df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
+        #df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
+        df = pd.read_csv("static/data/finalCleanDataCopyPasteBasic.csv")
         return df.to_csv()
     except OSError:
-        abort(404)
+        return str(OSError)
 
 
 @frontEnd.route('/graphs1')
