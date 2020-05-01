@@ -1,5 +1,6 @@
 import atexit
 import time
+import os
 #from apscheduler.schedulers.background import BackgroundScheduler
 
 from flask import render_template, abort, request, Blueprint
@@ -42,7 +43,7 @@ def parameter():
         df = pd.read_csv("static/data/finalCleanDataCopyPasteBasic.csv")
         return df.to_csv()
     except OSError as err:
-        return str(err)
+        return "current dir: " + os.getcwd() + " | Error: " + str(err)
 
 
 @frontEnd.route('/graphs1')
@@ -54,8 +55,8 @@ def graphs():
     try:
         df = pd.read_csv(r"dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
         return df.to_csv()
-    except OSError:
-        abort(404)
+    except OSError as err:
+        return "current dir: " + os.getcwd() + " | Error: " + str(err)
 
 
 @frontEnd.route('/getModel', methods=['GET', 'POST'])
@@ -65,8 +66,8 @@ def get_model():
     try:
         print(predict(param))
         return predict(param)
-    except OSError:
-        abort(404)
+    except OSError as err:
+        return "current dir: " + os.getcwd() + " | Error: " + str(err)
 
 
 @frontEnd.route('/finalCleanData')
@@ -75,5 +76,5 @@ def finalCleanData():
     try:
         df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
         return df.to_csv()
-    except OSError:
-        abort(404)
+    except OSError as err:
+        return "current dir: " + os.getcwd() + " | Error: " + str(err)
