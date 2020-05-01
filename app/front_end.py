@@ -41,7 +41,7 @@ def parameter():
         df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
         return df.to_csv()
     except OSError:
-        abort(400)
+        abort(404)
 
 
 @frontEnd.route('/graphs1')
