@@ -25,6 +25,7 @@ function httpGet(done, url) {
         if (xhr.readyState === 4) {
             if (xhr.status === 200) {
                 done(xhr.responseText);
+                console.log(xhr.responseText);
             } else {
                 console.log(url);
                 console.error("error: " + xhr.statusText);

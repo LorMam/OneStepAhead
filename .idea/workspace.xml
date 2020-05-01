@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4f0347ab-db02-4f3c-a184-c8d593726021" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/static/data/finalCleanDataCopyPasteBasic.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/front_end.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/front_end.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/js/load.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/js/load.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,7 +187,7 @@
       <workItem from="1587658731557" duration="12969000" />
       <workItem from="1587815323703" duration="9343000" />
       <workItem from="1588182399089" duration="2231000" />
-      <workItem from="1588357004190" duration="3910000" />
+      <workItem from="1588357004190" duration="4149000" />
     </task>
     <servers />
   </component>
