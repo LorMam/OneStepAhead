@@ -1,13 +1,13 @@
 import atexit
 import time
-from apscheduler.schedulers.background import BackgroundScheduler
+#from apscheduler.schedulers.background import BackgroundScheduler
 
 from flask import render_template, abort, request, Blueprint
-import pandas as pd
+#import pandas as pd
 
-from .dataProcessing.predictionModel import predict
-from .dataProcessing.gettingData import getDataFromJohnshopkinsGithub
-from .dataProcessing.gettingData import WriteGrowthRates
+#from .dataProcessing.predictionModel import predict
+#from .dataProcessing.gettingData import getDataFromJohnshopkinsGithub
+#from .dataProcessing.gettingData import WriteGrowthRates
 
 frontEnd = Blueprint('frontEnd', __name__)
 
@@ -20,12 +20,12 @@ def updateDaily():
     print("Updated: " + time.strftime("%A, %d. %B %Y %I:%M:%S %p"))
 
 
-scheduler = BackgroundScheduler()
-scheduler.add_job(func=updateDaily, trigger="interval", hours=24)
-scheduler.start()
+#scheduler = BackgroundScheduler()
+#scheduler.add_job(func=updateDaily, trigger="interval", hours=24)
+#scheduler.start()
 
 # Shut down the scheduler when exiting the app
-atexit.register(lambda: scheduler.shutdown())
+#atexit.register(lambda: scheduler.shutdown())
 
 
 @frontEnd.route('/')
@@ -37,16 +37,17 @@ def index():
 
 @frontEnd.route('/parameter', methods=['GET'])
 def parameter():
-    try:
+    """try:
         df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
         return df.to_csv()
     except OSError:
-        abort(404)
+        abort(404)"""
+    return "0"
 
 
 @frontEnd.route('/graphs')
 def graphs():
-    try:
+    """try:
         open(r"dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv", 'r')
     except OSError:
         print("error")
@@ -54,24 +55,28 @@ def graphs():
         df = pd.read_csv(r"dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
         return df.to_csv()
     except OSError:
-        abort(404)
+        abort(404)"""
+    return "0"
 
 
 @frontEnd.route('/getModel', methods=['GET', 'POST'])
 def get_model():
     parameters = request.args.get('parameterList')
     param = str(parameters).split(',')
-    try:
+    """try:
         print(predict(param))
         return predict(param)
     except OSError:
-        abort(404)
+        abort(404)"""
+    return "0"
 
 
 @frontEnd.route('/finalCleanData')
 def finalCleanData():
-    try:
+    print("test")
+    """try:
         df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
         return df.to_csv()
     except OSError:
-        abort(404)
+        abort(404)"""
+    return "0"
