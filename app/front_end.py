@@ -41,8 +41,8 @@ def parameter():
         #df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
         df = pd.read_csv("static/data/finalCleanDataCopyPasteBasic.csv")
         return df.to_csv()
-    except OSError:
-        return str(OSError)
+    except OSError as err:
+        return str(err)
 
 
 @frontEnd.route('/graphs1')
