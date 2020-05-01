@@ -41,10 +41,10 @@ def parameter():
         df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
         return df.to_csv()
     except OSError:
-        abort(403)
+        abort(400)
 
 
-@frontEnd.route('/graphs')
+@frontEnd.route('/graphs1')
 def graphs():
     try:
         open(r"dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv", 'r')

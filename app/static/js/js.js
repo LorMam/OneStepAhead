@@ -1,5 +1,5 @@
 "use strict";
-httpGetCsvStruct(loadGraphs, "/graphs");
+httpGetCsvStruct(loadGraphs, "data/CountryCasesFromHopkins.csv");
 
 httpGetCsvArray(loadParameters, "/parameter", 0, 1, 2, 3);
 
