@@ -32,7 +32,7 @@ def create_app(testing=False):
 
     wdir = os.path.abspath(__file__)
     p = Path(wdir).parent
-    os.chdir(p)
+    os.chdir(str(p))
     print(os.getcwd())
 
     return app
