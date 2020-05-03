@@ -1,5 +1,6 @@
 from flask import Flask
 from config import Config
+from pathlib import Path
 
 import os
 
@@ -30,7 +31,8 @@ def create_app(testing=False):
     app.register_blueprint(frontEnd)
 
     wdir = os.path.abspath(__file__)
-    os.chdir(wdir + "/..")
+    p = Path(wdir).parent
+    os.chdir(p)
     print(os.getcwd())
 
     return app
