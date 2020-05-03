@@ -29,4 +29,8 @@ def create_app(testing=False):
     from app.front_end import frontEnd
     app.register_blueprint(frontEnd)
 
+    wdir = os.path.abspath(__file__)
+    os.chdir(wdir + "/..")
+    print(os.getcwd())
+
     return app
