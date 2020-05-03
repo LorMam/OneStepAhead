@@ -41,7 +41,7 @@ def index():
 def parameter():
     try:
         # df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
-        df = pd.read_csv(os.getcwd() + "/dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
+        df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
         return df.to_csv()
     except OSError as err:
         return "current dir: " + os.getcwd() + " | Error: " + str(err)
@@ -50,11 +50,11 @@ def parameter():
 @frontEnd.route('/graphs')
 def graphs():
     try:
-        open(os.getcwd() + "/dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv", 'r')
+        open("dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv", 'r')
     except OSError:
         print("error")
     try:
-        df = pd.read_csv(os.getcwd() + "/dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
+        df = pd.read_csv("dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
         return df.to_csv()
     except OSError as err:
         return "current dir: " + os.getcwd() + " | Error: " + str(err)
@@ -74,7 +74,7 @@ def get_model():
 @frontEnd.route('/finalCleanData')
 def finalCleanData():
     try:
-        df = pd.read_csv(os.getcwd() + "/dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
+        df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
         return df.to_csv()
     except OSError as err:
         print(err)

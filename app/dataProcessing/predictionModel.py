@@ -18,7 +18,7 @@ def predict(Parameters):
     countriesForModel = ["China", "Japan", "United Kingdom", "United States", "Italy", "Germany", "Algeria", "Egypt",
                     "South Africa", "Brazil", "Chile"]#, "Australia"] #TODO must be somehow changeable?
 
-    dataallpath = os.getcwd() + "/dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv"  # TODO must be the same that Frontend gets
+    dataallpath = "dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv"  # TODO must be the same that Frontend gets
 
     df = pd.read_csv(dataallpath)
 
