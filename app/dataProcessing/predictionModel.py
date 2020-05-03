@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
 import csv
+import os
 
 
 #from dataProcessing import inData didn't work
@@ -17,7 +18,7 @@ def predict(Parameters):
     countriesForModel = ["China", "Japan", "United Kingdom", "United States", "Italy", "Germany", "Algeria", "Egypt",
                     "South Africa", "Brazil", "Chile"]#, "Australia"] #TODO must be somehow changeable?
 
-    dataallpath = "dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv"  # TODO must be the same that Frontend gets
+    dataallpath = os.getcwd() + "/dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv"  # TODO must be the same that Frontend gets
 
     df = pd.read_csv(dataallpath)
 
@@ -29,7 +30,7 @@ def predict(Parameters):
     x.createRegressionModel(df, Parameters)
 
     out = x.toDF()
-    print('funktion läuft')
+    print("funktion läuft")
     print(out.to_csv(header=False, index=False))
     return out.to_csv(header=False, index=False)
 

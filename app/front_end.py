@@ -12,8 +12,6 @@ from .dataProcessing.gettingData import WriteGrowthRates
 
 frontEnd = Blueprint('frontEnd', __name__)
 
-workingDir = "/var/www/html/OneStepAhead/OneStepAhead/app/"
-
 
 # update johnhopkinsdata
 # then use this to update growth rates
@@ -43,7 +41,7 @@ def index():
 def parameter():
     try:
         # df = pd.read_csv("dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
-        df = pd.read_csv(workingDir + "dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
+        df = pd.read_csv(os.getcwd() + "/dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
         return df.to_csv()
     except OSError as err:
         return "current dir: " + os.getcwd() + " | Error: " + str(err)
@@ -52,11 +50,11 @@ def parameter():
 @frontEnd.route('/graphs')
 def graphs():
     try:
-        open(workingDir + "dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv", 'r')
+        open(os.getcwd() + "/dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv", 'r')
     except OSError:
         print("error")
     try:
-        df = pd.read_csv(workingDir + "dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
+        df = pd.read_csv(os.getcwd() + "/dataProcessing/PipelineIntermediates/CountryCasesFromHopkins.csv")
         return df.to_csv()
     except OSError as err:
         return "current dir: " + os.getcwd() + " | Error: " + str(err)
@@ -67,17 +65,17 @@ def get_model():
     parameters = request.args.get('parameterList')
     param = str(parameters).split(',')
     try:
-        print(predict(param))
         return predict(param)
     except OSError as err:
+        print(err)
         return "current dir: " + os.getcwd() + " | Error: " + str(err)
 
 
 @frontEnd.route('/finalCleanData')
 def finalCleanData():
-    print("test")
     try:
-        df = pd.read_csv(workingDir + "dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
+        df = pd.read_csv(os.getcwd() + "/dataProcessing/PipelineIntermediates/finalCleanDataCopyPasteBasic.csv")
         return df.to_csv()
     except OSError as err:
+        print(err)
         return "current dir: " + os.getcwd() + " | Error: " + str(err)
